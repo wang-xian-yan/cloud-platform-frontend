@@ -1,31 +1,35 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
+import {Message} from 'element-ui'
 
 axios.interceptors.request.use(config => {
+  let token = window.localStorage.getItem('Authorization');
+  if(token!=null){
+    config.headers['Authorization'] = token;
+  }
   return config
 }, err => {
-  Message.error({ message: '请求超时!' })
+  Message.error({message: '请求超时!'});
   return Promise.resolve(err)
-})
+});
 
 axios.interceptors.response.use(response => {
-  console.log('response:', response)
+  console.log('response:', response);
   if (response.data.code === '200') {
     return Promise.resolve(response)
 
   }
-  Message.error({ message: response.data.message })
+  Message.error({message: response.data.message});
   return Promise.resolve(response)
 
 }, err => {
-  console.log('error', err.response)
+  console.log('error', err.response);
   if (err.response.status === 504) {
-    Message.error({ message: '连接超时', showClose: true })
+    Message.error({message: '连接超时', showClose: true})
   } else {
-    Message.error({ message: err.response.data.message })
+    Message.error({message: err.response.data.message})
   }
   return Promise.resolve(err)
-})
+});
 
 export const postRequest = (url, data, header) => {
   return axios({
