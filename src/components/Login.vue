@@ -79,7 +79,7 @@
         });
       }
     },
-    created() {
+    created() {``
       this.getVerifyCodeUrl();
     }
   };
