@@ -38,7 +38,7 @@ export const postRequest = (url, data, header) => {
     data: data,
     headers: header
   })
-}
+};
 
 export const putRequest = (url, params) => {
   return axios({
@@ -49,18 +49,18 @@ export const putRequest = (url, params) => {
       'Content-Type': 'application/json'
     }
   })
-}
+};
 
 export const deleteRequest = (url) => {
   return axios({
     method: 'delete',
     url: url
   })
-}
+};
 
 export const getRequest = (url) => {
   return axios({
     method: 'get',
     url: url
   })
-}
+};

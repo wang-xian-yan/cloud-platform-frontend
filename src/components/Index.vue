@@ -96,7 +96,7 @@
     },
     methods: {
       listUser(){
-        var _this = this;
+        const _this = this;
         this.getRequest('/api/v1/users')
         .then(function (response) {
             const data = response.data;
