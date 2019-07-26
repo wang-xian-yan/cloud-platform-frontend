@@ -13,6 +13,7 @@ import {getRequest, postRequest, deleteRequest, putRequest} from './util/api'
 axios.defaults.baseURL = 'http://49.234.133.55:8083';
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
+Vue.prototype.baseUrl = "http://49.234.133.55:8083";
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.deleteRequest = deleteRequest;

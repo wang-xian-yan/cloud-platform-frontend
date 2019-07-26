@@ -60,7 +60,7 @@
             const data = response.data;
             _this.loading = false;
             if (data.code === "200") {
-              _this.$store.commit('login',data)
+              _this.$store.commit('login', data)
               _this.$router.replace("/index");
             }
           })
@@ -70,16 +70,18 @@
           });
       },
       getVerifyCodeUrl() {
-        this.getRequest("/api/v1/verify-code/url").then(response => {
+        const _this = this;
+        _this.getRequest("/api/v1/verify-code/url").then(response => {
           console.log(response);
           let imgUrl = response.data.data.imgUrl;
           let verifyCodeId = response.data.data.verifyCodeId;
-          this.verifyCodeImgUrl = imgUrl;
+          this.verifyCodeImgUrl = _this.baseUrl + imgUrl;
           this.loginForm.verifyCodeId = verifyCodeId;
         });
       }
     },
-    created() {``
+    created() {
+      ``
       this.getVerifyCodeUrl();
     }
   };
