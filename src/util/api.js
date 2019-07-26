@@ -6,6 +6,7 @@ axios.interceptors.request.use(config => {
   if(token!=null){
     config.headers['Authorization'] = token;
   }
+  config.headers['Content-Type'] = "application/json;charset=utf-8";
   return config
 }, err => {
   Message.error({message: '请求超时!'});
