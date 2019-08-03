@@ -1,41 +1,48 @@
 <template>
   <el-container class="home-container">
     <el-header class="home-header">
-      <span class="home-title">云平台</span>
+      <span class="home-title">{{companies}}</span>
     </el-header>
     <el-container>
       <el-aside class="home-aside">
-        <el-menu default-active="1-4-1" style="height: 100%">
+        <el-menu style="height: 100%">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span slot="title">导航一</span>
+              <span slot="title">卡片管理</span>
             </template>
             <el-menu-item-group>
-              <span slot="title">分组一</span>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
+              <span slot="title">语音卡</span>
+              <el-menu-item index="1-1-1">移动</el-menu-item>
+              <el-menu-item index="1-1-2">联通</el-menu-item>
+              <el-menu-item index="1-1-3">电信</el-menu-item>
             </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
+            <el-menu-item-group>
+              <span slot="title">流量卡</span>
+              <el-menu-item index="1-2-1">移动</el-menu-item>
+              <el-menu-item index="1-2-2">联通</el-menu-item>
+              <el-menu-item index="1-2-3">电信</el-menu-item>
             </el-menu-item-group>
-            <el-submenu index="1-4">
-              <span slot="title">选项4</span>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
           </el-submenu>
           <el-menu-item index="2">
             <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
+            <span slot="title">套餐管理</span>
           </el-menu-item>
           <el-menu-item index="3">
             <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
+            <span slot="title">运营管理</span>
           </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
+          <el-submenu index="4">
+            <template slot="title">
+              <i class="el-icon-setting"></i>
+              <span slot="title">系统设置</span>
+            </template>
+
+            <el-menu-item index="4-1">操作历史</el-menu-item>
+            <el-menu-item index="4-2">账户设置</el-menu-item>
+            <el-menu-item index="4-3">公众号配置</el-menu-item>
+
+          </el-submenu>
         </el-menu>
 
       </el-aside>
@@ -55,17 +62,17 @@
             label="邮件"
             width="200">
           </el-table-column>
-           <el-table-column
+          <el-table-column
             prop="username"
             label="用户名"
             width="120">
           </el-table-column>
-           <el-table-column
+          <el-table-column
             prop="createAt"
             label="创建时间"
             width="120">
           </el-table-column>
-           <el-table-column
+          <el-table-column
             prop="enabled"
             label="是否启用"
             width="120">
@@ -87,33 +94,33 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        msg: 'Welcome to Your Vue.js App',
-        tableUser: []
-      }
-    },
-    methods: {
-      listUser(){
-        const _this = this;
-        this.getRequest('/api/v1/users')
-        .then(function (response) {
-            const data = response.data;
-            _this.tableUser = data.data;
-          }).catch(error => {
-            console.log("login failure error" + error);
-          });
-      },
-      logout() {
-        this.$store.commit('logout');
-        this.$router.replace('/')
-      }
-    },
-    created() {
-      this.listUser();
+    export default {
+        data() {
+            return {
+                companies: '简易科技物联网云平台',
+                tableUser: []
+            }
+        },
+        methods: {
+            listUser() {
+                const _this = this;
+                this.getRequest('/api/v1/users')
+                    .then(function (response) {
+                        const data = response.data;
+                        _this.tableUser = data.data;
+                    }).catch(error => {
+                    console.log("login failure error" + error);
+                });
+            },
+            logout() {
+                this.$store.commit('logout');
+                this.$router.replace('/')
+            }
+        },
+        created() {
+            this.listUser();
+        }
     }
-  }
 </script>
 
 <style>

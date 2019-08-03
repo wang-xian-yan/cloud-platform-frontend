@@ -4,7 +4,7 @@ import Login from '@/components/Login'
 import Index from '@/components/Index'
 
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
