@@ -5,10 +5,11 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import echarts from 'echarts'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import {getRequest, postRequest, deleteRequest, putRequest} from './util/api'
+import {deleteRequest, getRequest, postRequest, putRequest} from './util/api'
 
 const baseURL = "http://49.234.133.55:8081";
 axios.defaults.baseURL = baseURL;
@@ -19,6 +20,7 @@ Vue.prototype.getRequest = getRequest;
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.putRequest = putRequest;
+Vue.prototype.$echarts = echarts;
 
 Vue.config.productionTip = false;
 

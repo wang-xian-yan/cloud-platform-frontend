@@ -5,96 +5,76 @@
     </el-header>
     <el-container>
       <el-aside class="home-aside">
-        <el-menu style="height: 100%">
-          <el-submenu index="1">
+        <el-menu :default-active="$router.path" style="height: 100%" router>
+
+          <el-menu-item index="/index">
+            <i class="el-icon-menu"></i>
+            <span slot="title">Dashboard</span>
+          </el-menu-item>
+          <el-submenu index="/card-manager">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span slot="title">卡片管理</span>
             </template>
-            <el-menu-item-group>
-              <span slot="title">语音卡</span>
-              <el-menu-item index="1-1-1">移动</el-menu-item>
-              <el-menu-item index="1-1-2">联通</el-menu-item>
-              <el-menu-item index="1-1-3">电信</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group>
-              <span slot="title">流量卡</span>
-              <el-menu-item index="1-2-1">移动</el-menu-item>
-              <el-menu-item index="1-2-2">联通</el-menu-item>
-              <el-menu-item index="1-2-3">电信</el-menu-item>
-            </el-menu-item-group>
+            <el-menu-item index="/card-manager/card">卡片列表</el-menu-item>
+            <el-menu-item index="/card-manager/transfer">划拨记录</el-menu-item>
           </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">套餐管理</span>
-          </el-menu-item>
-          <el-menu-item index="3">
-            <i class="el-icon-document"></i>
-            <span slot="title">运营管理</span>
-          </el-menu-item>
-          <el-submenu index="4">
+          <el-submenu index="/package-manager">
+            <template slot="title">
+              <i class="el-icon-apple"></i>
+              <span slot="title">套餐管理</span>
+            </template>
+            <el-menu-item index="/package-manager/system">系统套餐</el-menu-item>
+            <el-menu-item index="/package-manager/me">我的套餐</el-menu-item>
+            <el-menu-item index="/package-manager/distribution">套餐分配</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/operator-manager">
+            <template slot="title">
+              <i class="el-icon-document"></i>
+              <span slot="title">运营管理</span>
+            </template>
+            <el-menu-item index="/operator-manager/a">营销活动</el-menu-item>
+            <el-menu-item index="/operator-manager/b">黑名单</el-menu-item>
+            <el-menu-item index="/operator-manager/c">分润</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/user-manager">
+            <template slot="title">
+              <i class="el-icon-document"></i>
+              <span slot="title">客户管理</span>
+            </template>
+            <el-menu-item index="/user-manager/documents">用户档案</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/system-setting">
             <template slot="title">
               <i class="el-icon-setting"></i>
-              <span slot="title">系统设置</span>
+              <span slot="title">系统管理</span>
             </template>
-
-            <el-menu-item index="4-1">操作历史</el-menu-item>
-            <el-menu-item index="4-2">账户设置</el-menu-item>
-            <el-menu-item index="4-3">公众号配置</el-menu-item>
+            <el-menu-item index="/system-setting/account">账户设置</el-menu-item>
+            <el-menu-item index="/system-setting/gzh">公众号配置</el-menu-item>
+            <el-menu-item index="/system-setting/operator-history">操作历史</el-menu-item>
 
           </el-submenu>
         </el-menu>
 
       </el-aside>
       <el-main>
-        <el-table
-          :data="tableUser"
-          border
-          style="width: 100%">
-          <el-table-column
-            fixed
-            prop="id"
-            label="id"
-            width="80">
-          </el-table-column>
-          <el-table-column
-            prop="email"
-            label="邮件"
-            width="200">
-          </el-table-column>
-          <el-table-column
-            prop="username"
-            label="用户名"
-            width="120">
-          </el-table-column>
-          <el-table-column
-            prop="createAt"
-            label="创建时间"
-            width="120">
-          </el-table-column>
-          <el-table-column
-            prop="enabled"
-            label="是否启用"
-            width="120">
-          </el-table-column>
-          <!-- <el-table-column
-            fixed="right"
-            label="操作"
-            width="100">
-            <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-              <el-button type="text" size="small">编辑</el-button>
-            </template>
-          </el-table-column> -->
-        </el-table>
+        <div v-if="$route.path ==='/index'">
+          <div>
+            数据监控
+          </div>
+          <div id="line-chart">
+
+          </div>
+        </div>
+        <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
-
 </template>
 
 <script>
     export default {
+        name: "Index",
         data() {
             return {
                 companies: '简易科技物联网云平台',
@@ -102,23 +82,13 @@
             }
         },
         methods: {
-            listUser() {
-                const _this = this;
-                this.getRequest('/api/v1/users')
-                    .then(function (response) {
-                        const data = response.data;
-                        _this.tableUser = data.data;
-                    }).catch(error => {
-                    console.log("login failure error" + error);
-                });
-            },
             logout() {
                 this.$store.commit('logout');
                 this.$router.replace('/')
+            },
+            initChart() {
+
             }
-        },
-        created() {
-            this.listUser();
         }
     }
 </script>
