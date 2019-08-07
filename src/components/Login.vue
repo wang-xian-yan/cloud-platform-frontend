@@ -20,71 +20,69 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        loginForm: {
-          username: "admin@cloud-platform.com",
-          password: "admin",
-          verifyCode: "",
-          verifyCodeId: ""
+    export default {
+        data() {
+            return {
+                loginForm: {
+                    username: "admin@cloud-platform.com",
+                    password: "admin",
+                    verifyCode: "",
+                    verifyCodeId: ""
+                },
+                rules: {
+                    username: [
+                        {required: true, message: "请输入用户名", trigger: "blur"}
+                    ],
+                    password: [{required: true, message: "请输入密码", trigger: "blur"}],
+                    verifyCode: [
+                        {required: true, message: "请输入验证码", trigger: "blur"}
+                    ]
+                },
+                show: true,
+                verifyCodeImgUrl: "",
+                loading: false
+            };
         },
-        rules: {
-          username: [
-            {required: true, message: "请输入用户名", trigger: "blur"}
-          ],
-          password: [{required: true, message: "请输入密码", trigger: "blur"}],
-          verifyCode: [
-            {required: true, message: "请输入验证码", trigger: "blur"}
-          ]
-        },
-        show: true,
-        test: "",
-        verifyCodeImgUrl: "",
-        loading: false
-      };
-    },
-    methods: {
-      login() {
-        const _this = this;
-        _this.loading = true;
-        const params = {
-          username: this.loginForm.username,
-          password: this.loginForm.password,
-          verifyCode: this.loginForm.verifyCode,
-          verifyCodeId: this.loginForm.verifyCodeId
-        };
-        _this
-          .postRequest("/login", params)
-          .then(function (response) {
-            const data = response.data;
-            _this.loading = false;
-            if (data.code === "200") {
-              _this.$store.commit('login', data)
-              _this.$router.replace("/index");
+        methods: {
+            login() {
+                const _this = this;
+                _this.loading = true;
+                const params = {
+                    username: this.loginForm.username,
+                    password: this.loginForm.password,
+                    verifyCode: this.loginForm.verifyCode,
+                    verifyCodeId: this.loginForm.verifyCodeId
+                };
+                _this
+                    .postRequest("/login", params)
+                    .then(function (response) {
+                        const data = response.data;
+                        _this.loading = false;
+                        if (data.code === "200") {
+                            _this.$store.commit('login', data);
+                            _this.$router.replace("/index");
+                        }
+                    })
+                    .catch(error => {
+                        console.log("login failure error:" + error);
+                        _this.loading = false;
+                    });
+            },
+            getVerifyCodeUrl() {
+                const _this = this;
+                _this.getRequest("/api/v1/verify-code/url").then(response => {
+                    console.log(response);
+                    let imgUrl = response.data.data.imgUrl;
+                    let verifyCodeId = response.data.data.verifyCodeId;
+                    this.verifyCodeImgUrl = _this.baseUrl + imgUrl;
+                    this.loginForm.verifyCodeId = verifyCodeId;
+                });
             }
-          })
-          .catch(error => {
-            console.log("login failure error" + error);
-            _this.loading = false;
-          });
-      },
-      getVerifyCodeUrl() {
-        const _this = this;
-        _this.getRequest("/api/v1/verify-code/url").then(response => {
-          console.log(response);
-          let imgUrl = response.data.data.imgUrl;
-          let verifyCodeId = response.data.data.verifyCodeId;
-          this.verifyCodeImgUrl = _this.baseUrl + imgUrl;
-          this.loginForm.verifyCodeId = verifyCodeId;
-        });
-      }
-    },
-    created() {
-      ``
-      this.getVerifyCodeUrl();
-    }
-  };
+        },
+        created() {
+            this.getVerifyCodeUrl();
+        }
+    };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

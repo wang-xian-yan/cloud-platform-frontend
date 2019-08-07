@@ -110,7 +110,6 @@
         },
         methods: {
             logout() {
-                console.log("logout");
                 this.$store.commit('logout');
                 this.$router.replace('/')
             },

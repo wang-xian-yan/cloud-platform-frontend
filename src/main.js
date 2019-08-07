@@ -31,12 +31,9 @@ router.beforeEach((to, from, next) => {
       return;
     }
     let name = store.state.user.username;
-    if (name === '未登录') {
-      if (to.meta.requireAuth || to.name == null) {
-        next({path: '/', query: {redirect: to.path}})
-      } else {
-        next();
-      }
+    console.log("是否登录:" + name);
+    if (name === '未登录' || name == null) {
+      next({path: '/', query: {redirect: to.path}})
     } else {
       next();
     }
