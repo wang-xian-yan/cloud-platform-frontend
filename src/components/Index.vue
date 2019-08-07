@@ -5,7 +5,7 @@
     </el-header>
     <el-container>
       <el-aside class="home-aside">
-        <el-menu :default-active="$router.path" style="height: 100%" router>
+        <el-menu :default-active="$route.path" style="height: 100%" router>
 
           <el-menu-item index="/index">
             <i class="el-icon-menu"></i>
@@ -43,6 +43,8 @@
               <span slot="title">客户管理</span>
             </template>
             <el-menu-item index="/user-manager/documents">用户档案</el-menu-item>
+            <el-menu-item index="/user-manager/roles">客户角色</el-menu-item>
+            <el-menu-item index="/user-manager/menu-authority">菜单权限</el-menu-item>
           </el-submenu>
           <el-submenu index="/system-setting">
             <template slot="title">

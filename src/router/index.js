@@ -5,7 +5,8 @@ import Index from '../components/Index'
 import UserDocument from "../components/user/UserDocument";
 import CardList from "../components/card/CardList";
 import CardTransferHistory from "../components/card/CardTransferHistory";
-
+import Role from "../components/user/Role";
+import MenuAuthority from "../components/user/MenuAuthority";
 
 Vue.use(Router);
 
@@ -28,6 +29,14 @@ export default new Router({
           path: '/user-manager/documents',
           name: 'UserDocument',
           component: UserDocument
+        }, {
+          path: '/user-manager/roles',
+          name: 'Role',
+          component: Role
+        }, {
+          path: '/user-manager/menu-authority',
+          name: 'MenuAuthority',
+          component: MenuAuthority
         }, {
           path: '/card-manager/card',
           name: 'CardList',
