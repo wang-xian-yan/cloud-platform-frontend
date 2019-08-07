@@ -8,6 +8,7 @@ export default new Vuex.Store({
     user: {
       id: window.localStorage.getItem('UserId' || '[]') == null ? '未登录' : window.localStorage.getItem('UserId' || '[]'),
       username: window.localStorage.getItem('Username' || '[]') == null ? '未登录' : window.localStorage.getItem('Username' || '[]'),
+      userFace: window.localStorage.getItem('UserFace' || '[]') == null ? '未登录' : window.localStorage.getItem('UserFace' || '[]'),
       token: window.localStorage.getItem('Authorization' || '[]') == null ? '未登录' : window.localStorage.getItem('Authorization' || '[]')
     }
   },

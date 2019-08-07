@@ -1,7 +1,30 @@
 <template>
   <el-container class="home-container">
     <el-header class="home-header">
-      <span class="home-title">{{companies}}</span>
+      <div>
+        <span class="home-title">{{companies}}</span>
+      </div>
+      <div class="home-user">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+
+             <el-avatar v-if="userFace!==''" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                        style="vertical-align: middle"></el-avatar>
+            <el-avatar v-if="userFace===''" icon="el-icon-user-solid"
+                       style="vertical-align: middle"></el-avatar>
+            <i class="el-icon-caret-bottom">
+            </i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              登录用户是:{{username}}
+            </el-dropdown-item>
+            <el-dropdown-item divided>个人中心</el-dropdown-item>
+            <el-dropdown-item>设置</el-dropdown-item>
+            <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </el-header>
     <el-container>
       <el-aside class="home-aside">
@@ -21,7 +44,7 @@
           </el-submenu>
           <el-submenu index="/package-manager">
             <template slot="title">
-              <i class="el-icon-apple"></i>
+              <i class="el-icon-document"></i>
               <span slot="title">套餐管理</span>
             </template>
             <el-menu-item index="/package-manager/system">系统套餐</el-menu-item>
@@ -39,7 +62,7 @@
           </el-submenu>
           <el-submenu index="/user-manager">
             <template slot="title">
-              <i class="el-icon-document"></i>
+              <i class="el-icon-user"></i>
               <span slot="title">客户管理</span>
             </template>
             <el-menu-item index="/user-manager/documents">用户档案</el-menu-item>
@@ -80,17 +103,24 @@
         data() {
             return {
                 companies: '简易科技物联网云平台',
+                username: '',
+                userFace: '',
                 tableUser: []
             }
         },
         methods: {
             logout() {
+                console.log("logout");
                 this.$store.commit('logout');
                 this.$router.replace('/')
             },
-            initChart() {
-
+            initData() {
+                this.username = this.$store.state.user.username;
+                this.userFace = this.$store.state.user.userFace;
             }
+        },
+        mounted() {
+            this.initData();
         }
     }
 </script>
@@ -122,4 +152,8 @@
     margin-left: 8px;
   }
 
+  .home-user {
+    color: #fff;
+    margin-right: 50px;
+  }
 </style>
