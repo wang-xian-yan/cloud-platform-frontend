@@ -34,13 +34,13 @@
             <i class="el-icon-menu"></i>
             <span slot="title">Dashboard</span>
           </el-menu-item>
-          <el-submenu index="/card-manager">
+          <el-submenu index="/cards">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span slot="title">卡片管理</span>
             </template>
-            <el-menu-item index="/card-manager/card">卡片列表</el-menu-item>
-            <el-menu-item index="/card-manager/transfer">划拨记录</el-menu-item>
+            <el-menu-item index="/cards/list">卡片列表</el-menu-item>
+            <el-menu-item index="/cards/transfer">划拨记录</el-menu-item>
           </el-submenu>
           <el-submenu index="/package-manager">
             <template slot="title">
@@ -60,14 +60,15 @@
             <el-menu-item index="/operator-manager/b">黑名单</el-menu-item>
             <el-menu-item index="/operator-manager/c">分润</el-menu-item>
           </el-submenu>
-          <el-submenu index="/user-manager">
+          <el-submenu index="/consumers">
             <template slot="title">
               <i class="el-icon-user"></i>
               <span slot="title">客户管理</span>
             </template>
-            <el-menu-item index="/user-manager/documents">用户档案</el-menu-item>
-            <el-menu-item index="/user-manager/roles">客户角色</el-menu-item>
-            <el-menu-item index="/user-manager/menu-authority">菜单权限</el-menu-item>
+            <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
+            <el-menu-item index="/consumers/users">用户档案</el-menu-item>
+            <el-menu-item index="/consumers/roles">客户角色</el-menu-item>
+            <el-menu-item index="/consumers/menu-authority">菜单权限</el-menu-item>
           </el-submenu>
           <el-submenu index="/system-setting">
             <template slot="title">
