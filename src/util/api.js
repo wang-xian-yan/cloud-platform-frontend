@@ -3,7 +3,7 @@ import {Message} from 'element-ui'
 
 axios.interceptors.request.use(config => {
   let token = window.localStorage.getItem('Authorization');
-  if(token!=null){
+  if (token != null) {
     config.headers['Authorization'] = token;
   }
   config.headers['Content-Type'] = "application/json;charset=utf-8";
@@ -23,11 +23,16 @@ axios.interceptors.response.use(response => {
   return Promise.resolve(response)
 
 }, err => {
-  console.log('error', err.response);
+  console.log('error 服务器错误', err.response);
+  if (err.response === undefined) {
+    Message.error({message: '未知异常', showClose: true})
+  }
   if (err.response.status === 504) {
     Message.error({message: '连接超时', showClose: true})
-  } else {
+  } else if (err.response.data.code !== '200') {
     Message.error({message: err.response.data.message})
+  } else {
+    Message.error({message: '未知异常', showClose: true})
   }
   return Promise.resolve(err)
 });

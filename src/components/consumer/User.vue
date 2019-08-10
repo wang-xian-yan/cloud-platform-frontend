@@ -1,14 +1,36 @@
 <template>
-  <el-container>
-    <el-header>
+  <div>
+    <el-row>
       <el-button-group>
-        <el-button type="danger" icon="el-icon-delete" size="medium">删除</el-button>
-        <el-button type="primary" icon="el-icon-delete" size="medium">禁用</el-button>
+        <el-button type="danger" icon="el-icon-delete" size="small">删除</el-button>
+        <el-button type="warning" icon="el-icon-delete" size="small">禁用</el-button>
       </el-button-group>
-    </el-header>
-    <el-main>
+      <el-button type="primary" icon="el-icon-plus" size="small" @click="userFormVisible = true">新增</el-button>
+    </el-row>
+    <el-row>
+      <el-form ref="searchUserForm" :model="searchUserForm" :inline="true">
+        <el-form-item>
+          <el-input v-model="searchUserForm.condition" placeholder="支持用户名/邮箱模糊查询" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="归属企业">
+          <el-select v-model="searchUserForm.enterpriseId" placeholder="请选择归属企业" size="small">
+            <el-option
+              v-for="enterprise in enterprises"
+              :key="enterprise.id"
+              :label="enterprise.name"
+              :value="enterprise.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" size="small" @click="searchUser">搜索</el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
+
+    <el-row>
       <el-table
-        :data="tableUser"
+        :data="usersTableData"
         style="width: 100%"
         border>
         <el-table-column
@@ -30,6 +52,12 @@
         <el-table-column
           prop="username"
           label="用户名"
+          :showOverflowTooltip=true
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="enterprise.name"
+          label="所属企业"
           :showOverflowTooltip=true
           width="150">
         </el-table-column>
@@ -59,55 +87,186 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="small">查看</el-button>
-            <el-button type="success" size="small" @click="editUserForm = true">编辑</el-button>
-            <el-button type="danger" size="small" @click="disableUser">禁用</el-button>
+            <el-button type="primary" size="mini" @click="userFormVisible = true">编辑</el-button>
+            <el-button type="warning" size="mini" @click="resetUserPassword(scope.row)">重置密码</el-button>
+            <el-button type="danger" size="mini" @click="disableUser" v-if="scope.row.isEnabled">禁用</el-button>
+            <el-button type="success" size="mini" @click="enabledUser" v-if="scope.row.isEnabled === false">启用
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog title="修改用户" :visible.sync="editUserForm">
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="editUserForm = false">取 消</el-button>
-          <el-button type="primary" @click="editUserForm = false">确 定</el-button>
-        </div>
-      </el-dialog>
-      <div>
+    </el-row>
+    <el-row style="margin-top: 20px">
+      <div style="text-align: right">
         <el-pagination
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[1, 50, 100, 500]"
+          :page-sizes="[20, 50, 100, 500]"
           :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="totalElements">
         </el-pagination>
       </div>
-    </el-main>
-  </el-container>
-</template>
+    </el-row>
+    <!-- 重置用户密码-->
+    <el-dialog title="重置密码" :visible.sync="resetUserPasswordVisible" width="35%">
+      <el-form :model="resetUserPasswordForm" :rules="resetUserPasswordFormRule" ref="resetUserPasswordFormData"
+               label-width="100px">
+        <el-form-item label="id" prop="id">
+          <el-input v-model="resetUserPasswordForm.id" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="resetUserPasswordForm.email" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="当前密码" prop="password">
+          <el-input v-model="resetUserPasswordForm.password" disabled=""></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="newPassword">
+          <el-input v-model="resetUserPasswordForm.newPassword"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="confirmPassword">
+          <el-input v-model="resetUserPasswordForm.confirmPassword"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetUserPasswordVisible = false">取 消</el-button>
+        <el-button type="primary" @click="resetUserPasswordVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
 
+    <el-dialog :title="userFormTitle" :visible.sync="userFormVisible" width="30%">
+      <el-form :model="userForm" label-width="80px">
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="userForm.username" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="userForm.email" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="userForm.password" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="企业" prop="enterprise.id">
+          <el-select v-model="userForm.enterprise.id" placeholder="请选择归属企业" size="small">
+            <el-option
+              v-for="enterprise in enterprises"
+              :key="enterprise.id"
+              :label="enterprise.name"
+              :value="enterprise.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="是否启用" prop="isEnabled">
+          <el-switch v-model="userForm.isEnabled" active-color="#13ce66"
+                     inactive-color="#ff4949">
+          </el-switch>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="userFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addUser">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
 <script>
     export default {
         name: "UserDocument",
         data() {
             return {
-                tableUser: [],
-                editUserForm: false,
+                usersTableData: [],
+                userFormVisible: false,
+                userFormType: 'create',
+                userFormTitle: '创建用户',
+                userForm: {
+                    id: '',
+                    username: '',
+                    email: '',
+                    password: '',
+                    parentId: null,
+                    isEnabled: false,
+                    enterprise: {
+                        id: null
+                    },
+                    enterpriseName: '',
+                    createAt: '',
+                    modifiedAt: ''
+                },
+                resetUserPasswordVisible: false,
+                resetUserPasswordForm: {
+                    id: null,
+                    email: '',
+                    password: '',
+                    newPassword: '',
+                    confirmPassword: ''
+                },
+                resetUserPasswordFormRule: {
+                    newPassword: [
+                        {
+                            required: true, message: '请输入新密码', trigger: 'blur'
+                        },
+                        {
+                            min: 8, max: 20, message: '密码长度为8到20个字符', trigger: 'blur'
+                        }
+                    ],
+                    confirmPassword: [
+                        {
+                            required: true, message: '请输入确认密码', trigger: 'blur'
+                        },
+                        {
+                            min: 8, max: 20, message: '密码长度为8到20个字符', trigger: 'blur'
+                        }
+                    ]
+                },
                 currentPage: 1,
                 totalElements: 0,
-                pageSize: 1
-
+                pageSize: 20,
+                searchUserForm: {
+                    condition: '',
+                    enterpriseId: null,
+                },
+                enterprises: []
             }
         },
         methods: {
+            addUser() {
+                const _this = this;
+                _this.userFormType = 'create';
+                _this.userFormTitle = '创建用户';
+                _this.userFormVisible = true;
+                const params = {
+                    username: _this.userForm.username,
+                    email: _this.userForm.email,
+                    password: _this.userForm.password,
+                    enterprise: _this.userForm.enterprise,
+                    isEnabled: _this.userForm.isEnabled
+                };
+                console.log(params);
+                _this.postRequest("/api/v1/users", params).then(function (response) {
+                    console.log(response.data);
+                    _this.userFormVisible = false;
+                    _this.searchUser();
+                })
+            },
+            listEnterprise() {
+                const _this = this;
+                let requestUrl = "/api/v1/enterprises";
+                _this.getRequest(requestUrl).then(function (response) {
+                    _this.enterprises = response.data.data;
+                })
+
+            },
             searchUser() {
                 const _this = this;
-                const requestUrl = "/api/v1/users/search?page=" + _this.currentPage + "&size=" + _this.pageSize;
-                this.getRequest(requestUrl)
+                let requestUrl = "/api/v1/users/search?page=" + _this.currentPage + "&size=" + _this.pageSize;
+                if (_this.searchUserForm.condition !== '') {
+                    requestUrl = requestUrl + "&condition=" + _this.searchUserForm.condition;
+                }
+                _this.getRequest(requestUrl)
                     .then(function (response) {
                         const data = response.data.data;
-                        _this.tableUser = data.content;
+                        _this.usersTableData = data.content;
                         _this.totalElements = data.totalElements;
                         _this.pageSize = data.size;
                         _this.currentPage = data.number + 1;
@@ -118,6 +277,29 @@
             },
             formatEnabled(row, column) {
                 return row.isEnabled ? "启用" : "未启用";
+            },
+            resetUserPassword(row) {
+                this.resetUserPasswordVisible = true;
+                this.resetUserPasswordForm.id = row.id;
+                this.resetUserPasswordForm.email = row.email;
+                this.resetUserPasswordForm.password = row.password;
+            },
+            enabledUser() {
+                this.$confirm('此操作用户将有登录操作权限, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'success'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '启用成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消启用'
+                    });
+                });
             },
             disableUser() {
                 this.$confirm('此操作用户将不能登录, 是否继续?', '提示', {
@@ -146,11 +328,15 @@
             }
         },
         mounted() {
+            this.listEnterprise();
             this.searchUser();
         }
 
     }
 </script>
+<style>
+
+</style>
 
 
 
