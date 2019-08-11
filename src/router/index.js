@@ -8,6 +8,7 @@ import CardTransferHistory from "../components/card/CardTransferHistory";
 import Role from "../components/consumer/Role";
 import MenuAuthority from "../components/consumer/MenuAuthority";
 import Enterprise from "../components/consumer/Enterprise";
+import UpdatePassword from "../components/user/UpdatePassword";
 
 Vue.use(Router);
 
@@ -26,6 +27,11 @@ export default new Router({
         requireAuth: true
       },
       children: [
+        {
+          path: '/reset-password',
+          name: 'UpdatePassword',
+          component: UpdatePassword
+        },
         {
           path: '/consumers/enterprises',
           name: 'Enterprise',

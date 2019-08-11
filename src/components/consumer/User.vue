@@ -51,19 +51,19 @@
         </el-table-column>
         <el-table-column
           prop="username"
-          label="用户名"
+          label="登录名"
+          :showOverflowTooltip=true
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="fullName"
+          label="姓名"
           :showOverflowTooltip=true
           width="150">
         </el-table-column>
         <el-table-column
           prop="enterprise.name"
           label="所属企业"
-          :showOverflowTooltip=true
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="password"
-          label="密码"
           :showOverflowTooltip=true
           width="150">
         </el-table-column>
@@ -87,10 +87,12 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="userFormVisible = true">编辑</el-button>
-            <el-button type="warning" size="mini" @click="resetUserPassword(scope.row)">重置密码</el-button>
-            <el-button type="danger" size="mini" @click="disableUser" v-if="scope.row.isEnabled">禁用</el-button>
-            <el-button type="success" size="mini" @click="enabledUser" v-if="scope.row.isEnabled === false">启用
+            <el-button type="primary" size="mini" @click="showEditUserForm(scope.row)">编辑</el-button>
+            <el-button type="warning" size="mini" @click="showResetUserPassword(scope.row)">重置密码</el-button>
+            <el-button type="danger" size="mini" @click="disableUser(scope.row)" v-if="scope.row.isEnabled">禁用
+            </el-button>
+            <el-button type="success" size="mini" @click="enabledUser(scope.row)" v-if="scope.row.isEnabled === false">
+              启用
             </el-button>
           </template>
         </el-table-column>
@@ -103,7 +105,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[20, 50, 100, 500]"
+          :page-sizes="[15, 50, 100, 500]"
           :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="totalElements">
@@ -120,9 +122,6 @@
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="resetUserPasswordForm.email" disabled></el-input>
         </el-form-item>
-        <el-form-item label="当前密码" prop="password">
-          <el-input v-model="resetUserPasswordForm.password" disabled=""></el-input>
-        </el-form-item>
         <el-form-item label="新密码" prop="newPassword">
           <el-input v-model="resetUserPasswordForm.newPassword"></el-input>
         </el-form-item>
@@ -132,20 +131,29 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetUserPasswordVisible = false">取 消</el-button>
-        <el-button type="primary" @click="resetUserPasswordVisible = false">确 定</el-button>
+        <el-button type="primary" @click="resetUserPassword">确 定</el-button>
       </div>
     </el-dialog>
-
-    <el-dialog :title="userFormTitle" :visible.sync="userFormVisible" width="30%">
+    <!--    新建或修改用户 -->
+    <el-dialog :title="userFormTitle" :visible.sync="userFormVisible" width="35%">
       <el-form :model="userForm" label-width="80px">
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="编号" prop="id" v-if="userFormType==='update'">
+          <el-input v-model="userForm.id" size="small" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="登录名" prop="username">
           <el-input v-model="userForm.username" size="small"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="userForm.email" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="姓名" prop="fullName">
+          <el-input v-model="userForm.fullName" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password" v-if="userFormType==='create'">
           <el-input v-model="userForm.password" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="confirmPassword" v-if="userFormType==='create'">
+          <el-input v-model="userForm.confirmPassword" size="small"></el-input>
         </el-form-item>
         <el-form-item label="企业" prop="enterprise.id">
           <el-select v-model="userForm.enterprise.id" placeholder="请选择归属企业" size="small">
@@ -165,7 +173,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="userFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addUser">确 定</el-button>
+        <el-button type="primary" @click="addUser" v-if="userFormType==='create'">确 定</el-button>
+        <el-button type="primary" @click="editUser" v-if="userFormType==='update'">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -180,10 +189,12 @@
                 userFormType: 'create',
                 userFormTitle: '创建用户',
                 userForm: {
-                    id: '',
+                    id: null,
                     username: '',
                     email: '',
+                    fullName: '',
                     password: '',
+                    confirmPassword: '',
                     parentId: null,
                     isEnabled: false,
                     enterprise: {
@@ -207,7 +218,7 @@
                             required: true, message: '请输入新密码', trigger: 'blur'
                         },
                         {
-                            min: 8, max: 20, message: '密码长度为8到20个字符', trigger: 'blur'
+                            min: 6, max: 20, message: '密码长度为6到20个字符', trigger: 'blur'
                         }
                     ],
                     confirmPassword: [
@@ -215,13 +226,13 @@
                             required: true, message: '请输入确认密码', trigger: 'blur'
                         },
                         {
-                            min: 8, max: 20, message: '密码长度为8到20个字符', trigger: 'blur'
+                            min: 6, max: 20, message: '密码长度为6到20个字符', trigger: 'blur'
                         }
                     ]
                 },
                 currentPage: 1,
                 totalElements: 0,
-                pageSize: 20,
+                pageSize: 15,
                 searchUserForm: {
                     condition: '',
                     enterpriseId: null,
@@ -230,6 +241,34 @@
             }
         },
         methods: {
+            showEditUserForm(row) {
+                const _this = this;
+                _this.userFormVisible = true;
+                _this.userFormType = 'update';
+                _this.userFormTitle = '修改用户';
+                _this.userForm.id = row.id;
+                _this.userForm.email = row.email;
+                _this.userForm.username = row.username;
+                _this.userForm.fullName = row.fullName;
+                _this.userForm.enterprise.id = row.enterprise.id;
+                _this.userForm.isEnabled = row.isEnabled;
+            },
+            editUser() {
+                const _this = this;
+                const params = {
+                    id: _this.userForm.id,
+                    username: _this.userForm.username,
+                    email: _this.userForm.email,
+                    fullName: _this.userForm.fullName,
+                    password: _this.userForm.password,
+                    enterprise: _this.userForm.enterprise,
+                    isEnabled: _this.userForm.isEnabled
+                };
+                _this.putRequest("/api/v1/users", params).then(function (response) {
+                    _this.userFormVisible = false;
+                    _this.searchUser();
+                })
+            },
             addUser() {
                 const _this = this;
                 _this.userFormType = 'create';
@@ -238,6 +277,7 @@
                 const params = {
                     username: _this.userForm.username,
                     email: _this.userForm.email,
+                    fullName: _this.userForm.fullName,
                     password: _this.userForm.password,
                     enterprise: _this.userForm.enterprise,
                     isEnabled: _this.userForm.isEnabled
@@ -278,21 +318,46 @@
             formatEnabled(row, column) {
                 return row.isEnabled ? "启用" : "未启用";
             },
-            resetUserPassword(row) {
+            showResetUserPassword(row) {
                 this.resetUserPasswordVisible = true;
                 this.resetUserPasswordForm.id = row.id;
                 this.resetUserPasswordForm.email = row.email;
                 this.resetUserPasswordForm.password = row.password;
             },
-            enabledUser() {
+            resetUserPassword() {
+                const _this = this;
+                const params = {
+                    userId: _this.resetUserPasswordForm.id,
+                    newPassword: _this.resetUserPasswordForm.newPassword,
+                    confirmPassword: _this.resetUserPasswordForm.confirmPassword
+                };
+                _this.putRequest("/api/v1/users/reset-child-password", params).then(function (response) {
+                    _this.$notify({
+                        type: 'success',
+                        message: response.data.message,
+                        title: '重置下级密码'
+                    });
+                    _this.resetUserPasswordVisible = false;
+                });
+            },
+            enabledUser(row) {
                 this.$confirm('此操作用户将有登录操作权限, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'success'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '启用成功!'
+                    const _this = this;
+                    _this.putRequest("/api/v1/users/" + row.id + "/activated").then(function (response) {
+                        row.isEnabled = true;
+                        _this.$message({
+                            type: 'success',
+                            message: '启用成功!'
+                        });
+                    }).catch(function (error) {
+                        _this.$message({
+                            type: 'warning',
+                            message: '启用失败!'
+                        });
                     });
                 }).catch(() => {
                     this.$message({
@@ -301,15 +366,24 @@
                     });
                 });
             },
-            disableUser() {
+            disableUser(row) {
                 this.$confirm('此操作用户将不能登录, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '禁用成功!'
+                    const _this = this;
+                    _this.putRequest("/api/v1/users/" + row.id + "/disabled").then(function (response) {
+                        row.isEnabled = false;
+                        _this.$message({
+                            type: 'success',
+                            message: '禁用成功!'
+                        });
+                    }).catch(function (error) {
+                        _this.$message({
+                            type: 'warning',
+                            message: '禁用失败!'
+                        });
                     });
                 }).catch(() => {
                     this.$message({

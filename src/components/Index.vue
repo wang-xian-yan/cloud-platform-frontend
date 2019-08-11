@@ -20,7 +20,7 @@
               登录用户是:{{username}}
             </el-dropdown-item>
             <el-dropdown-item divided>个人中心</el-dropdown-item>
-            <el-dropdown-item>设置</el-dropdown-item>
+            <el-dropdown-item @click.native="updatePassword">修改密码</el-dropdown-item>
             <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -110,6 +110,9 @@
             }
         },
         methods: {
+            updatePassword() {
+                this.$router.replace('/reset-password');
+            },
             logout() {
                 this.$confirm('此操作用户将退出登录, 是否继续?', '提示', {
                     confirmButtonText: '确定',
@@ -117,7 +120,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.$store.commit('logout');
-                    this.$router.replace('/')
+                    this.$router.replace('/');
                 }).catch(() => {
                 });
             },

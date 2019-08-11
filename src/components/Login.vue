@@ -25,7 +25,7 @@
             return {
                 loginForm: {
                     username: "admin@cloud-platform.com",
-                    password: "admin",
+                    password: "admin123",
                     verifyCode: "",
                     verifyCodeId: ""
                 },

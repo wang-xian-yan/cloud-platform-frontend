@@ -120,7 +120,7 @@
                 _this.postRequest("/api/v1/enterprises", params).then(function (response) {
                     _this.$notify({
                         type: "success",
-                        title: '',
+                        title: '新增企业',
                         message: response.data.message
                     });
                     _this.enterpriseFormVisible = false;
