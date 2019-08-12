@@ -11,8 +11,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {deleteRequest, getRequest, postRequest, putRequest} from './util/api'
 
-// const baseURL = "http://49.234.133.55:8081";
-const baseURL = "http://localhost:8083";
+const baseURL = "http://49.234.133.55:8081";
+// const baseURL = "http://localhost:8083";
 axios.defaults.baseURL = baseURL;
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
