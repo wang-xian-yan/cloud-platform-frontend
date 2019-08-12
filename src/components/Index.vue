@@ -141,8 +141,7 @@
                   <el-button type="success" size="mini">柱形</el-button>
                   <el-button type="warning" size="mini">饼图</el-button>
                 </el-button-group>
-                <ve-line :data="flowLineChartData" :settings="chartSettings" :extend="extend"
-                         :set-option-opts="options"></ve-line>
+                <ve-line :data="flowLineChartData" :settings="chartSettings" :extend="extend"></ve-line>
               </el-card>
             </el-col>
           </el-row>
@@ -167,9 +166,6 @@
                 series: {
                     label: {show: true, position: "top"}
                 }
-            };
-            this.options = {
-                title: {text: '中国移动卡片管理'}
             };
             return {
                 companies: '简易科技物联网云平台',
