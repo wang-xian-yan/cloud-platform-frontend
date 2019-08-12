@@ -5,7 +5,7 @@
         <el-button type="danger" icon="el-icon-delete" size="small">删除</el-button>
         <el-button type="warning" icon="el-icon-delete" size="small">禁用</el-button>
       </el-button-group>
-      <el-button type="primary" icon="el-icon-plus" size="small" @click="userFormVisible = true">新增</el-button>
+      <el-button type="primary" icon="el-icon-plus" size="small" @click="showCreateUserForm">新增</el-button>
     </el-row>
     <el-row>
       <el-form ref="searchUserForm" :model="searchUserForm" :inline="true">
@@ -172,9 +172,9 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="userFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addUser" v-if="userFormType==='create'">确 定</el-button>
-        <el-button type="primary" @click="editUser" v-if="userFormType==='update'">确 定</el-button>
+        <el-button @click="cancelUserForm">取 消</el-button>
+        <el-button type="primary" @click="addUser" v-if="userFormType==='create'">添 加</el-button>
+        <el-button type="primary" @click="editUser" v-if="userFormType==='update'">修 改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -241,6 +241,17 @@
             }
         },
         methods: {
+            cancelUserForm() {
+                const _this = this;
+                _this.userForm.id = null;
+                _this.userForm.email = null;
+                _this.userForm.username = '';
+                _this.userForm.fullName = '';
+                _this.userForm.enterprise.id = null;
+                _this.userForm.isEnabled = null;
+                _this.userForm.enterprise.id = null;
+                _this.userFormVisible = false;
+            },
             showEditUserForm(row) {
                 const _this = this;
                 _this.userFormVisible = true;
@@ -268,6 +279,11 @@
                     _this.userFormVisible = false;
                     _this.searchUser();
                 })
+            },
+            showCreateUserForm() {
+                this.userFormTitle = '创建用户';
+                this.userFormType = 'create';
+                this.userFormVisible = true;
             },
             addUser() {
                 const _this = this;

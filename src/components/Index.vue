@@ -86,6 +86,15 @@
             <el-menu-item index="/consumers/roles">客户角色</el-menu-item>
             <el-menu-item index="/consumers/menu-authority">菜单权限</el-menu-item>
           </el-submenu>
+          <el-submenu index="/reports">
+            <template slot="title">
+              <i class="el-icon-data-board"></i>
+              <span slot="title">数据报表</span>
+            </template>
+            <el-menu-item index="/reports/card">卡片报表</el-menu-item>
+            <el-menu-item index="/reports/user">用户报表</el-menu-item>
+            <el-menu-item index="/reports/recharge">充值报表</el-menu-item>
+          </el-submenu>
           <el-submenu index="/systems">
             <template slot="title">
               <i class="el-icon-setting"></i>
@@ -132,7 +141,8 @@
                   <el-button type="success" size="mini">柱形</el-button>
                   <el-button type="warning" size="mini">饼图</el-button>
                 </el-button-group>
-                <ve-line :data="flowLineChartData" :settings="chartSettings"></ve-line>
+                <ve-line :data="flowLineChartData" :settings="chartSettings" :extend="extend"
+                         :set-option-opts="options"></ve-line>
               </el-card>
             </el-col>
           </el-row>
@@ -146,11 +156,20 @@
 <script>
     export default {
         name: "Index",
-
         data() {
             this.chartSettings = {
                 dataType: 'normal',
-                label: '移动卡片'
+                label: '移动卡片',
+                title: '移动卡片',
+                text: '移动卡片'
+            };
+            this.extend = {
+                series: {
+                    label: {show: true, position: "top"}
+                }
+            };
+            this.options = {
+                title: {text: '中国移动卡片管理'}
             };
             return {
                 companies: '简易科技物联网云平台',
@@ -168,12 +187,12 @@
                 flowLineChartData: {
                     columns: ['日期', '移动', '联通', '电信'],
                     rows: [
-                        {'日期': '08-01', '移动': 1393, '联通': 1093, '电信': 100},
+                        {'日期': '08-01', '移动': 7000, '联通': 5000, '电信': 8000},
                         {'日期': '08-02', '移动': 3530, '联通': 3230, '电信': 2000},
-                        {'日期': '08-03', '移动': 2923, '联通': 2623, '电信': 800},
-                        {'日期': '08-04', '移动': 1723, '联通': 1423, '电信': 60000},
-                        {'日期': '08-05', '移动': 3792, '联通': 3492, '电信': 890},
-                        {'日期': '08-06', '移动': 4593, '联通': 4293, '电信': 8000}
+                        {'日期': '08-03', '移动': 2923, '联通': 7000, '电信': 800},
+                        {'日期': '08-04', '移动': 1723, '联通': 6000, '电信': 60000},
+                        {'日期': '08-05', '移动': 3792, '联通': 36009, '电信': 890},
+                        {'日期': '08-06', '移动': 4593, '联通': 80000, '电信': 8000}
                     ]
                 }
             }

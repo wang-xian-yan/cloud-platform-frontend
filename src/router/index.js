@@ -13,6 +13,9 @@ import OperatorHistoryLog from "../components/system/OperatorHistoryLog";
 import SystemPackage from "../components/packages/SystemPackage";
 import AccountInfo from "../components/account/AccountInfo";
 import MessageCenter from "../components/account/MessageCenter";
+import CardReport from "../components/reports/CardReport";
+import RechargeReport from "../components/reports/RechargeReport";
+import UserReport from "../components/reports/UserReport";
 
 Vue.use(Router);
 
@@ -75,6 +78,18 @@ export default new Router({
           path: '/consumers/menu-authority',
           name: 'MenuAuthority',
           component: MenuAuthority
+        }, {
+          path: '/reports/card',
+          name: 'CardReport',
+          component: CardReport
+        }, {
+          path: '/reports/user',
+          name: 'UserReport',
+          component: UserReport
+        }, {
+          path: '/reports/recharge',
+          name: 'RechargeReport',
+          component: RechargeReport
         }, {
           path: '/systems/history',
           name: 'OperatorHistoryLog',
