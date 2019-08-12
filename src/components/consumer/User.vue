@@ -312,7 +312,7 @@
                         _this.currentPage = data.number + 1;
 
                     }).catch(error => {
-                    console.log("login failure error" + error);
+                    console.log("search user error:" + error);
                 });
             },
             formatEnabled(row, column) {

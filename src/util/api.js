@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../router'
 import {Message} from 'element-ui'
 
 axios.interceptors.request.use(config => {
@@ -17,7 +18,13 @@ axios.interceptors.response.use(response => {
   console.log('response:', response);
   if (response.data.code === '200') {
     return Promise.resolve(response)
-
+  } else if (response.data.code !== '200') {
+    const message = response.data.message;
+    console.log('message:' + message);
+    if (message === 'token过期') {
+      router.replace('/');
+      return;
+    }
   }
   Message.error({message: response.data.message});
   return Promise.resolve(response)
@@ -30,7 +37,12 @@ axios.interceptors.response.use(response => {
   if (err.response.status === 504) {
     Message.error({message: '连接超时', showClose: true})
   } else if (err.response.data.code !== '200') {
-    Message.error({message: err.response.data.message})
+    const message = err.response.data.message;
+    console.log('message:' + message);
+    if (message === 'token过期') {
+      this.$router.replace("/");
+    }
+    Message.error({message: message})
   } else {
     Message.error({message: '未知异常', showClose: true})
   }

@@ -60,7 +60,8 @@
                         _this.loading = false;
                         if (data.code === "200") {
                             _this.$store.commit('login', data);
-                            _this.$router.replace("/index");
+                            const path = _this.$route.query.redirect;
+                            _this.$router.replace({path: path === '/' || path === undefined ? '/index' : path});
                         }
                     })
                     .catch(error => {

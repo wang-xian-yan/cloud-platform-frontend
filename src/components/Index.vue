@@ -1,42 +1,49 @@
 <template>
   <el-container class="home-container">
-    <el-header class="home-header">
+    <el-header class="home-header" style="height: 80px">
       <div>
-        <span class="home-title">{{companies}}</span>
+        <span class="header-title">{{companies}}</span>
       </div>
-      <div class="home-user">
-        <el-dropdown>
-          <span class="el-dropdown-link">
-
-             <el-avatar v-if="userFace!==''" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                        style="vertical-align: middle"></el-avatar>
-            <el-avatar v-if="userFace===''" icon="el-icon-user-solid"
-                       style="vertical-align: middle"></el-avatar>
-            <i class="el-icon-caret-bottom">
-            </i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              登录用户是:{{username}}
-            </el-dropdown-item>
-            <el-dropdown-item divided>个人中心</el-dropdown-item>
-            <el-dropdown-item @click.native="updatePassword">修改密码</el-dropdown-item>
-            <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
+      <ul class="header-operations">
+        <li @click="$router.replace('/index')" class="active">平台首页</li>
+        <li @click="$router.replace('/messages')">
+          <el-button type="success">消息中心</el-button>
+        </li>
+        <li>
+          <el-dropdown>
+                      <span class="el-dropdown-link">
+                        <el-avatar v-if="userFace!==''"
+                                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                                   style="vertical-align: middle">
+                        </el-avatar>
+                        <el-avatar v-if="userFace===''" icon="el-icon-user-solid"
+                                   style="vertical-align: middle"></el-avatar>
+                        <i class="el-icon-caret-bottom">
+                        </i>
+                      </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                登录用户是:{{username}}
+              </el-dropdown-item>
+              <el-dropdown-item @click.native="accountInfo" divided>账户信息</el-dropdown-item>
+              <el-dropdown-item @click.native="updatePassword">修改密码</el-dropdown-item>
+              <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </li>
+      </ul>
     </el-header>
     <el-container>
       <el-aside class="home-aside">
-        <el-menu :default-active="$route.path" style="height: 100%" router>
-
+        <el-menu :default-active="$route.path"
+                 style="height: 100%;" router>
           <el-menu-item index="/index">
             <i class="el-icon-menu"></i>
             <span slot="title">Dashboard</span>
           </el-menu-item>
           <el-submenu index="/cards">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-bank-card"></i>
               <span slot="title">卡片管理</span>
             </template>
             <el-menu-item index="/cards/list">卡片列表</el-menu-item>
@@ -48,17 +55,26 @@
               <span slot="title">套餐管理</span>
             </template>
             <el-menu-item index="/packages/system">系统套餐</el-menu-item>
-            <el-menu-item index="/packages/me">我的套餐</el-menu-item>
+            <el-menu-item index="/packages/list">我的套餐</el-menu-item>
             <el-menu-item index="/packages/distribution">套餐分配</el-menu-item>
           </el-submenu>
           <el-submenu index="/operators">
             <template slot="title">
-              <i class="el-icon-document"></i>
+              <i class="el-icon-s-platform"></i>
               <span slot="title">运营管理</span>
             </template>
             <el-menu-item index="/operators/a">营销活动</el-menu-item>
             <el-menu-item index="/operators/b">黑名单</el-menu-item>
             <el-menu-item index="/operators/c">分润</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/orders">
+            <template slot="title">
+              <i class="el-icon-s-order"></i>
+              <span slot="title">订单管理</span>
+            </template>
+            <el-menu-item index="/orders/card">卡片订单</el-menu-item>
+            <el-menu-item index="/orders/card-pool">卡池订单</el-menu-item>
+            <el-menu-item index="/orders/equipment">设备订单</el-menu-item>
           </el-submenu>
           <el-submenu index="/consumers">
             <template slot="title">
@@ -110,6 +126,9 @@
             }
         },
         methods: {
+            accountInfo() {
+                this.$router.replace('/account-info');
+            },
             updatePassword() {
                 this.$router.replace('/reset-password');
             },
@@ -146,24 +165,37 @@
 
   .home-header {
     background-color: #20a0ff;
+    /*background-color: #545c64;*/
     color: #333;
     text-align: left;
-    line-height: 60px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-sizing: content-box;
   }
 
-  .home-title {
+  .header-title {
     color: #fff;
     font-size: 22px;
     display: inline;
     margin-left: 8px;
   }
 
-  .home-user {
+  .header-operations {
+    display: inline-block;
+    float: right;
+    padding-right: 30px;
+    height: 100%;
+  }
+
+  .header-operations li {
     color: #fff;
-    margin-right: 50px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 10px;
+    margin: 0 10px;
+    line-height: 80px;
+    cursor: pointer;
   }
 </style>

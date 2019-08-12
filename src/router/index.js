@@ -8,7 +8,11 @@ import CardTransferHistory from "../components/card/CardTransferHistory";
 import Role from "../components/consumer/Role";
 import MenuAuthority from "../components/consumer/MenuAuthority";
 import Enterprise from "../components/consumer/Enterprise";
-import UpdatePassword from "../components/user/UpdatePassword";
+import UpdatePassword from "../components/account/UpdatePassword";
+import OperatorHistoryLog from "../components/system/OperatorHistoryLog";
+import SystemPackage from "../components/packages/SystemPackage";
+import AccountInfo from "../components/account/AccountInfo";
+import MessageCenter from "../components/account/MessageCenter";
 
 Vue.use(Router);
 
@@ -28,10 +32,33 @@ export default new Router({
       },
       children: [
         {
+          path: '/account-info',
+          name: 'AccountInfo',
+          component: AccountInfo
+        }, {
+          path: '/messages',
+          name: 'MessageCenter',
+          component: MessageCenter
+        },
+        {
           path: '/reset-password',
           name: 'UpdatePassword',
           component: UpdatePassword
         },
+        {
+          path: '/cards/list',
+          name: 'CardList',
+          component: CardList
+        }, {
+          path: '/cards/transfer',
+          name: 'CardTransferHistory',
+          component: CardTransferHistory
+        }, {
+          path: '/packages/system',
+          name: 'SystemPackage',
+          component: SystemPackage
+        },
+
         {
           path: '/consumers/enterprises',
           name: 'Enterprise',
@@ -49,13 +76,9 @@ export default new Router({
           name: 'MenuAuthority',
           component: MenuAuthority
         }, {
-          path: '/cards/list',
-          name: 'CardList',
-          component: CardList
-        }, {
-          path: '/cards/transfer',
-          name: 'CardTransferHistory',
-          component: CardTransferHistory
+          path: '/systems/history',
+          name: 'OperatorHistoryLog',
+          component: OperatorHistoryLog
         }]
     }
   ]
