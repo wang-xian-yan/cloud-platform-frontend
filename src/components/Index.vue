@@ -113,10 +113,29 @@
                 <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
               </el-card>
             </el-col>
-            <el-col :span="8"></el-col>
-            <el-col :span="8"></el-col>
+            <el-col :span="8">
+              <el-card>
+                <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
+              </el-card>
+            </el-col>
+            <el-col :span="8">
+              <el-card>
+                <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
+              </el-card>
+            </el-col>
           </el-row>
-
+          <el-row :gutter="10">
+            <el-col :span="24">
+              <el-card>
+                <el-button-group style="float:right;">
+                  <el-button type="primary" size="mini">折线</el-button>
+                  <el-button type="success" size="mini">柱形</el-button>
+                  <el-button type="warning" size="mini">饼图</el-button>
+                </el-button-group>
+                <ve-line :data="flowLineChartData" :settings="chartSettings"></ve-line>
+              </el-card>
+            </el-col>
+          </el-row>
         </div>
         <router-view></router-view>
       </el-main>
@@ -130,8 +149,9 @@
 
         data() {
             this.chartSettings = {
-                dataType: 'percent'
-            }
+                dataType: 'normal',
+                label: '移动卡片'
+            };
             return {
                 companies: '简易科技物联网云平台',
                 username: '',
@@ -141,8 +161,19 @@
                     columns: ['status', 'count'],
                     rows: [
                         {'status': 'Activated', 'count': 100},
-                        {'status': 'ActivateReady', 'count': 100},
+                        {'status': 'ActivateReady', 'count': 1000},
                         {'status': 'Disabled', 'count': 100}
+                    ]
+                },
+                flowLineChartData: {
+                    columns: ['日期', '移动', '联通', '电信'],
+                    rows: [
+                        {'日期': '08-01', '移动': 1393, '联通': 1093, '电信': 100},
+                        {'日期': '08-02', '移动': 3530, '联通': 3230, '电信': 2000},
+                        {'日期': '08-03', '移动': 2923, '联通': 2623, '电信': 800},
+                        {'日期': '08-04', '移动': 1723, '联通': 1423, '电信': 60000},
+                        {'日期': '08-05', '移动': 3792, '联通': 3492, '电信': 890},
+                        {'日期': '08-06', '移动': 4593, '联通': 4293, '电信': 8000}
                     ]
                 }
             }
