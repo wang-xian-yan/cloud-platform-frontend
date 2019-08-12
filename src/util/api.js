@@ -1,5 +1,7 @@
 import axios from 'axios'
 import router from '../router'
+import store from '../store'
+
 import {Message} from 'element-ui'
 
 axios.interceptors.request.use(config => {
@@ -22,6 +24,7 @@ axios.interceptors.response.use(response => {
     const message = response.data.message;
     console.log('message:' + message);
     if (message === 'token过期') {
+      store.commit('logout');
       router.replace('/');
       return;
     }

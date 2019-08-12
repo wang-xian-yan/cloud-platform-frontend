@@ -34,7 +34,7 @@
       </ul>
     </el-header>
     <el-container>
-      <el-aside class="home-aside">
+      <el-aside class="home-aside" style="width: 250px">
         <el-menu :default-active="$route.path"
                  style="height: 100%;" router>
           <el-menu-item index="/index">
@@ -101,12 +101,22 @@
       </el-aside>
       <el-main>
         <div v-if="$route.path ==='/index'">
-          <div>
-            数据监控
-          </div>
-          <div id="line-chart">
+          <el-row :gutter="10">
+            <el-col :span="8"></el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="24"></el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <el-card>
+                <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
+              </el-card>
+            </el-col>
+            <el-col :span="8"></el-col>
+            <el-col :span="8"></el-col>
+          </el-row>
 
-          </div>
         </div>
         <router-view></router-view>
       </el-main>
@@ -117,12 +127,24 @@
 <script>
     export default {
         name: "Index",
+
         data() {
+            this.chartSettings = {
+                dataType: 'percent'
+            }
             return {
                 companies: '简易科技物联网云平台',
                 username: '',
                 userFace: '',
-                usersTableData: []
+                usersTableData: [],
+                mobileCardData: {
+                    columns: ['status', 'count'],
+                    rows: [
+                        {'status': 'Activated', 'count': 100},
+                        {'status': 'ActivateReady', 'count': 100},
+                        {'status': 'Disabled', 'count': 100}
+                    ]
+                }
             }
         },
         methods: {
@@ -197,5 +219,9 @@
     margin: 0 10px;
     line-height: 80px;
     cursor: pointer;
+  }
+
+  .home-aside {
+    width: 200px;
   }
 </style>

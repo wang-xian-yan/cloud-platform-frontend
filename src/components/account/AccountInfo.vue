@@ -1,11 +1,11 @@
 <template>
-  <el-card>
-    <div slot="header">
-      <span>账户信息</span>
-    </div>
-    <div>
-      <el-row>
-        <el-col :span="8">
+  <el-row :gutter="10">
+    <el-col :span="12">
+      <el-card>
+        <div slot="header">
+          <span>账户信息</span>
+        </div>
+        <div>
           <el-form ref="accountForm" :model="accountForm" label-width="80px" size="mini">
             <el-form-item label="公司名字:">
               <span style="color: #303133;font-size: 16px">{{accountForm.enterprise.name}}</span>
@@ -23,17 +23,11 @@
               {{accountForm.phone}}
             </el-form-item>
           </el-form>
-        </el-col>
-        <el-col :span="8">
+        </div>
+      </el-card>
+    </el-col>
+  </el-row>
 
-        </el-col>
-        <el-col :span="8">
-
-        </el-col>
-
-      </el-row>
-    </div>
-  </el-card>
 </template>
 
 <script>
