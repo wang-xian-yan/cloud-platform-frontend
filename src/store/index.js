@@ -28,6 +28,9 @@ export default new Vuex.Store({
       window.localStorage.removeItem('Authorization');
       window.localStorage.removeItem('Username');
       window.localStorage.removeItem('UserId');
+      state.user.username = '';
+      state.user.id = '';
+      state.user.token = '';
     }
   }
 });

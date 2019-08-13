@@ -93,7 +93,7 @@
                 });
             }
         },
-        created() {
+        mounted() {
             this.getVerifyCodeUrl();
         }
     };

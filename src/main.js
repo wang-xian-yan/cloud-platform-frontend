@@ -11,8 +11,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {deleteRequest, getRequest, postRequest, putRequest} from './util/api'
 
-const baseURL = "http://49.234.133.55:8081";
-// const baseURL = "http://localhost:8083";
+// const baseURL = "http://49.234.133.55:8081";
+const baseURL = "http://localhost:8083";
 axios.defaults.baseURL = baseURL;
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
@@ -27,13 +27,19 @@ Vue.config.productionTip = false;
 
 
 router.beforeEach((to, from, next) => {
+    let name = store.state.user.username;
     if (to.name === 'Login') {
+      if (name !== '未登录' && name !== '' && name != null) {
+        next('index');
+        return;
+      }
+      console.log('login:' + name);
       next();
       return;
     }
-    let name = store.state.user.username;
+
     if (name === '未登录' || name == null) {
-      next({path: '/', query: {redirect: to.path}})
+      next({path: '/', query: {redirect: to.path}});
     } else {
       next();
     }

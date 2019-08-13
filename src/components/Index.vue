@@ -6,7 +6,7 @@
       </div>
       <ul class="header-operations">
         <li @click="$router.replace('/index')" class="active el-icon-s-home"></li>
-        <li @click="$router.replace('/messages')" class="el-icon-message-solid"></li>
+        <li @click="$router.replace('/messages')" class="el-icon-message"></li>
         <li>
           <el-dropdown>
                       <span class="el-dropdown-link">
@@ -311,7 +311,7 @@
     color: #fff;
     display: inline-block;
     vertical-align: middle;
-    padding: 0 10px;
+    /*padding: 0 10px;*/
     margin: 0 10px;
     line-height: 80px;
     cursor: pointer;
