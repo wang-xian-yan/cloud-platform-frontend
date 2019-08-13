@@ -1,6 +1,6 @@
 <template>
   <el-container class="home-container">
-    <el-header class="home-header" style="height: 80px">
+    <el-header class="home-header" style="height: 65px">
       <div>
         <span class="header-title">{{companies}}</span>
       </div>
@@ -286,7 +286,7 @@
     /*background-color: #545c64;*/
     color: #333;
     text-align: left;
-    height: 80px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -313,7 +313,7 @@
     vertical-align: middle;
     /*padding: 0 10px;*/
     margin: 0 10px;
-    line-height: 80px;
+    line-height: 65px;
     cursor: pointer;
   }
 
