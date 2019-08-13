@@ -5,10 +5,8 @@
         <span class="header-title">{{companies}}</span>
       </div>
       <ul class="header-operations">
-        <li @click="$router.replace('/index')" class="active">平台首页</li>
-        <li @click="$router.replace('/messages')">
-          <el-button type="success">消息中心</el-button>
-        </li>
+        <li @click="$router.replace('/index')" class="active el-icon-s-home"></li>
+        <li @click="$router.replace('/messages')" class="el-icon-message-solid"></li>
         <li>
           <el-dropdown>
                       <span class="el-dropdown-link">
@@ -111,37 +109,74 @@
       <el-main>
         <div v-if="$route.path ==='/index'">
           <el-row :gutter="10">
-            <el-col :span="8"></el-col>
-          </el-row>
-          <el-row :gutter="10">
-            <el-col :span="24"></el-col>
-          </el-row>
-          <el-row :gutter="10">
-            <el-col :span="8">
-              <el-card>
-                <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
-              </el-card>
+            <el-col :span="6">
+              <el-row :gutter="10">
+                <el-col :span="24">
+                  <el-card>
+                    <h3>{{this.$store.state.user.username}}</h3>
+                  </el-card>
+                </el-col>
+              </el-row>
             </el-col>
-            <el-col :span="8">
-              <el-card>
-                <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
-              </el-card>
-            </el-col>
-            <el-col :span="8">
-              <el-card>
-                <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
-              </el-card>
+            <el-col :span="18">
+              <el-row :gutter="10">
+                <el-col :span="8">
+                  <el-card>
+
+                  </el-card>
+                </el-col>
+                <el-col :span="8">
+                  <el-card>
+
+                  </el-card>
+                </el-col>
+                <el-col :span="8">
+                  <el-card>
+
+                  </el-card>
+                </el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="8">
+
+                  <el-card>
+                    <div slot="header">
+                      <span>移动卡片状态</span>
+                    </div>
+                    <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
+                  </el-card>
+                </el-col>
+                <el-col :span="8">
+                  <el-card>
+                    <div slot="header">
+                      <span>联通卡片状态</span>
+                    </div>
+                    <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
+                  </el-card>
+                </el-col>
+                <el-col :span="8">
+                  <el-card>
+                    <div slot="header">
+                      <span>电信卡片状态</span>
+                    </div>
+                    <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
+                  </el-card>
+                </el-col>
+              </el-row>
             </el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col :span="24">
               <el-card>
-                <el-button-group style="float:right;">
-                  <el-button type="primary" size="mini">折线</el-button>
-                  <el-button type="success" size="mini">柱形</el-button>
-                  <el-button type="warning" size="mini">饼图</el-button>
-                </el-button-group>
-                <ve-line :data="flowLineChartData" :settings="chartSettings" :extend="extend"></ve-line>
+                <div slot="header">
+                  <span>卡片流量消耗</span>
+                  <el-button-group style="float:right;">
+                    <el-button type="primary" size="mini" @click="changeFlowChart('line')">折线</el-button>
+                    <el-button type="success" size="mini" @click="changeFlowChart('histogram')">柱形</el-button>
+                    <el-button type="warning" size="mini" @click="changeFlowChart('pie')">饼图</el-button>
+                  </el-button-group>
+                </div>
+                <ve-chart :data="flowLineChartData" :settings="flowChartSetting" :extend="extend"></ve-chart>
               </el-card>
             </el-col>
           </el-row>
@@ -183,13 +218,25 @@
                 flowLineChartData: {
                     columns: ['日期', '移动', '联通', '电信'],
                     rows: [
-                        {'日期': '08-01', '移动': 7000, '联通': 5000, '电信': 8000},
+                        {'日期': '08-01', '移动': 1000, '联通': 5000, '电信': 8000},
                         {'日期': '08-02', '移动': 3530, '联通': 3230, '电信': 2000},
                         {'日期': '08-03', '移动': 2923, '联通': 7000, '电信': 800},
                         {'日期': '08-04', '移动': 1723, '联通': 6000, '电信': 60000},
                         {'日期': '08-05', '移动': 3792, '联通': 36009, '电信': 890},
-                        {'日期': '08-06', '移动': 4593, '联通': 80000, '电信': 8000}
+                        {'日期': '08-06', '移动': 4593, '联通': 80000, '电信': 8000},
+                        {'日期': '08-07', '移动': 4593, '联通': 80000, '电信': 8000},
+                        {'日期': '08-08', '移动': 4593, '联通': 80000, '电信': 8000},
+                        {'日期': '08-09', '移动': 4593, '联通': 80000, '电信': 8000},
+                        {'日期': '08-10', '移动': 4593, '联通': 80000, '电信': 8000},
+                        {'日期': '08-11', '移动': 4593, '联通': 80000, '电信': 8000},
+                        {'日期': '08-12', '移动': 4593, '联通': 80000, '电信': 8000},
+                        {'日期': '08-13', '移动': 4593, '联通': 80000, '电信': 8000},
+                        {'日期': '08-14', '移动': 4593, '联通': 80000, '电信': 8000},
+                        {'日期': '08-15', '移动': 4593, '联通': 80000, '电信': 8000}
                     ]
+                },
+                flowChartSetting: {
+                    type: 'line'
                 }
             }
         },
@@ -214,6 +261,9 @@
             initData() {
                 this.username = this.$store.state.user.username;
                 this.userFace = this.$store.state.user.userFace;
+            },
+            changeFlowChart(type) {
+                this.flowChartSetting.type = type;
             }
         },
         mounted() {

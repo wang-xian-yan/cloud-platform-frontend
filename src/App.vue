@@ -16,6 +16,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: left;
+    left: 0;
+    top: 0;
     color: #2c3e50;
   }
 

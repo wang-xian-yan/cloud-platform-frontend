@@ -1,21 +1,28 @@
 <template>
   <div class="login">
-    <el-form :model="loginForm" :rules="rules" class="loginForm">
-      <el-form-item prop="username">
-        <el-input placeholder="邮箱" v-model="loginForm.username"></el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input placeholder="密码" type="password" v-model="loginForm.password"></el-input>
-      </el-form-item>
-      <el-form-item prop="verifyCode">
-        <el-input placeholder="验证码" v-model="loginForm.verifyCode" style="width:70%"></el-input>
-        <el-image :src="verifyCodeImgUrl" @click="getVerifyCodeUrl" style="vertical-align:middle"></el-image>
-      </el-form-item>
-      <el-input v-model="loginForm.verifyCodeId" type="hidden"></el-input>
-      <el-form-item>
-        <el-button type="primary" class="btn-long" @click="login" :loading="loading">登录</el-button>
-      </el-form-item>
-    </el-form>
+
+    <div class="loginForm">
+      <div style="text-align: center;font-size: 22px;color: white ">
+        <span>平台登录</span>
+      </div>
+
+      <el-form :model="loginForm" :rules="rules" ref="loginForm">
+        <el-form-item prop="username">
+          <el-input placeholder="邮箱" v-model="loginForm.username"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input placeholder="密码" type="password" v-model="loginForm.password"></el-input>
+        </el-form-item>
+        <el-form-item prop="verifyCode">
+          <el-input placeholder="验证码" v-model="loginForm.verifyCode" style="width:70%"></el-input>
+          <el-image :src="verifyCodeImgUrl" @click="getVerifyCodeUrl" style="vertical-align:middle"></el-image>
+        </el-form-item>
+        <el-input v-model="loginForm.verifyCodeId" type="hidden"></el-input>
+        <el-form-item>
+          <el-button type="primary" class="btn-long" @click="login('loginForm')" :loading="loading">登录</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -44,30 +51,36 @@
             };
         },
         methods: {
-            login() {
-                const _this = this;
-                _this.loading = true;
-                const params = {
-                    username: this.loginForm.username,
-                    password: this.loginForm.password,
-                    verifyCode: this.loginForm.verifyCode,
-                    verifyCodeId: this.loginForm.verifyCodeId
-                };
-                _this
-                    .postRequest("/login", params)
-                    .then(function (response) {
-                        const data = response.data;
-                        _this.loading = false;
-                        if (data.code === "200") {
-                            _this.$store.commit('login', data);
-                            const path = _this.$route.query.redirect;
-                            _this.$router.replace({path: path === '/' || path === undefined ? '/index' : path});
-                        }
-                    })
-                    .catch(error => {
-                        console.log("login failure error:" + error);
-                        _this.loading = false;
-                    });
+            login(loginForm) {
+                this.$refs[loginForm].validate((valid) => {
+                    if (valid) {
+                        const _this = this;
+                        _this.loading = true;
+                        const params = {
+                            username: this.loginForm.username,
+                            password: this.loginForm.password,
+                            verifyCode: this.loginForm.verifyCode,
+                            verifyCodeId: this.loginForm.verifyCodeId
+                        };
+                        _this.postRequest("/login", params)
+                            .then(function (response) {
+                                const data = response.data;
+                                _this.loading = false;
+                                if (data.code === "200") {
+                                    _this.$store.commit('login', data);
+                                    const path = _this.$route.query.redirect;
+                                    _this.$router.replace({path: path === '/' || path === undefined ? '/index' : path});
+                                }
+                            })
+                            .catch(error => {
+                                console.log("login failure error:" + error);
+                                _this.loading = false;
+                            });
+                    } else {
+                        return false;
+                    }
+                });
+
             },
             getVerifyCodeUrl() {
                 const _this = this;
@@ -89,8 +102,11 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .login {
-    background-color: rgb(172, 41, 41);
+    left: 0;
+    background: url("../assets/bg.jpg") no-repeat;
+    background-size: cover;
     width: 100%;
+    position: fixed;
     height: 100%;
   }
 
