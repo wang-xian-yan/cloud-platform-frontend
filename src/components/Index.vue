@@ -113,7 +113,43 @@
               <el-row :gutter="10">
                 <el-col :span="24">
                   <el-card>
-                    <h3>{{this.$store.state.user.username}}</h3>
+                    <div>
+                      <div style="display: flex;justify-content: center">
+                        <img src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" alt=""
+                             style="width: 80px;height: 80px;border-radius: 80px">
+                      </div>
+                      <div style="margin-top:20px;font-size: 14px">
+                        <el-form label-width="80px" size="mini">
+                          <el-form-item label="公司名字:">
+                            <span style="color: #303133;font-size: 16px">{{this.$store.state.user.username}}</span>
+                          </el-form-item>
+                          <el-form-item label="姓名:">
+                            <span>{{this.$store.state.user.username}}</span>
+                          </el-form-item>
+                          <el-form-item label="邮箱:">
+                            {{this.$store.state.user.username}}
+                          </el-form-item>
+                          <el-form-item label="登录名:">
+                            {{this.$store.state.user.username}}
+                          </el-form-item>
+                          <el-form-item label="联系号码:">
+                            {{this.$store.state.user.username}}
+                          </el-form-item>
+                          <el-form-item label="联系号码:">
+                            {{this.$store.state.user.username}}
+                          </el-form-item>
+                          <el-form-item label="联系号码:">
+                            {{this.$store.state.user.username}}
+                          </el-form-item>
+                          <el-form-item label="联系号码:">
+                            {{this.$store.state.user.username}}
+                          </el-form-item>
+                          <el-form-item label="联系号码:">
+                            {{this.$store.state.user.username}}
+                          </el-form-item>
+                        </el-form>
+                      </div>
+                    </div>
                   </el-card>
                 </el-col>
               </el-row>
