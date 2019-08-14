@@ -11,11 +11,11 @@ import Enterprise from "../components/consumer/Enterprise";
 import UpdatePassword from "../components/account/UpdatePassword";
 import OperatorHistoryLog from "../components/system/OperatorHistoryLog";
 import SystemPackage from "../components/packages/SystemPackage";
-import AccountInfo from "../components/account/AccountInfo";
 import MessageCenter from "../components/account/MessageCenter";
 import CardReport from "../components/reports/CardReport";
 import RechargeReport from "../components/reports/RechargeReport";
 import UserReport from "../components/reports/UserReport";
+import AccountSetting from "../components/account/AccountSetting";
 
 Vue.use(Router);
 
@@ -35,9 +35,9 @@ export default new Router({
       },
       children: [
         {
-          path: '/account-info',
-          name: 'AccountInfo',
-          component: AccountInfo
+          path: '/account-setting',
+          name: 'AccountSetting',
+          component: AccountSetting
         }, {
           path: '/messages',
           name: 'MessageCenter',

@@ -32,7 +32,7 @@
 
 <script>
     export default {
-        name: "AccountInfo",
+        name: "AccountSetting",
         data() {
             return {
                 accountForm: {

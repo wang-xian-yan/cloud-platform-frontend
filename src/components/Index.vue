@@ -2,7 +2,7 @@
   <el-container class="home-container">
     <el-header class="home-header" style="height: 65px">
       <div>
-        <span class="header-title">{{companies}}</span>
+        <span class="header-title">{{accountInfo.enterprise.name}}</span>
       </div>
       <ul class="header-operations">
         <li @click="$router.replace('/index')" class="active el-icon-s-home"></li>
@@ -10,20 +10,26 @@
         <li>
           <el-dropdown>
                       <span class="el-dropdown-link">
-                        <el-avatar v-if="userFace!==''"
+                        <el-avatar v-if="accountInfo.userFace!==''"
                                    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
                                    style="vertical-align: middle">
                         </el-avatar>
-                        <el-avatar v-if="userFace===''" icon="el-icon-user-solid"
+                        <el-avatar v-else icon="el-icon-user-solid"
                                    style="vertical-align: middle"></el-avatar>
                         <i class="el-icon-caret-bottom">
                         </i>
                       </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                登录用户是:{{username}}
+              <el-dropdown-item v-if="accountInfo.fullName!==''">
+                登录用户是:{{accountInfo.fullName}}
               </el-dropdown-item>
-              <el-dropdown-item @click.native="accountInfo" divided>账户信息</el-dropdown-item>
+              <el-dropdown-item v-else-if="accountInfo.username!==''">
+                登录用户是:{{accountInfo.username}}
+              </el-dropdown-item>
+              <el-dropdown-item v-else>
+                登录用户是:{{accountInfo.email}}
+              </el-dropdown-item>
+              <el-dropdown-item @click.native="accountSetting" divided>账户信息</el-dropdown-item>
               <el-dropdown-item @click.native="updatePassword">修改密码</el-dropdown-item>
               <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
             </el-dropdown-menu>
@@ -118,34 +124,34 @@
                         <img src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" alt=""
                              style="width: 80px;height: 80px;border-radius: 80px">
                       </div>
-                      <div style="margin-top:20px;font-size: 14px">
+                      <div style="margin-top:15px;font-size: 14px">
                         <el-form label-width="80px" size="mini">
                           <el-form-item label="公司名字:">
-                            <span style="color: #303133;font-size: 16px">{{this.$store.state.user.username}}</span>
+                            <span style="color: #303133;font-size: 16px">{{accountInfo.enterprise.name}}</span>
                           </el-form-item>
                           <el-form-item label="姓名:">
-                            <span>{{this.$store.state.user.username}}</span>
+                            <span>{{accountInfo.fullName}}</span>
                           </el-form-item>
                           <el-form-item label="邮箱:">
-                            {{this.$store.state.user.username}}
+                            {{accountInfo.email}}
                           </el-form-item>
                           <el-form-item label="登录名:">
-                            {{this.$store.state.user.username}}
+                            {{accountInfo.username}}
                           </el-form-item>
                           <el-form-item label="联系号码:">
-                            {{this.$store.state.user.username}}
+                            {{accountInfo.phone}}
                           </el-form-item>
-                          <el-form-item label="联系号码:">
-                            {{this.$store.state.user.username}}
+                          <el-form-item label="公司地址:">
+                            {{accountInfo.enterprise.address}}
                           </el-form-item>
-                          <el-form-item label="联系号码:">
-                            {{this.$store.state.user.username}}
+                          <el-form-item label="公司法人:">
+                            {{accountInfo.enterprise.legalPerson}}
                           </el-form-item>
-                          <el-form-item label="联系号码:">
-                            {{this.$store.state.user.username}}
+                          <el-form-item label="公司号码:">
+                            {{accountInfo.enterprise.phone}}
                           </el-form-item>
-                          <el-form-item label="联系号码:">
-                            {{this.$store.state.user.username}}
+                          <el-form-item label="注册时间:">
+                            {{accountInfo.createAt}}
                           </el-form-item>
                         </el-form>
                       </div>
@@ -239,9 +245,20 @@
                 }
             };
             return {
-                companies: '简易科技物联网云平台',
-                username: '',
-                userFace: '',
+                accountInfo: {
+                    username: '',
+                    userFace: '',
+                    email: '',
+                    fullName: '',
+                    phone: '',
+                    createAt: '',
+                    enterprise: {
+                        name: '',
+                        address: '',
+                        legalPerson: '',
+                        phone: ''
+                    }
+                },
                 usersTableData: [],
                 mobileCardData: {
                     columns: ['status', 'count'],
@@ -277,8 +294,8 @@
             }
         },
         methods: {
-            accountInfo() {
-                this.$router.replace('/account-info');
+            accountSetting() {
+                this.$router.replace('/account-setting');
             },
             updatePassword() {
                 this.$router.replace('/reset-password');
@@ -295,12 +312,26 @@
                 });
             },
             initData() {
-                this.username = this.$store.state.user.username;
-                this.userFace = this.$store.state.user.userFace;
+                const _this = this;
+                _this.getRequest("/api/v1/users/current").then(response => {
+                    const data = response.data.data;
+                    console.log('当前用户信息:' + data);
+                    _this.accountInfo.enterprise.name = data.enterprise.name;
+                    _this.accountInfo.enterprise.address = data.enterprise.address;
+                    _this.accountInfo.enterprise.legalPerson = data.enterprise.legalPerson;
+                    _this.accountInfo.enterprise.phone = data.enterprise.phone;
+                    _this.accountInfo.username = data.username;
+                    _this.accountInfo.fullName = data.fullName;
+                    _this.accountInfo.email = data.email;
+                    _this.accountInfo.phone = data.enterprise.phone;
+                    _this.accountInfo.createAt = data.enterprise.createAt;
+
+                })
             },
             changeFlowChart(type) {
                 this.flowChartSetting.type = type;
             }
+
         },
         mounted() {
             this.initData();
