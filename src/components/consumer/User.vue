@@ -123,10 +123,10 @@
           <el-input v-model="resetUserPasswordForm.email" disabled></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPassword">
-          <el-input v-model="resetUserPasswordForm.newPassword"></el-input>
+          <el-input v-model="resetUserPasswordForm.newPassword" show-password></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input v-model="resetUserPasswordForm.confirmPassword"></el-input>
+          <el-input v-model="resetUserPasswordForm.confirmPassword" show-password></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

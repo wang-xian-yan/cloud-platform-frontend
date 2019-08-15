@@ -11,7 +11,7 @@
           <el-input placeholder="邮箱" v-model="loginForm.username"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input placeholder="密码" type="password" v-model="loginForm.password"></el-input>
+          <el-input placeholder="密码" type="password" v-model="loginForm.password" show-password></el-input>
         </el-form-item>
         <el-form-item prop="verifyCode">
           <el-input placeholder="验证码" v-model="loginForm.verifyCode" style="width:70%"></el-input>
