@@ -15,6 +15,10 @@
         size="small"
         style="width: 100%">
         <el-table-column
+          type="selection"
+          width="40">
+        </el-table-column>
+        <el-table-column
           prop="id"
           label="#"
           width="180">
@@ -121,7 +125,8 @@
                     isEnabled: false,
                     description: '',
                     userId: null,
-                    enterpriseId: null
+                    enterpriseId: null,
+                    createAt: null
                 },
                 propertyFormType: 'create',
                 propertyFormTitle: '新增配置属性',
@@ -145,11 +150,13 @@
                 };
                 const _this = this;
                 _this.postRequest("/api/v1/system-properties", params).then(response => {
+                    _this.propertyFormVisible = false;
                     _this.$message({
                         type: 'success',
                         message: response.data.message,
                         showClose: true
-                    })
+                    });
+                    _this.searchProperties();
                 })
             },
             editProperty() {
@@ -161,18 +168,20 @@
                     description: this.propertyForm.description,
                     userId: this.propertyForm.userId,
                     enterpriseId: this.propertyForm.enterpriseId,
+                    createAt: this.propertyForm.createAt
                 };
                 const _this = this;
                 _this.putRequest("/api/v1/system-properties", params).then(response => {
+                    _this.propertyFormVisible = false;
                     _this.$message({
                         type: 'success',
                         message: response.data.message,
                         showClose: true
-                    })
+                    });
+                    _this.searchProperties();
                 })
             },
             showEditPropertyForm(row) {
-                console.log('数据:' + JSON.stringify(row));
                 this.propertyFormVisible = true;
                 this.propertyFormType = 'update';
                 this.propertyFormTitle = '修改系统属性';
@@ -183,6 +192,7 @@
                 this.propertyForm.description = row.description;
                 this.propertyForm.userId = row.userId;
                 this.propertyForm.enterpriseId = row.enterpriseId;
+                this.propertyForm.createAt = row.createAt;
             },
             cancelPropertyForm() {
                 this.propertyForm.id = null;
@@ -192,11 +202,9 @@
                 this.propertyForm.description = '';
                 this.propertyForm.userId = null;
                 this.propertyForm.enterpriseId = null;
+                this.propertyForm.createAt = null;
                 this.propertyFormVisible = false;
 
-            },
-
-            editProperty() {
             },
             searchProperties() {
                 const _this = this;
