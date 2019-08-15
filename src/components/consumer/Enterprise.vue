@@ -7,7 +7,8 @@
       <el-table
         :data="enterpriseTable"
         style="width: 100%"
-        border>
+        border
+        size="small">
         <el-table-column
           type="selection"
           width="40">

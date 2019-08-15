@@ -32,7 +32,8 @@
       <el-table
         :data="usersTableData"
         style="width: 100%"
-        border>
+        border
+        size="small">
         <el-table-column
           type="selection"
           width="40">
@@ -79,9 +80,15 @@
         </el-table-column>
         <el-table-column
           prop="isEnabled"
-          :formatter="formatEnabled"
           label="是否启用"
           width="120">
+          <template slot-scope="scope">
+            <el-tag type="success" size="mini" v-if="scope.row.isEnabled">启用
+            </el-tag>
+            <el-tag type="danger" size="mini" v-if="!scope.row.isEnabled">
+              禁用
+            </el-tag>
+          </template>
         </el-table-column>
         <el-table-column
           fixed="right"
@@ -330,9 +337,6 @@
                     }).catch(error => {
                     console.log("search user error:" + error);
                 });
-            },
-            formatEnabled(row, column) {
-                return row.isEnabled ? "启用" : "未启用";
             },
             showResetUserPassword(row) {
                 this.resetUserPasswordVisible = true;
