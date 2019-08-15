@@ -16,6 +16,8 @@ import CardReport from "../components/reports/CardReport";
 import RechargeReport from "../components/reports/RechargeReport";
 import UserReport from "../components/reports/UserReport";
 import AccountSetting from "../components/account/AccountSetting";
+import SystemPropertySetting from "../components/system/SystemPropertySetting";
+import EmailSend from "../components/system/EmailSend";
 
 Vue.use(Router);
 
@@ -94,6 +96,14 @@ export default new Router({
           path: '/systems/history',
           name: 'OperatorHistoryLog',
           component: OperatorHistoryLog
+        }, {
+          path: '/systems/property-setting',
+          name: 'SystemPropertySetting',
+          component: SystemPropertySetting
+        }, {
+          path: '/systems/email-send',
+          name: 'EmailSend',
+          component: EmailSend
         }]
     }
   ]
