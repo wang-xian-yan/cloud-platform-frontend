@@ -6,16 +6,11 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VCharts from 'v-charts'
-import VueQuillEditor from 'vue-quill-editor'
-// require styles
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {deleteRequest, getRequest, postRequest, putRequest} from './util/api'
+// require styles
 
 const baseURL = "http://49.234.133.55:8081";
 // const baseURL = "http://localhost:8083";
@@ -23,7 +18,6 @@ axios.defaults.baseURL = baseURL;
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 Vue.use(VCharts);
-Vue.use(VueQuillEditor, /* { default global options } */)
 Vue.prototype.baseUrl = baseURL;
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.postRequest = postRequest;

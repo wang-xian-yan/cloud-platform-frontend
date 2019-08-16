@@ -13,20 +13,23 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="sendEmail">发送</el-button>
+          <el-button v-on:click="getContent">查看内容</el-button>
         </el-form-item>
       </el-form>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="24">
-        <quill-editor v-model="emailForm.content" :options="editorOption" style="height: 400px">
-        </quill-editor>
+        <div ref="content" style="text-align:left"></div>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+    import E from 'wangeditor'
+
     export default {
+
         name: "EmailSend",
         data() {
             return {
@@ -36,10 +39,13 @@
                     cc: '',
                     content: ''
                 },
-                editorOption: {}
+                content: ''
             }
         },
         methods: {
+            getContent: function () {
+                alert(this.emailForm.content)
+            },
             sendEmail() {
                 const _this = this;
                 const subject = _this.emailForm.subject;
@@ -61,6 +67,13 @@
                 })
 
             }
+        },
+        mounted() {
+            const editor = new E(this.$refs.content);
+            editor.customConfig.onchange = (html) => {
+                this.emailForm.content = html
+            };
+            editor.create()
         }
     }
 </script>
