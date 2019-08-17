@@ -9,7 +9,7 @@ import Role from "../components/consumer/Role";
 import MenuAuthority from "../components/consumer/MenuAuthority";
 import Enterprise from "../components/consumer/Enterprise";
 import UpdatePassword from "../components/account/UpdatePassword";
-import OperatorHistoryLog from "../components/system/OperatorHistoryLog";
+import LoginHistoryLog from "../components/system/LoginHistoryLog";
 import SystemPackage from "../components/packages/SystemPackage";
 import MessageCenter from "../components/account/MessageCenter";
 import CardReport from "../components/reports/CardReport";
@@ -93,9 +93,9 @@ export default new Router({
           name: 'RechargeReport',
           component: RechargeReport
         }, {
-          path: '/systems/history',
-          name: 'OperatorHistoryLog',
-          component: OperatorHistoryLog
+          path: '/systems/login-history',
+          name: 'LoginHistoryLog',
+          component: LoginHistoryLog
         }, {
           path: '/systems/property-setting',
           name: 'SystemPropertySetting',

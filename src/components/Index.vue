@@ -106,7 +106,7 @@
             </template>
             <el-menu-item index="/systems/account">账户设置</el-menu-item>
             <el-menu-item index="/systems/gzh">公众号配置</el-menu-item>
-            <el-menu-item index="/systems/history">操作历史</el-menu-item>
+            <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
             <el-menu-item index="/systems/property-setting">属性设置</el-menu-item>
             <el-menu-item index="/systems/email-send">发送邮箱</el-menu-item>
 
