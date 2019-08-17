@@ -1,119 +1,130 @@
 <template>
-  <el-container class="home-container">
-    <el-header class="home-header" style="height: 65px">
-      <div>
-        <span class="header-title">{{accountInfo.enterprise.name}}</span>
+  <el-container>
+    <el-aside width="auto" style="height: 100%">
+      <div class="app-logo">
+        <a href="/">
+          <span
+            class="app-logo-icon"></span>
+          <span
+            class="app-logo-text" v-if="!isCollapse">{{accountInfo.enterprise.name}}</span></a>
       </div>
-      <ul class="header-operations">
-        <li @click="$router.replace('/index')" class="active el-icon-s-home"></li>
-        <li @click="$router.replace('/messages')" class="el-icon-message"></li>
-        <li>
-          <el-dropdown>
+      <el-menu :default-active="$route.path" :collapse="isCollapse" class="el-menu-vertical-demo"
+               router>
+        <el-menu-item index="/index">
+          <i class="el-icon-menu"></i>
+          <span slot="title">Dashboard</span>
+        </el-menu-item>
+        <el-submenu index="/cards">
+          <template slot="title">
+            <i class="el-icon-bank-card"></i>
+            <span slot="title">卡片管理</span>
+          </template>
+          <el-menu-item index="/cards/list">卡片列表</el-menu-item>
+          <el-menu-item index="/cards/transfer">划拨记录</el-menu-item>
+        </el-submenu>
+        <el-submenu index="/packages">
+          <template slot="title">
+            <i class="el-icon-document"></i>
+            <span slot="title">套餐管理</span>
+          </template>
+          <el-menu-item index="/packages/system">系统套餐</el-menu-item>
+          <el-menu-item index="/packages/list">我的套餐</el-menu-item>
+          <el-menu-item index="/packages/distribution">套餐分配</el-menu-item>
+        </el-submenu>
+        <el-submenu index="/operators">
+          <template slot="title">
+            <i class="el-icon-s-platform"></i>
+            <span slot="title">运营管理</span>
+          </template>
+          <el-menu-item index="/operators/a">营销活动</el-menu-item>
+          <el-menu-item index="/operators/b">黑名单</el-menu-item>
+          <el-menu-item index="/operators/c">分润</el-menu-item>
+        </el-submenu>
+        <el-submenu index="/orders">
+          <template slot="title">
+            <i class="el-icon-s-order"></i>
+            <span slot="title">订单管理</span>
+          </template>
+          <el-menu-item index="/orders/card">卡片订单</el-menu-item>
+          <el-menu-item index="/orders/card-pool">卡池订单</el-menu-item>
+          <el-menu-item index="/orders/equipment">设备订单</el-menu-item>
+        </el-submenu>
+        <el-submenu index="/consumers">
+          <template slot="title">
+            <i class="el-icon-user"></i>
+            <span slot="title">客户管理</span>
+          </template>
+          <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
+          <el-menu-item index="/consumers/users">用户档案</el-menu-item>
+          <el-menu-item index="/consumers/roles">客户角色</el-menu-item>
+          <el-menu-item index="/consumers/menu-authority">菜单权限</el-menu-item>
+        </el-submenu>
+        <el-submenu index="/reports">
+          <template slot="title">
+            <i class="el-icon-data-board"></i>
+            <span slot="title">数据报表</span>
+          </template>
+          <el-menu-item index="/reports/card">卡片报表</el-menu-item>
+          <el-menu-item index="/reports/user">用户报表</el-menu-item>
+          <el-menu-item index="/reports/recharge">充值报表</el-menu-item>
+        </el-submenu>
+        <el-submenu index="/systems">
+          <template slot="title">
+            <i class="el-icon-setting"></i>
+            <span slot="title">系统管理</span>
+          </template>
+          <el-menu-item index="/systems/gzh">公众号配置</el-menu-item>
+          <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
+          <el-menu-item index="/systems/property-setting">系统配置</el-menu-item>
+          <el-menu-item index="/systems/email-send">邮件发送</el-menu-item>
+        </el-submenu>
+      </el-menu>
+    </el-aside>
+
+    <el-container style="width: 100%">
+      <el-header style="height: 65px;">
+        <div class="home-header">
+          <div style="width: 50px;float: left">
+            <el-button :icon="isCollapseIcon" @click="handlerIsCollapse" type="success"></el-button>
+          </div>
+          <div class="header-operations">
+            <a @click="$router.replace('/index')"><i class="active el-icon-s-home"></i></a>
+            <a @click="$router.replace('/messages')"><i class="el-icon-message"></i></a>
+            <a>
+              <el-dropdown>
                       <span class="el-dropdown-link">
-                        <el-avatar v-if="accountInfo.userFace!==''"
-                                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                                   style="vertical-align: middle">
-                        </el-avatar>
-                        <el-avatar v-else icon="el-icon-user-solid"
-                                   style="vertical-align: middle"></el-avatar>
-                        <i class="el-icon-caret-bottom">
+                            <label v-if="accountInfo.fullName!==''">{{accountInfo.fullName}}</label>
+                            <label v-else-if="accountInfo.username!==''">{{accountInfo.username}}</label>
+                            <label v-else>{{accountInfo.email}}</label>
+                        <!--                        <el-avatar v-if="accountInfo.userFace!==''"-->
+                        <!--                                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"-->
+                        <!--                                   style="vertical-align: middle">-->
+                        <!--                        </el-avatar>-->
+                        <!--                        <el-avatar v-else icon="el-icon-user-solid"-->
+                        <!--                                   style="vertical-align: middle"></el-avatar>-->
+                        <i class="el-icon-arrow-down">
                         </i>
                       </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-if="accountInfo.fullName!==''">
-                登录用户是:{{accountInfo.fullName}}
-              </el-dropdown-item>
-              <el-dropdown-item v-else-if="accountInfo.username!==''">
-                登录用户是:{{accountInfo.username}}
-              </el-dropdown-item>
-              <el-dropdown-item v-else>
-                登录用户是:{{accountInfo.email}}
-              </el-dropdown-item>
-              <el-dropdown-item @click.native="accountSetting" divided>账户信息</el-dropdown-item>
-              <el-dropdown-item @click.native="updatePassword">修改密码</el-dropdown-item>
-              <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>
-      </ul>
-    </el-header>
-    <el-container>
-      <el-aside class="home-aside" style="width: 250px">
-        <el-menu :default-active="$route.path"
-                 style="height: 100%;" router>
-          <el-menu-item index="/index">
-            <i class="el-icon-menu"></i>
-            <span slot="title">Dashboard</span>
-          </el-menu-item>
-          <el-submenu index="/cards">
-            <template slot="title">
-              <i class="el-icon-bank-card"></i>
-              <span slot="title">卡片管理</span>
-            </template>
-            <el-menu-item index="/cards/list">卡片列表</el-menu-item>
-            <el-menu-item index="/cards/transfer">划拨记录</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/packages">
-            <template slot="title">
-              <i class="el-icon-document"></i>
-              <span slot="title">套餐管理</span>
-            </template>
-            <el-menu-item index="/packages/system">系统套餐</el-menu-item>
-            <el-menu-item index="/packages/list">我的套餐</el-menu-item>
-            <el-menu-item index="/packages/distribution">套餐分配</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/operators">
-            <template slot="title">
-              <i class="el-icon-s-platform"></i>
-              <span slot="title">运营管理</span>
-            </template>
-            <el-menu-item index="/operators/a">营销活动</el-menu-item>
-            <el-menu-item index="/operators/b">黑名单</el-menu-item>
-            <el-menu-item index="/operators/c">分润</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/orders">
-            <template slot="title">
-              <i class="el-icon-s-order"></i>
-              <span slot="title">订单管理</span>
-            </template>
-            <el-menu-item index="/orders/card">卡片订单</el-menu-item>
-            <el-menu-item index="/orders/card-pool">卡池订单</el-menu-item>
-            <el-menu-item index="/orders/equipment">设备订单</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/consumers">
-            <template slot="title">
-              <i class="el-icon-user"></i>
-              <span slot="title">客户管理</span>
-            </template>
-            <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
-            <el-menu-item index="/consumers/users">用户档案</el-menu-item>
-            <el-menu-item index="/consumers/roles">客户角色</el-menu-item>
-            <el-menu-item index="/consumers/menu-authority">菜单权限</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/reports">
-            <template slot="title">
-              <i class="el-icon-data-board"></i>
-              <span slot="title">数据报表</span>
-            </template>
-            <el-menu-item index="/reports/card">卡片报表</el-menu-item>
-            <el-menu-item index="/reports/user">用户报表</el-menu-item>
-            <el-menu-item index="/reports/recharge">充值报表</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/systems">
-            <template slot="title">
-              <i class="el-icon-setting"></i>
-              <span slot="title">系统管理</span>
-            </template>
-            <el-menu-item index="/systems/account">账户设置</el-menu-item>
-            <el-menu-item index="/systems/gzh">公众号配置</el-menu-item>
-            <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
-            <el-menu-item index="/systems/property-setting">属性设置</el-menu-item>
-            <el-menu-item index="/systems/email-send">发送邮箱</el-menu-item>
-
-          </el-submenu>
-        </el-menu>
-      </el-aside>
-      <el-main>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-if="accountInfo.fullName!==''">
+                    登录用户是:{{accountInfo.fullName}}
+                  </el-dropdown-item>
+                  <el-dropdown-item v-else-if="accountInfo.username!==''">
+                    登录用户是:{{accountInfo.username}}
+                  </el-dropdown-item>
+                  <el-dropdown-item v-else>
+                    登录用户是:{{accountInfo.email}}
+                  </el-dropdown-item>
+                  <el-dropdown-item @click.native="accountBasic" divided>账户信息</el-dropdown-item>
+                  <el-dropdown-item @click.native="updatePassword">修改密码</el-dropdown-item>
+                  <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </a>
+          </div>
+        </div>
+      </el-header>
+      <el-main style="background-color: #EBEEF5;height: 100%">
         <div v-if="$route.path ==='/index'">
           <el-row :gutter="10">
             <el-col :span="6">
@@ -246,6 +257,8 @@
                 }
             };
             return {
+                isCollapse: false,
+                isCollapseIcon: 'el-icon-s-fold',
                 accountInfo: {
                     username: '',
                     userFace: '',
@@ -295,8 +308,19 @@
             }
         },
         methods: {
-            accountSetting() {
-                this.$router.replace('/account-setting');
+            handlerIsCollapse() {
+                let flag = true;
+                flag = !this.isCollapse;
+                if (flag) {
+                    this.isCollapse = true;
+                    this.isCollapseIcon = 'el-icon-s-unfold';
+                } else {
+                    this.isCollapse = false;
+                    this.isCollapseIcon = 'el-icon-s-fold';
+                }
+            },
+            accountBasic() {
+                this.$router.replace('/account-basic');
             },
             updatePassword() {
                 this.$router.replace('/reset-password');
@@ -341,51 +365,63 @@
 </script>
 
 <style>
-  .home-container {
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 250px;
+    min-height: 400px;
   }
 
   .home-header {
-    background-color: #20a0ff;
-    /*background-color: #545c64;*/
-    color: #333;
-    text-align: left;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: content-box;
-  }
-
-  .header-title {
-    color: #fff;
-    font-size: 22px;
-    display: inline;
-    margin-left: 8px;
+    line-height: 65px;
+    color: black;
   }
 
   .header-operations {
-    display: inline-block;
     float: right;
     padding-right: 30px;
+    color: #333;
     height: 100%;
   }
 
-  .header-operations li {
-    color: #fff;
-    display: inline-block;
-    vertical-align: middle;
-    /*padding: 0 10px;*/
+  .header-operations a {
+    text-align: center;
+    padding: 0 10px;
     margin: 0 10px;
-    line-height: 65px;
-    cursor: pointer;
   }
 
-  .home-aside {
-    width: 200px;
+  .app-logo {
+    font-family: Futura, Helvetica Neue For Number, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+    padding-left: 24px;
+    line-height: 65px;
+    height: 65px;
+    overflow: hidden;
+    white-space: nowrap;
+    -webkit-transition: padding .3s;
+    transition: padding .3s;
+  }
+
+  .app-logo .app-logo-icon {
+    background-image: url("../assets/logo.png");
+    background-size: contain;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    margin-right: 0;
+    -webkit-transition: .3s;
+    transition: .3s;
+    vertical-align: middle;
+  }
+
+  .app-logo .app-logo-text {
+    font-size: 18px;
+    vertical-align: middle;
+  }
+
+  .app-logo a {
+    color: #3788ee;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    -webkit-transition: color .2s ease;
+    transition: color .2s ease;
   }
 </style>

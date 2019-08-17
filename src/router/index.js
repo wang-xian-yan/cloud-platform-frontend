@@ -15,7 +15,7 @@ import MessageCenter from "../components/account/MessageCenter";
 import CardReport from "../components/reports/CardReport";
 import RechargeReport from "../components/reports/RechargeReport";
 import UserReport from "../components/reports/UserReport";
-import AccountSetting from "../components/account/AccountSetting";
+import AccountBasic from "../components/account/AccountBasic";
 import SystemPropertySetting from "../components/system/SystemPropertySetting";
 import EmailSend from "../components/system/EmailSend";
 
@@ -37,9 +37,9 @@ export default new Router({
       },
       children: [
         {
-          path: '/account-setting',
-          name: 'AccountSetting',
-          component: AccountSetting
+          path: '/account-basic',
+          name: 'AccountBasic',
+          component: AccountBasic
         }, {
           path: '/messages',
           name: 'MessageCenter',

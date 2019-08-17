@@ -18,6 +18,9 @@
     text-align: left;
     left: 0;
     top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
     color: #2c3e50;
   }
 
