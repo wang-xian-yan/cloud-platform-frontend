@@ -1,87 +1,89 @@
 <template>
-  <el-container>
-    <el-aside width="auto" style="height: 100%">
+  <el-container style="height: 100%;width:100%;">
+    <el-aside width="auto">
       <div class="app-logo">
         <a href="/">
-          <span
-            class="app-logo-icon"></span>
+                <span
+                  class="app-logo-icon"></span>
           <span
             class="app-logo-text" v-if="!isCollapse">{{accountInfo.enterprise.name}}</span></a>
       </div>
-      <el-menu :default-active="$route.path" :collapse="isCollapse" class="el-menu-vertical-demo"
-               router>
-        <el-menu-item index="/index">
-          <i class="el-icon-menu"></i>
-          <span slot="title">Dashboard</span>
-        </el-menu-item>
-        <el-submenu index="/cards">
-          <template slot="title">
-            <i class="el-icon-bank-card"></i>
-            <span slot="title">卡片管理</span>
-          </template>
-          <el-menu-item index="/cards/list">卡片列表</el-menu-item>
-          <el-menu-item index="/cards/transfer">划拨记录</el-menu-item>
-        </el-submenu>
-        <el-submenu index="/packages">
-          <template slot="title">
-            <i class="el-icon-document"></i>
-            <span slot="title">套餐管理</span>
-          </template>
-          <el-menu-item index="/packages/system">系统套餐</el-menu-item>
-          <el-menu-item index="/packages/list">我的套餐</el-menu-item>
-          <el-menu-item index="/packages/distribution">套餐分配</el-menu-item>
-        </el-submenu>
-        <el-submenu index="/operators">
-          <template slot="title">
-            <i class="el-icon-s-platform"></i>
-            <span slot="title">运营管理</span>
-          </template>
-          <el-menu-item index="/operators/a">营销活动</el-menu-item>
-          <el-menu-item index="/operators/b">黑名单</el-menu-item>
-          <el-menu-item index="/operators/c">分润</el-menu-item>
-        </el-submenu>
-        <el-submenu index="/orders">
-          <template slot="title">
-            <i class="el-icon-s-order"></i>
-            <span slot="title">订单管理</span>
-          </template>
-          <el-menu-item index="/orders/card">卡片订单</el-menu-item>
-          <el-menu-item index="/orders/card-pool">卡池订单</el-menu-item>
-          <el-menu-item index="/orders/equipment">设备订单</el-menu-item>
-        </el-submenu>
-        <el-submenu index="/consumers">
-          <template slot="title">
-            <i class="el-icon-user"></i>
-            <span slot="title">客户管理</span>
-          </template>
-          <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
-          <el-menu-item index="/consumers/users">用户档案</el-menu-item>
-          <el-menu-item index="/consumers/roles">客户角色</el-menu-item>
-          <el-menu-item index="/consumers/menu-authority">菜单权限</el-menu-item>
-        </el-submenu>
-        <el-submenu index="/reports">
-          <template slot="title">
-            <i class="el-icon-data-board"></i>
-            <span slot="title">数据报表</span>
-          </template>
-          <el-menu-item index="/reports/card">卡片报表</el-menu-item>
-          <el-menu-item index="/reports/user">用户报表</el-menu-item>
-          <el-menu-item index="/reports/recharge">充值报表</el-menu-item>
-        </el-submenu>
-        <el-submenu index="/systems">
-          <template slot="title">
-            <i class="el-icon-setting"></i>
-            <span slot="title">系统管理</span>
-          </template>
-          <el-menu-item index="/systems/gzh">公众号配置</el-menu-item>
-          <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
-          <el-menu-item index="/systems/property-setting">系统配置</el-menu-item>
-          <el-menu-item index="/systems/email-send">邮件发送</el-menu-item>
-        </el-submenu>
-      </el-menu>
+      <div>
+        <el-menu :default-active="$route.path" :collapse="isCollapse" style="height: 100%;"
+                 class="el-menu-vertical-demo"
+                 router>
+          <el-menu-item index="/index">
+            <i class="el-icon-menu"></i>
+            <span slot="title">Dashboard</span>
+          </el-menu-item>
+          <el-submenu index="/cards">
+            <template slot="title">
+              <i class="el-icon-bank-card"></i>
+              <span slot="title">卡片管理</span>
+            </template>
+            <el-menu-item index="/cards/list">卡片列表</el-menu-item>
+            <el-menu-item index="/cards/transfer">划拨记录</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/packages">
+            <template slot="title">
+              <i class="el-icon-document"></i>
+              <span slot="title">套餐管理</span>
+            </template>
+            <el-menu-item index="/packages/system">系统套餐</el-menu-item>
+            <el-menu-item index="/packages/list">我的套餐</el-menu-item>
+            <el-menu-item index="/packages/distribution">套餐分配</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/operators">
+            <template slot="title">
+              <i class="el-icon-s-platform"></i>
+              <span slot="title">运营管理</span>
+            </template>
+            <el-menu-item index="/operators/a">营销活动</el-menu-item>
+            <el-menu-item index="/operators/b">黑名单</el-menu-item>
+            <el-menu-item index="/operators/c">分润</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/orders">
+            <template slot="title">
+              <i class="el-icon-s-order"></i>
+              <span slot="title">订单管理</span>
+            </template>
+            <el-menu-item index="/orders/card">卡片订单</el-menu-item>
+            <el-menu-item index="/orders/card-pool">卡池订单</el-menu-item>
+            <el-menu-item index="/orders/equipment">设备订单</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/consumers">
+            <template slot="title">
+              <i class="el-icon-user"></i>
+              <span slot="title">客户管理</span>
+            </template>
+            <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
+            <el-menu-item index="/consumers/users">用户档案</el-menu-item>
+            <el-menu-item index="/consumers/roles">客户角色</el-menu-item>
+            <el-menu-item index="/consumers/menu-authority">菜单权限</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/reports">
+            <template slot="title">
+              <i class="el-icon-data-board"></i>
+              <span slot="title">数据报表</span>
+            </template>
+            <el-menu-item index="/reports/card">卡片报表</el-menu-item>
+            <el-menu-item index="/reports/user">用户报表</el-menu-item>
+            <el-menu-item index="/reports/recharge">充值报表</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/systems">
+            <template slot="title">
+              <i class="el-icon-setting"></i>
+              <span slot="title">系统管理</span>
+            </template>
+            <el-menu-item index="/systems/gzh">公众号配置</el-menu-item>
+            <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
+            <el-menu-item index="/systems/property-setting">系统配置</el-menu-item>
+            <el-menu-item index="/systems/email-send">邮件发送</el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </div>
     </el-aside>
-
-    <el-container style="width: 100%">
+    <el-container>
       <el-header style="height: 65px;">
         <div class="home-header">
           <div style="width: 50px;float: left">
@@ -124,7 +126,7 @@
           </div>
         </div>
       </el-header>
-      <el-main style="background-color: #EBEEF5;height: 100%">
+      <el-main style="background-color: #EBEEF5;">
         <div v-if="$route.path ==='/index'">
           <el-row :gutter="10">
             <el-col :span="6">
@@ -386,6 +388,11 @@
     text-align: center;
     padding: 0 10px;
     margin: 0 10px;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    -webkit-transition: color .2s ease;
+    transition: color .2s ease;
   }
 
   .app-logo {
@@ -412,7 +419,7 @@
   }
 
   .app-logo .app-logo-text {
-    font-size: 18px;
+    font-size: 20px;
     vertical-align: middle;
   }
 
