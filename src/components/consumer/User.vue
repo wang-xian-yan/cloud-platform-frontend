@@ -48,19 +48,19 @@
           prop="email"
           label="邮件"
           :showOverflowTooltip=true
-          width="220">
+          width="180">
         </el-table-column>
         <el-table-column
           prop="username"
           label="登录名"
           :showOverflowTooltip=true
-          width="150">
+          width="80">
         </el-table-column>
         <el-table-column
           prop="fullName"
           label="姓名"
           :showOverflowTooltip=true
-          width="150">
+          width="100">
         </el-table-column>
         <el-table-column
           prop="enterprise.name"
@@ -71,17 +71,17 @@
         <el-table-column
           prop="createAt"
           label="创建时间"
-          width="180">
+          width="140">
         </el-table-column>
         <el-table-column
           prop="modifiedAt"
           label="更新时间"
-          width="180">
+          width="140">
         </el-table-column>
         <el-table-column
           prop="isEnabled"
-          label="是否启用"
-          width="120">
+          label="状态"
+          width="70">
           <template slot-scope="scope">
             <el-tag type="success" size="mini" v-if="scope.row.isEnabled">启用
             </el-tag>

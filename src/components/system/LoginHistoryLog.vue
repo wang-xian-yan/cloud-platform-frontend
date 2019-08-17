@@ -4,29 +4,33 @@
       <el-table
         :data="loginHistoryTable"
         style="width: 100%"
-      size="small"
-      border>
+        size="small"
+        border>
         <el-table-column
           prop="username"
           label="登录名"
-          width="180">
+          width="120">
         </el-table-column>
         <el-table-column
-          prop="name"
-          label=""
+          prop="token"
+          label="登录token"
+          :showOverflowTooltip=true
           width="180">
         </el-table-column>
         <el-table-column
           prop="ipAddress"
-          label="登录IP">
+          label="登录IP"
+          width="150">
         </el-table-column>
         <el-table-column
           prop="ipAddressInfo"
-          label="IP地址信息">
+          label="IP地址信息"
+          width="150">
         </el-table-column>
         <el-table-column
           prop="createAt"
-          label="登录时间">
+          label="登录时间"
+          width="140">
         </el-table-column>
       </el-table>
     </el-row>
@@ -73,7 +77,7 @@
                     _this.pageSize = data.size;
                     _this.currentPage = data.number + 1;
                 });
-            },handleSizeChange(val) {
+            }, handleSizeChange(val) {
                 this.pageSize = val;
                 this.searchHistory();
             },
