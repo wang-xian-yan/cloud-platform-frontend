@@ -2,7 +2,6 @@
   <el-container style="height: 100%;width:100%;">
     <el-aside width="auto">
       <el-scrollbar class="default-scrollbar" wrap-class="default-scrollbar__wrap" view-class="default-scrollbar__view">
-
         <div class="app-logo">
           <a href="/">
                 <span
@@ -11,7 +10,7 @@
               class="app-logo-text" v-if="!isCollapse">{{accountInfo.enterprise.name}}</span></a>
         </div>
         <div>
-          <el-menu :default-active="$route.path" :collapse="isCollapse" style="height: 100%;"
+          <el-menu :default-active="$route.path" :collapse="isCollapse" :style="{'background-color':theme.navColor}"
                    class="el-menu-vertical-demo"
                    router>
             <el-menu-item index="/index">
@@ -88,7 +87,7 @@
 
     </el-aside>
     <el-container>
-      <el-header style="height: 65px;">
+      <el-header style="height: 65px;" :style="{'background-color':theme.navColor}">
         <div class="home-header">
           <div style="width: 50px;float: left">
             <el-button :icon="isCollapseIcon" @click="handlerIsCollapse" type="success" size="small"></el-button>
@@ -266,6 +265,9 @@
                 }
             };
             return {
+                theme:{
+                    navColor: '#ffffff'
+                },
                 isCollapse: false,
                 isCollapseIcon: 'el-icon-s-fold',
                 accountInfo: {
@@ -374,8 +376,6 @@
 </script>
 
 <style>
-
-
   .default-scrollbar {
     width: 100%;
     height: 100%;
