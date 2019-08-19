@@ -101,14 +101,24 @@
             <a @click="$router.replace('/messages')"><i class="el-icon-message-solid"></i></a>
             <a>
               <el-dropdown>
-                      <span class="el-dropdown-link" style="color: white">
-                                                <el-avatar v-if="accountInfo.userFace!==''"
-                                                      class="user-face"></el-avatar>
-                                                <el-avatar v-else icon="el-icon-user-solid"
-                                                           class="user-face"></el-avatar>
+
+                <span class="el-dropdown-link" style="color: white">
+                      <el-avatar v-if="accountInfo.userFace!==''"
+                                 class="user-face"></el-avatar>
+                <el-avatar v-else icon="el-icon-user-solid"
+                           class="user-face"></el-avatar>
+                  <!--                         <label v-if="accountInfo.fullName!==''">-->
+                  <!--                    {{accountInfo.fullName}}-->
+                  <!--                  </label>-->
+                  <!--                  <label v-else-if="accountInfo.username!==''">-->
+                  <!--                    {{accountInfo.username}}-->
+                  <!--                  </label>-->
+                  <!--                  <label v-else>-->
+                  <!--                    {{accountInfo.email}}-->
+                  <!--                  </label>-->
                         <i class="el-icon-arrow-down">
                         </i>
-                      </span>
+                </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item v-if="accountInfo.fullName!==''">
                     登录用户是:{{accountInfo.fullName}}
@@ -124,6 +134,7 @@
                   <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
+
             </a>
           </div>
         </div>
@@ -389,9 +400,6 @@
     overflow-x: auto;
   }
 
-  .el-scrollbar__view.default-scrollbar__view {
-  }
-
   .el-scrollbar__view.p20-scrollbar__view {
     padding: 20px;
     box-sizing: border-box;
@@ -403,7 +411,7 @@
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 250px;
-    min-height: 400px;
+    min-height: 100%;
   }
 
   .home-header {

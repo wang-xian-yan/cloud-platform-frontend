@@ -5,23 +5,24 @@
       <div style="text-align: center;font-size: 22px;color: white ">
         <span>平台登录</span>
       </div>
-
-      <el-form :model="loginForm" :rules="rules" ref="loginForm">
-        <el-form-item prop="username">
-          <el-input placeholder="邮箱" v-model="loginForm.username"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input placeholder="密码" type="password" v-model="loginForm.password" show-password></el-input>
-        </el-form-item>
-        <el-form-item prop="verifyCode">
-          <el-input placeholder="验证码" v-model="loginForm.verifyCode" style="width:70%"></el-input>
-          <el-image :src="verifyCodeImgUrl" @click="getVerifyCodeUrl" style="vertical-align:middle"></el-image>
-        </el-form-item>
-        <el-input v-model="loginForm.verifyCodeId" type="hidden"></el-input>
-        <el-form-item>
-          <el-button type="primary" class="btn-long" @click="login('loginForm')" :loading="loading">登录</el-button>
-        </el-form-item>
-      </el-form>
+      <div style="margin-top: 30px">
+        <el-form :model="loginForm" :rules="rules" ref="loginForm">
+          <el-form-item prop="username">
+            <el-input placeholder="邮箱" v-model="loginForm.username"></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input placeholder="密码" type="password" v-model="loginForm.password" show-password></el-input>
+          </el-form-item>
+          <el-form-item prop="verifyCode">
+            <el-input placeholder="验证码" v-model="loginForm.verifyCode" style="width:70%"></el-input>
+            <el-image :src="verifyCodeImgUrl" @click="getVerifyCodeUrl" style="vertical-align:middle"></el-image>
+          </el-form-item>
+          <el-input v-model="loginForm.verifyCodeId" type="hidden"></el-input>
+          <el-form-item>
+            <el-button type="primary" class="btn-long" @click="login('loginForm')" :loading="loading">登录</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
   </div>
 </template>
@@ -103,7 +104,7 @@
 <style scoped>
   .login {
     left: 0;
-    background: url("../assets/bg.jpg") no-repeat;
+    background: url("../assets/bg-5.jpg") no-repeat;
     background-size: cover;
     width: 100%;
     position: fixed;
