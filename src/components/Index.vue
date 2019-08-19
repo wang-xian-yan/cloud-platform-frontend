@@ -1,16 +1,20 @@
 <template>
-  <el-container style="height: 100%;width:100%;">
+  <el-container style="height: 100%;">
     <el-aside width="auto">
       <el-scrollbar class="default-scrollbar" wrap-class="default-scrollbar__wrap" view-class="default-scrollbar__view">
         <div class="app-logo">
           <a href="/">
-                <span
-                  class="app-logo-icon"></span>
+            <span class="app-logo-icon"></span>
             <span
-              class="app-logo-text" v-if="!isCollapse">{{accountInfo.enterprise.name}}</span></a>
+              class="app-logo-text" v-if="!isCollapse">{{accountInfo.enterprise.name}}
+            </span>
+          </a>
         </div>
         <div>
-          <el-menu :default-active="$route.path" :collapse="isCollapse" :style="{'background-color':theme.navColor}"
+          <el-menu :default-active="$route.path" :collapse="isCollapse"
+                   background-color="#545c64"
+                   text-color="#fff"
+                   active-text-color="#ffd04b"
                    class="el-menu-vertical-demo"
                    router>
             <el-menu-item index="/index">
@@ -87,26 +91,21 @@
 
     </el-aside>
     <el-container>
-      <el-header style="height: 65px;" :style="{'background-color':theme.navColor}">
+      <el-header style="height: 65px;">
         <div class="home-header">
           <div style="width: 50px;float: left">
             <el-button :icon="isCollapseIcon" @click="handlerIsCollapse" type="success" size="small"></el-button>
           </div>
           <div class="header-operations">
             <a @click="$router.replace('/index')"><i class="active el-icon-s-home"></i></a>
-            <a @click="$router.replace('/messages')"><i class="el-icon-message"></i></a>
+            <a @click="$router.replace('/messages')"><i class="el-icon-message-solid"></i></a>
             <a>
               <el-dropdown>
-                      <span class="el-dropdown-link">
-                            <label v-if="accountInfo.fullName!==''">{{accountInfo.fullName}}</label>
-                            <label v-else-if="accountInfo.username!==''">{{accountInfo.username}}</label>
-                            <label v-else>{{accountInfo.email}}</label>
-                        <!--                        <el-avatar v-if="accountInfo.userFace!==''"-->
-                        <!--                                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"-->
-                        <!--                                   style="vertical-align: middle">-->
-                        <!--                        </el-avatar>-->
-                        <!--                        <el-avatar v-else icon="el-icon-user-solid"-->
-                        <!--                                   style="vertical-align: middle"></el-avatar>-->
+                      <span class="el-dropdown-link" style="color: white">
+                                                <el-avatar v-if="accountInfo.userFace!==''"
+                                                      class="user-face"></el-avatar>
+                                                <el-avatar v-else icon="el-icon-user-solid"
+                                                           class="user-face"></el-avatar>
                         <i class="el-icon-arrow-down">
                         </i>
                       </span>
@@ -130,7 +129,7 @@
         </div>
       </el-header>
       <el-scrollbar class="default-scrollbar" wrap-class="default-scrollbar__wrap" view-class="default-scrollbar__view">
-        <el-main style="background-color: #EBEEF5;">
+        <el-main>
           <div v-if="$route.path ==='/index'">
             <el-row :gutter="10">
               <el-col :span="6">
@@ -243,8 +242,10 @@
           </div>
           <router-view></router-view>
         </el-main>
+        <el-footer>
+          Footer
+        </el-footer>
       </el-scrollbar>
-
     </el-container>
   </el-container>
 </template>
@@ -265,9 +266,6 @@
                 }
             };
             return {
-                theme:{
-                    navColor: '#ffffff'
-                },
                 isCollapse: false,
                 isCollapseIcon: 'el-icon-s-fold',
                 accountInfo: {
@@ -361,13 +359,11 @@
                     _this.accountInfo.email = data.email;
                     _this.accountInfo.phone = data.enterprise.phone;
                     _this.accountInfo.createAt = data.enterprise.createAt;
-
                 })
             },
             changeFlowChart(type) {
                 this.flowChartSetting.type = type;
             }
-
         },
         mounted() {
             this.initData();
@@ -412,13 +408,12 @@
 
   .home-header {
     line-height: 65px;
-    color: black;
   }
 
   .header-operations {
     float: right;
     padding-right: 30px;
-    color: #333;
+    color: white;
     height: 100%;
   }
 
@@ -456,17 +451,48 @@
     vertical-align: middle;
   }
 
+  .user-face {
+    background-image: url("../assets/face_image_1.jpeg");
+    background-size: contain;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    margin-right: 0;
+    -webkit-transition: .3s;
+    transition: .3s;
+    vertical-align: middle;
+  }
+
   .app-logo .app-logo-text {
     font-size: 20px;
     vertical-align: middle;
   }
 
   .app-logo a {
-    color: #3788ee;
+    color: white;
     cursor: pointer;
     text-decoration: none;
     outline: none;
     -webkit-transition: color .2s ease;
     transition: color .2s ease;
+  }
+
+  .el-aside {
+    background-color: #545c64;
+    color: #333;
+  }
+
+  .el-header {
+    background-color: #545c64;
+    color: white;
+  }
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
   }
 </style>

@@ -35,7 +35,7 @@
       </el-table>
     </el-row>
     <el-row style="margin-top: 20px">
-      <div style="text-align: right">
+      <div style="text-align: center">
         <el-pagination
           background
           @size-change="handleSizeChange"
