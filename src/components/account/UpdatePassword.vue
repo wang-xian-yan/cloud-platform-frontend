@@ -59,10 +59,12 @@
                     newPassword: _this.updatePasswordForm.newPassword,
                     confirmPassword: _this.updatePasswordForm.confirmPassword
                 };
-                _this.putRequest("/api/v1/users/reset-password", params).then(function (reponse) {
-                    console.log("response data" + reponse.data);
+                _this.putRequest("/api/v1/users/reset-password", params).then(function (response) {
+                    console.log("response data" + response.data);
                     _this.$store.commit('logout');
                     _this.$router.replace('/');
+                }).catch(error => {
+                    console.log("error:"+ error.response);
                 })
             }
         }
