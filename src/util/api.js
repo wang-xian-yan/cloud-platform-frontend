@@ -17,7 +17,7 @@ axios.interceptors.request.use(config => {
 });
 
 axios.interceptors.response.use(response => {
-  console.log('response:', response);
+  console.log('成功调用response:', response);
   if (response.data.code === '200') {
     return Promise.resolve(response)
   } else if (response.data.code !== '200') {
@@ -26,7 +26,7 @@ axios.interceptors.response.use(response => {
     if (message === 'token过期') {
       store.commit('logout');
       router.replace('/');
-      return;
+      return Promise.reject(response);
     }
   }
   Message.error({message: response.data.message});
@@ -41,15 +41,16 @@ axios.interceptors.response.use(response => {
     Message.error({message: '连接超时', showClose: true})
   } else if (err.response.data.code !== '200') {
     const message = err.response.data.message;
-    console.log('message:' + message);
     if (message === 'token过期') {
-      this.$router.replace("/");
+      store.commit('logout');
+      router.replace("/");
+      return Promise.reject(err)
     }
     Message.error({message: message})
   } else {
     Message.error({message: '未知异常', showClose: true})
   }
-  return Promise.resolve(err)
+  return Promise.reject(err)
 });
 
 export const postRequest = (url, data, header) => {

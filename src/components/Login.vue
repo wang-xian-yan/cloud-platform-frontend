@@ -64,7 +64,7 @@
                             verifyCodeId: this.loginForm.verifyCodeId
                         };
                         _this.postRequest("/login", params)
-                            .then(function (response) {
+                            .then(response => {
                                 const data = response.data;
                                 _this.loading = false;
                                 if (data.code === "200") {

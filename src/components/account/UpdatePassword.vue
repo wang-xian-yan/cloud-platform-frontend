@@ -8,7 +8,7 @@
         <div>
           <el-form ref="updatePasswordForm" :model="updatePasswordForm" :rules="updatePasswordFormRule"
                    label-width="80px">
-            <el-form-item label="新密码" prop="oldPassword">
+            <el-form-item label="当前密码" prop="oldPassword">
               <el-input v-model="updatePasswordForm.oldPassword" type="password" autocomplete="off" show-password></el-input>
             </el-form-item>
             <el-form-item label="新密码" prop="newPassword">
