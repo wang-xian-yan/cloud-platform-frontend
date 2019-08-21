@@ -16,6 +16,7 @@
                    text-color="#fff"
                    active-text-color="#ffd04b"
                    class="el-menu-vertical-demo"
+                   :collapse-transition=false
                    router>
             <el-menu-item index="/index">
               <i class="el-icon-menu"></i>
@@ -63,8 +64,15 @@
               </template>
               <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
               <el-menu-item index="/consumers/users">用户档案</el-menu-item>
-              <el-menu-item index="/consumers/roles">客户角色</el-menu-item>
-              <el-menu-item index="/consumers/menu-authority">菜单权限</el-menu-item>
+              <el-menu-item index="/consumers/on-line">在线用户</el-menu-item>
+            </el-submenu>
+            <el-submenu index="/authorities">
+              <template slot="title">
+                <i class="el-icon-s-goods"></i>
+                <span slot="title">权限管理</span>
+              </template>
+              <el-menu-item index="/authorities/menus">菜单配置</el-menu-item>
+              <el-menu-item index="/authorities/roles">角色管理</el-menu-item>
             </el-submenu>
             <el-submenu index="/reports">
               <template slot="title">
@@ -82,7 +90,7 @@
               </template>
               <el-menu-item index="/systems/gzh">公众号配置</el-menu-item>
               <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
-              <el-menu-item index="/systems/property-setting">系统配置</el-menu-item>
+              <el-menu-item index="/systems/property-setting">属性设置</el-menu-item>
               <el-menu-item index="/systems/email-send">邮件发送</el-menu-item>
             </el-submenu>
           </el-menu>

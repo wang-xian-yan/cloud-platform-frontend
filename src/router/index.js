@@ -5,8 +5,7 @@ import Index from '../components/Index'
 import User from "../components/consumer/User";
 import CardList from "../components/card/CardList";
 import CardTransferHistory from "../components/card/CardTransferHistory";
-import Role from "../components/consumer/Role";
-import MenuAuthority from "../components/consumer/MenuAuthority";
+import Role from "../components/authority/Role";
 import Enterprise from "../components/consumer/Enterprise";
 import UpdatePassword from "../components/account/UpdatePassword";
 import LoginHistoryLog from "../components/system/LoginHistoryLog";
@@ -18,6 +17,7 @@ import UserReport from "../components/reports/UserReport";
 import AccountBasic from "../components/account/AccountBasic";
 import SystemPropertySetting from "../components/system/SystemPropertySetting";
 import EmailSend from "../components/system/EmailSend";
+import Menu from "../components/authority/Menu";
 
 Vue.use(Router);
 
@@ -73,13 +73,13 @@ export default new Router({
           name: 'User',
           component: User
         }, {
-          path: '/consumers/roles',
+          path: '/authorities/roles',
           name: 'Role',
           component: Role
         }, {
-          path: '/consumers/menu-authority',
-          name: 'MenuAuthority',
-          component: MenuAuthority
+          path: '/authorities/menus',
+          name: 'Menu',
+          component: Menu
         }, {
           path: '/reports/card',
           name: 'CardReport',
