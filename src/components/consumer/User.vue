@@ -94,12 +94,15 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="showEditUserForm(scope.row)">编辑</el-button>
+            <el-button size="mini" @click="showEditUserForm(scope.row)">编辑</el-button>
             <el-button type="warning" size="mini" @click="showResetUserPassword(scope.row)">重置密码</el-button>
             <el-button type="danger" size="mini" @click="disableUser(scope.row)" v-if="scope.row.isEnabled">禁用
             </el-button>
             <el-button type="success" size="mini" @click="enabledUser(scope.row)" v-if="scope.row.isEnabled === false">
               启用
+            </el-button>
+            <el-button size="mini" type="primary">
+              分配权限
             </el-button>
           </template>
         </el-table-column>

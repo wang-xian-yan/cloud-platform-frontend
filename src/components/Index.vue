@@ -115,15 +115,6 @@
                                  class="user-face"></el-avatar>
                 <el-avatar v-else icon="el-icon-user-solid"
                            class="user-face"></el-avatar>
-                  <!--                         <label v-if="accountInfo.fullName!==''">-->
-                  <!--                    {{accountInfo.fullName}}-->
-                  <!--                  </label>-->
-                  <!--                  <label v-else-if="accountInfo.username!==''">-->
-                  <!--                    {{accountInfo.username}}-->
-                  <!--                  </label>-->
-                  <!--                  <label v-else>-->
-                  <!--                    {{accountInfo.email}}-->
-                  <!--                  </label>-->
                         <i class="el-icon-arrow-down">
                         </i>
                 </span>
@@ -289,7 +280,7 @@
                 isCollapseIcon: 'el-icon-s-fold',
                 accountInfo: {
                     username: '',
-                    userFace: '',
+                    userFace: '../assets/face_image_1.jpeg',
                     email: '',
                     fullName: '',
                     phone: '',
