@@ -459,7 +459,7 @@
   }
 
   .user-face {
-    background-image: url("../assets/face_image_1.jpeg");
+    background: url("../assets/face_image_1.jpeg");
     background-size: contain;
     height: 40px;
     width: 40px;
