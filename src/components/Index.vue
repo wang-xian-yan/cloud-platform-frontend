@@ -11,6 +11,7 @@
           </a>
         </div>
         <el-menu :default-active="$route.path"
+                 style="border-right: 0"
                  :collapse="isCollapse"
                  background-color="#304156"
                  text-color="#bfcbd9"
@@ -420,10 +421,6 @@
   .el-aside {
     background-color: #304156;
     color: #333;
-  }
-
-  .el-menu {
-    border-right: 0;
   }
 
   .el-header {
