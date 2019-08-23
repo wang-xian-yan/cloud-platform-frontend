@@ -10,115 +10,109 @@
             </span>
           </a>
         </div>
-        <div>
-          <el-menu :default-active="$route.path" :collapse="isCollapse"
-                   background-color="#545c64"
-                   text-color="#fff"
-                   active-text-color="#ffd04b"
-                   class="el-menu-vertical-demo"
-                   :collapse-transition=false
-                   router>
-            <el-menu-item index="/index">
-              <i class="el-icon-menu"></i>
-              <span slot="title">Dashboard</span>
-            </el-menu-item>
-            <el-submenu index="/cards">
-              <template slot="title">
-                <i class="el-icon-bank-card"></i>
-                <span slot="title">卡片管理</span>
-              </template>
-              <el-menu-item index="/cards/list">卡片列表</el-menu-item>
-              <el-menu-item index="/cards/transfer">划拨记录</el-menu-item>
-            </el-submenu>
-            <el-submenu index="/packages">
-              <template slot="title">
-                <i class="el-icon-document"></i>
-                <span slot="title">套餐管理</span>
-              </template>
-              <el-menu-item index="/packages/system">系统套餐</el-menu-item>
-              <el-menu-item index="/packages/list">我的套餐</el-menu-item>
-              <el-menu-item index="/packages/distribution">套餐分配</el-menu-item>
-            </el-submenu>
-            <el-submenu index="/operators">
-              <template slot="title">
-                <i class="el-icon-s-platform"></i>
-                <span slot="title">运营管理</span>
-              </template>
-              <el-menu-item index="/operators/a">营销活动</el-menu-item>
-              <el-menu-item index="/operators/b">黑名单</el-menu-item>
-              <el-menu-item index="/operators/c">分润</el-menu-item>
-            </el-submenu>
-            <el-submenu index="/orders">
-              <template slot="title">
-                <i class="el-icon-s-order"></i>
-                <span slot="title">订单管理</span>
-              </template>
-              <el-menu-item index="/orders/card">卡片订单</el-menu-item>
-              <el-menu-item index="/orders/card-pool">卡池订单</el-menu-item>
-              <el-menu-item index="/orders/equipment">设备订单</el-menu-item>
-            </el-submenu>
-            <el-submenu index="/consumers">
-              <template slot="title">
-                <i class="el-icon-user"></i>
-                <span slot="title">客户管理</span>
-              </template>
-              <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
-              <el-menu-item index="/consumers/users">用户档案</el-menu-item>
-              <el-menu-item index="/consumers/on-line">在线用户</el-menu-item>
-            </el-submenu>
-            <el-submenu index="/authorities">
-              <template slot="title">
-                <i class="el-icon-s-goods"></i>
-                <span slot="title">权限管理</span>
-              </template>
-              <el-menu-item index="/authorities/menus">菜单配置</el-menu-item>
-              <el-menu-item index="/authorities/roles">角色管理</el-menu-item>
-            </el-submenu>
-            <el-submenu index="/reports">
-              <template slot="title">
-                <i class="el-icon-data-board"></i>
-                <span slot="title">数据报表</span>
-              </template>
-              <el-menu-item index="/reports/card">卡片报表</el-menu-item>
-              <el-menu-item index="/reports/user">用户报表</el-menu-item>
-              <el-menu-item index="/reports/recharge">充值报表</el-menu-item>
-            </el-submenu>
-            <el-submenu index="/systems">
-              <template slot="title">
-                <i class="el-icon-setting"></i>
-                <span slot="title">系统管理</span>
-              </template>
-              <el-menu-item index="/systems/gzh">公众号配置</el-menu-item>
-              <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
-              <el-menu-item index="/systems/property-setting">属性设置</el-menu-item>
-              <el-menu-item index="/systems/email-send">邮件发送</el-menu-item>
-            </el-submenu>
-          </el-menu>
-        </div>
+        <el-menu :default-active="$route.path"
+                 :collapse="isCollapse"
+                 background-color="#304156"
+                 text-color="#bfcbd9"
+                 active-text-color="#409EFF"
+                 class="el-menu-vertical-demo"
+                 :collapse-transition=false
+                 :unique-opened=false
+                 router>
+          <el-menu-item index="/index">
+            <i class="el-icon-menu"></i>
+            <span slot="title">Dashboard</span>
+          </el-menu-item>
+          <el-submenu index="/cards">
+            <template slot="title">
+              <i class="el-icon-bank-card"></i>
+              <span slot="title">卡片管理</span>
+            </template>
+            <el-menu-item index="/cards/list">卡片列表</el-menu-item>
+            <el-menu-item index="/cards/transfer">划拨记录</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/packages">
+            <template slot="title">
+              <i class="el-icon-document"></i>
+              <span slot="title">套餐管理</span>
+            </template>
+            <el-menu-item index="/packages/system">系统套餐</el-menu-item>
+            <el-menu-item index="/packages/list">我的套餐</el-menu-item>
+            <el-menu-item index="/packages/distribution">套餐分配</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/operators">
+            <template slot="title">
+              <i class="el-icon-s-platform"></i>
+              <span slot="title">运营管理</span>
+            </template>
+            <el-menu-item index="/operators/a">营销活动</el-menu-item>
+            <el-menu-item index="/operators/b">黑名单</el-menu-item>
+            <el-menu-item index="/operators/c">分润</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/orders">
+            <template slot="title">
+              <i class="el-icon-s-order"></i>
+              <span slot="title">订单管理</span>
+            </template>
+            <el-menu-item index="/orders/card">卡片订单</el-menu-item>
+            <el-menu-item index="/orders/card-pool">卡池订单</el-menu-item>
+            <el-menu-item index="/orders/equipment">设备订单</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/consumers">
+            <template slot="title">
+              <i class="el-icon-user"></i>
+              <span slot="title">客户管理</span>
+            </template>
+            <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
+            <el-menu-item index="/consumers/users">用户档案</el-menu-item>
+            <el-menu-item index="/consumers/on-line">在线用户</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/authorities">
+            <template slot="title">
+              <i class="el-icon-s-goods"></i>
+              <span slot="title">权限管理</span>
+            </template>
+            <el-menu-item index="/authorities/menus">菜单配置</el-menu-item>
+            <el-menu-item index="/authorities/roles">角色管理</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/reports">
+            <template slot="title">
+              <i class="el-icon-data-board"></i>
+              <span slot="title">数据报表</span>
+            </template>
+            <el-menu-item index="/reports/card">卡片报表</el-menu-item>
+            <el-menu-item index="/reports/user">用户报表</el-menu-item>
+            <el-menu-item index="/reports/recharge">充值报表</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/systems">
+            <template slot="title">
+              <i class="el-icon-setting"></i>
+              <span slot="title">系统管理</span>
+            </template>
+            <el-menu-item index="/systems/gzh">公众号配置</el-menu-item>
+            <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
+            <el-menu-item index="/systems/property-setting">属性设置</el-menu-item>
+            <el-menu-item index="/systems/email-send">邮件发送</el-menu-item>
+          </el-submenu>
+        </el-menu>
       </el-scrollbar>
 
     </el-aside>
     <el-container>
-      <el-header style="height: 65px;">
+      <el-header style="height: 50px;" class="navbar">
         <div class="home-header">
-          <div style="width: 50px;float: left">
-            <el-button :icon="isCollapseIcon" @click="handlerIsCollapse" type="success" size="small"></el-button>
-          </div>
-          <div class="header-operations">
-            <a @click="$router.replace('/index')"><i class="active el-icon-s-home"></i></a>
-            <a @click="$router.replace('/messages')"><i class="el-icon-message-solid"></i></a>
-            <a>
-              <el-dropdown>
+          <el-button :icon="isCollapseIcon" @click="handlerIsCollapse" size="small"></el-button>
+          <div class="right-menu">
+            <router-link to="/"><i class="active el-icon-s-home"></i></router-link>
+            <router-link to="/messages"><i class="el-icon-message-solid"></i></router-link>
+            <div>
+              <el-dropdown class="avatar-container" trigger="click">
+                <div class="avatar-wrapper">
+                  <img src="../assets/face_image_1.jpeg" class="user-avatar">
+                  <i class="el-icon-caret-bottom"/>
+                </div>
 
-                <span class="el-dropdown-link" style="color: white">
-                      <el-avatar v-if="accountInfo.userFace!==''"
-                                 class="user-face"></el-avatar>
-                <el-avatar v-else icon="el-icon-user-solid"
-                           class="user-face"></el-avatar>
-                        <i class="el-icon-arrow-down">
-                        </i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
+                <el-dropdown-menu slot="dropdown" class="user-dropdown">
                   <el-dropdown-item v-if="accountInfo.fullName!==''">
                     登录用户是:{{accountInfo.fullName}}
                   </el-dropdown-item>
@@ -128,13 +122,24 @@
                   <el-dropdown-item v-else>
                     登录用户是:{{accountInfo.email}}
                   </el-dropdown-item>
-                  <el-dropdown-item @click.native="accountBasic" divided>账户信息</el-dropdown-item>
-                  <el-dropdown-item @click.native="updatePassword">修改密码</el-dropdown-item>
-                  <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
+                  <router-link to="/account-basic">
+                    <el-dropdown-item>
+                      账户信息
+                    </el-dropdown-item>
+                  </router-link>
+                  <router-link to="/reset-password">
+                    <el-dropdown-item>修改密码</el-dropdown-item>
+                  </router-link>
+                  <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
+                    <el-dropdown-item>Docs</el-dropdown-item>
+                  </a>
+                  <el-dropdown-item divided>
+                    <span style="display:block;" @click="logout">退出登录</span>
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
 
-            </a>
+            </div>
           </div>
         </div>
       </el-header>
@@ -380,7 +385,6 @@
         }
     }
 </script>
-
 <style>
   .default-scrollbar {
     width: 100%;
@@ -409,25 +413,43 @@
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 250px;
-    min-height: 100%;
-  }
-
-  .home-header {
-    line-height: 65px;
-  }
-
-  .header-operations {
-    float: right;
-    padding-right: 30px;
-    color: white;
+    width: 210px;
     height: 100%;
   }
 
-  .header-operations a {
+  .el-aside {
+    background-color: #304156;
+    color: #333;
+  }
+
+  .el-menu {
+    border-right: 0;
+  }
+
+  .el-header {
+    background-color: #fff;
+    color: black;
+  }
+
+  .navbar {
+    height: 50px;
+    line-height: 50px;
+    box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+  }
+
+  .right-menu {
+    margin-right: 40px;
+    display: flex;
+    float: right;
+    font-family: Futura, Helvetica Neue For Number, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+    white-space: nowrap;
+    -webkit-transition: padding .3s;
+    transition: padding .3s;
+  }
+
+  .right-menu a {
     text-align: center;
-    padding: 0 10px;
-    margin: 0 10px;
+    margin: 0 20px;
     cursor: pointer;
     text-decoration: none;
     outline: none;
@@ -435,11 +457,41 @@
     transition: color .2s ease;
   }
 
+  a {
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    -webkit-transition: color .2s ease;
+    transition: color .2s ease;
+  }
+
+  .avatar-wrapper {
+    margin-left: 10px;
+    margin-top: 5px;
+    position: relative;
+  }
+
+  .user-avatar {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .el-icon-caret-bottom {
+    cursor: pointer;
+    position: absolute;
+    right: -20px;
+    top: 25px;
+    font-size: 12px;
+  }
+
   .app-logo {
     font-family: Futura, Helvetica Neue For Number, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
     padding-left: 24px;
-    line-height: 65px;
-    height: 65px;
+    line-height: 50px;
+    height: 50px;
     overflow: hidden;
     white-space: nowrap;
     -webkit-transition: padding .3s;
@@ -451,18 +503,6 @@
     background-size: contain;
     height: 20px;
     width: 20px;
-    display: inline-block;
-    margin-right: 0;
-    -webkit-transition: .3s;
-    transition: .3s;
-    vertical-align: middle;
-  }
-
-  .user-face {
-    background: url("../assets/face_image_1.jpeg");
-    background-size: contain;
-    height: 40px;
-    width: 40px;
     display: inline-block;
     margin-right: 0;
     -webkit-transition: .3s;
@@ -482,24 +522,5 @@
     outline: none;
     -webkit-transition: color .2s ease;
     transition: color .2s ease;
-  }
-
-  .el-aside {
-    background-color: #545c64;
-    color: #333;
-  }
-
-  .el-header {
-    background-color: #545c64;
-    color: white;
-  }
-
-  .el-container:nth-child(5) .el-aside,
-  .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
-  }
-
-  .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
   }
 </style>
