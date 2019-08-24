@@ -18,6 +18,7 @@ import AccountBasic from "../components/account/AccountBasic";
 import SystemPropertySetting from "../components/system/SystemPropertySetting";
 import EmailSend from "../components/system/EmailSend";
 import Menu from "../components/authority/Menu";
+import FileResource from "../components/system/FileResource";
 
 Vue.use(Router);
 
@@ -104,6 +105,10 @@ export default new Router({
           path: '/systems/email-send',
           name: 'EmailSend',
           component: EmailSend
+        }, {
+          path: '/systems/file-resources',
+          name: 'FileResource',
+          component: FileResource
         }]
     }
   ]

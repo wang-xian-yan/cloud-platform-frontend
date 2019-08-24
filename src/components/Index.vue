@@ -94,10 +94,10 @@
             <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
             <el-menu-item index="/systems/property-setting">属性设置</el-menu-item>
             <el-menu-item index="/systems/email-send">邮件发送</el-menu-item>
+            <el-menu-item index="/systems/file-resources">文件资源</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-scrollbar>
-
     </el-aside>
     <el-container>
       <el-header style="height: 50px;" class="navbar">
@@ -109,7 +109,7 @@
             <div>
               <el-dropdown class="avatar-container" trigger="click">
                 <div class="avatar-wrapper">
-                  <img src="../assets/face_image_1.jpeg" class="user-avatar">
+                  <img :src="accountInfo.userFace" class="user-avatar">
                   <i class="el-icon-caret-bottom"/>
                 </div>
 
@@ -154,7 +154,7 @@
                     <el-card>
                       <div>
                         <div style="display: flex;justify-content: center">
-                          <img src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" alt=""
+                          <img :src="accountInfo.userFace" alt=""
                                style="width: 80px;height: 80px;border-radius: 80px">
                         </div>
                         <div style="margin-top:15px;font-size: 14px">
@@ -375,6 +375,7 @@
                     _this.accountInfo.email = data.email;
                     _this.accountInfo.phone = data.enterprise.phone;
                     _this.accountInfo.createAt = data.enterprise.createAt;
+                    _this.accountInfo.userFace = _this.baseUrl + data.userFace;
                 })
             },
             changeFlowChart(type) {

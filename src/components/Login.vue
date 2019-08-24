@@ -1,6 +1,5 @@
 <template>
-  <div class="login">
-
+  <div class="login" :style="background">
     <div class="loginForm">
       <div style="text-align: center;font-size: 22px;color: white ">
         <span>平台登录</span>
@@ -31,6 +30,13 @@
     export default {
         data() {
             return {
+                background: {
+                    background: 'url("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2001314781,3400223146&fm=26&gp=0.jpg") no-repeat',
+                    backgroundSize: 'cover',
+                    width: '100%',
+                    position: 'fixed',
+                    height: '100%'
+                },
                 loginForm: {
                     username: "admin@cloud-platform.com",
                     password: "admin123",
@@ -86,15 +92,18 @@
             getVerifyCodeUrl() {
                 const _this = this;
                 _this.getRequest("/api/v1/verify-code/url").then(response => {
-                    console.log(response);
-                    let imgUrl = response.data.data.imgUrl;
-                    let verifyCodeId = response.data.data.verifyCodeId;
-                    this.verifyCodeImgUrl = _this.baseUrl + imgUrl;
+                    let data = response.data.data;
+                    let verifyCodeId = data.verifyCodeId;
+                    this.verifyCodeImgUrl = _this.baseUrl + data.imgUrl;
                     this.loginForm.verifyCodeId = verifyCodeId;
                 });
+            },
+            getBackgroundImage() {
+                this.background.background = 'url("' + this.baseUrl + '/api/v1/files/background-image/out' + '") no-repeat';
             }
         },
         mounted() {
+            this.getBackgroundImage();
             this.getVerifyCodeUrl();
         }
     };
@@ -104,7 +113,7 @@
 <style scoped>
   .login {
     left: 0;
-    background: url("../assets/bg-5.jpg") no-repeat;
+    /*background: url("../assets/bg-5.jpg") no-repeat;*/
     background-size: cover;
     width: 100%;
     position: fixed;
