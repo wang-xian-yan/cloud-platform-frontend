@@ -329,6 +329,10 @@
                 if (_this.searchUserForm.condition !== '') {
                     requestUrl = requestUrl + "&condition=" + _this.searchUserForm.condition;
                 }
+                if (_this.searchUserForm.enterpriseId !== null) {
+                    requestUrl = requestUrl + "&enterpriseId=" + _this.searchUserForm.enterpriseId;
+
+                }
                 _this.getRequest(requestUrl)
                     .then(function (response) {
                         const data = response.data.data;

@@ -99,7 +99,7 @@
                 });
             },
             getBackgroundImage() {
-                this.background.background = 'url("' + this.baseUrl + '/api/v1/files/background-image/out' + '") no-repeat';
+                this.background.background = 'url("' + this.baseUrl + '/api/v1/files/background-image/preview' + '") no-repeat';
             }
         },
         mounted() {
