@@ -170,9 +170,9 @@
                 pageSize: 15,
                 searchFileResourceForm: {
                     fileName: '',
-                    userId: ''
+                    userId: null
                 },
-                childUsers:[],
+                childUsers: [],
                 uploadUrl: this.baseUrl + '/api/v1/files/upload',
                 uploadHeader: {
                     Authorization: this.$store.state.user.token
@@ -224,6 +224,9 @@
                     requestUrl = requestUrl + '&fileName=' +
                         this.searchFileResourceForm.fileName;
                 }
+                if (this.searchFileResourceForm.userId !== null) {
+                    requestUrl = requestUrl + '&userId=' + this.searchFileResourceForm.userId;
+                }
                 _this.getRequest(requestUrl)
                     .then(function (response) {
                         const data = response.data.data;
@@ -244,11 +247,11 @@
                 this.currentPage = val;
                 this.searchFileResource();
             },
-            getChildUser(){
+            getChildUser() {
                 const _this = this;
-                _this.getRequest("/api/v1/users/child-users").then(response=>{
+                _this.getRequest("/api/v1/users/child-users").then(response => {
                     _this.childUsers = response.data.data;
-                }).catch(error=>{
+                }).catch(error => {
                     console.error(error);
                 })
             }
