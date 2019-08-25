@@ -105,7 +105,12 @@
           <el-button :icon="isCollapseIcon" @click="handlerIsCollapse" size="small"></el-button>
           <div class="right-menu">
             <router-link to="/"><i class="active el-icon-s-home"></i></router-link>
-            <router-link to="/messages"><i class="el-icon-message-solid"></i></router-link>
+            <router-link to="/messages">
+              <i class="el-icon-message-solid"></i>
+              <el-badge :value="unreadMessageCount" :max="99" style="margin-left: -10px;margin-top: -15px"
+                        v-if="unreadMessageCount !==0">
+              </el-badge>
+            </router-link>
             <div>
               <el-dropdown class="avatar-container" trigger="click">
                 <div class="avatar-wrapper">
@@ -259,7 +264,9 @@
           <router-view></router-view>
         </el-main>
         <el-footer>
-          Footer
+          <el-row :gutter="10">
+            物联网M2M号卡管理平台
+          </el-row>
         </el-footer>
       </el-scrollbar>
     </el-container>
@@ -298,6 +305,7 @@
                         phone: ''
                     }
                 },
+                unreadMessageCount: 0,
                 usersTableData: [],
                 mobileCardData: {
                     columns: ['status', 'count'],
@@ -376,6 +384,11 @@
                     _this.accountInfo.phone = data.enterprise.phone;
                     _this.accountInfo.createAt = data.enterprise.createAt;
                     _this.accountInfo.userFace = _this.baseUrl + data.userFace;
+                });
+                _this.getRequest("/api/v1/messages/unread-count").then(response=>{
+                    _this.unreadMessageCount = response.data.data;
+                }).catch(error=>{
+                    console.log(error);
                 })
             },
             changeFlowChart(type) {

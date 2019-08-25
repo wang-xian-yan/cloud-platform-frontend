@@ -72,7 +72,7 @@
           prop="size"
           label="大小/KB"
           :showOverflowTooltip=true
-          width="180">
+          width="80">
           <template slot-scope="scope">
               <span>
                   {{Math.round(scope.row.size/1024)}}
@@ -82,7 +82,7 @@
         <el-table-column
           prop="mimeType"
           label="文件类型"
-          :showOverflowTooltip=true
+          show-overflow-tooltip
           width="180">
         </el-table-column>
         <el-table-column
@@ -125,6 +125,12 @@
         :visible.sync="fileResourceInfoVisible"
         width="50%">
         <el-form ref="fileResourceInfoForm" :model="fileResourceInfoForm" label-width="100px" size="mini">
+
+          <el-form-item v-if="fileResourceInfoForm.mimeType==='image/jpeg'">
+            <el-image :src="fileResourceInfoForm.previewUrl"
+                      style="cursor: pointer;width: 120px;height: 120px;">
+            </el-image>
+          </el-form-item>
           <el-form-item label="文件名">
             <span>{{fileResourceInfoForm.fileName}}</span>
           </el-form-item>
@@ -179,6 +185,7 @@
                 },
                 uploadVisible: false,
                 fileResourceInfoForm: {
+                    previewUrl: null,
                     fileName: null,
                     location: null,
                     size: 0,
@@ -205,6 +212,9 @@
                 this.fileResourceInfoForm.mimeType = row.mimeType;
                 this.fileResourceInfoForm.createAt = row.createAt;
                 this.fileResourceInfoForm.modifiedAt = row.modifiedAt;
+                if (row.mimeType === 'image/jpeg') {
+                    this.fileResourceInfoForm.previewUrl = this.baseUrl + '/api/v1/files/' + row.id + '/preview?userId=' + row.userId;
+                }
                 const _this = this;
                 _this.getRequest("/api/v1/users/" + row.userId).then(response => {
                     const data = response.data.data;
@@ -215,7 +225,7 @@
                 })
             },
             download(row) {
-                window.location.href = this.baseUrl + "/api/v1/files/" + row.id + '/preview?userId=' + row.userId;
+                window.location.href = this.baseUrl + '/api/v1/files/' + row.id + '/preview?userId=' + row.userId;
             },
             searchFileResource() {
                 const _this = this;
