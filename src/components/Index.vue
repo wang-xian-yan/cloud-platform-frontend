@@ -65,7 +65,7 @@
               <span slot="title">客户管理</span>
             </template>
             <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
-            <el-menu-item index="/consumers/users">用户档案</el-menu-item>
+            <el-menu-item index="/consumers/users">下级用户</el-menu-item>
             <el-menu-item index="/consumers/on-line">在线用户</el-menu-item>
           </el-submenu>
           <el-submenu index="/authorities">
@@ -73,8 +73,8 @@
               <i class="el-icon-s-goods"></i>
               <span slot="title">权限管理</span>
             </template>
-            <el-menu-item index="/authorities/menus">菜单配置</el-menu-item>
             <el-menu-item index="/authorities/roles">角色管理</el-menu-item>
+            <el-menu-item index="/authorities/menus">菜单管理</el-menu-item>
           </el-submenu>
           <el-submenu index="/reports">
             <template slot="title">
@@ -151,128 +151,122 @@
       </el-header>
       <el-scrollbar class="default-scrollbar" wrap-class="default-scrollbar__wrap" view-class="default-scrollbar__view">
         <el-main>
-          <div v-if="$route.path ==='/index'">
-            <el-row :gutter="10">
-              <el-col :span="6">
-                <el-row :gutter="10">
-                  <el-col :span="24">
-                    <el-card>
-                      <div>
-                        <div style="display: flex;justify-content: center">
-                          <img :src="accountInfo.userFace" alt=""
-                               style="width: 80px;height: 80px;border-radius: 80px">
+            <div v-if="$route.path ==='/index'">
+              <el-row :gutter="10">
+                <el-col :span="6">
+                  <el-row :gutter="10">
+                    <el-col :span="24">
+                      <el-card>
+                        <div>
+                          <div style="display: flex;justify-content: center">
+                            <img :src="accountInfo.userFace" alt=""
+                                 style="width: 80px;height: 80px;border-radius: 80px">
+                          </div>
+                          <div style="margin-top:15px;font-size: 14px">
+                            <el-form label-width="80px" size="mini">
+                              <el-form-item label="公司名字:">
+                                <span style="color: #303133;font-size: 16px">{{accountInfo.enterprise.name}}</span>
+                              </el-form-item>
+                              <el-form-item label="姓名:">
+                                <span>{{accountInfo.fullName}}</span>
+                              </el-form-item>
+                              <el-form-item label="邮箱:">
+                                {{accountInfo.email}}
+                              </el-form-item>
+                              <el-form-item label="登录名:">
+                                {{accountInfo.username}}
+                              </el-form-item>
+                              <el-form-item label="联系号码:">
+                                {{accountInfo.phone}}
+                              </el-form-item>
+                              <el-form-item label="公司地址:">
+                                {{accountInfo.enterprise.address}}
+                              </el-form-item>
+                              <el-form-item label="公司法人:">
+                                {{accountInfo.enterprise.legalPerson}}
+                              </el-form-item>
+                              <el-form-item label="公司号码:">
+                                {{accountInfo.enterprise.phone}}
+                              </el-form-item>
+                              <el-form-item label="注册时间:">
+                                {{accountInfo.createAt}}
+                              </el-form-item>
+                            </el-form>
+                          </div>
                         </div>
-                        <div style="margin-top:15px;font-size: 14px">
-                          <el-form label-width="80px" size="mini">
-                            <el-form-item label="公司名字:">
-                              <span style="color: #303133;font-size: 16px">{{accountInfo.enterprise.name}}</span>
-                            </el-form-item>
-                            <el-form-item label="姓名:">
-                              <span>{{accountInfo.fullName}}</span>
-                            </el-form-item>
-                            <el-form-item label="邮箱:">
-                              {{accountInfo.email}}
-                            </el-form-item>
-                            <el-form-item label="登录名:">
-                              {{accountInfo.username}}
-                            </el-form-item>
-                            <el-form-item label="联系号码:">
-                              {{accountInfo.phone}}
-                            </el-form-item>
-                            <el-form-item label="公司地址:">
-                              {{accountInfo.enterprise.address}}
-                            </el-form-item>
-                            <el-form-item label="公司法人:">
-                              {{accountInfo.enterprise.legalPerson}}
-                            </el-form-item>
-                            <el-form-item label="公司号码:">
-                              {{accountInfo.enterprise.phone}}
-                            </el-form-item>
-                            <el-form-item label="注册时间:">
-                              {{accountInfo.createAt}}
-                            </el-form-item>
-                          </el-form>
+                      </el-card>
+                    </el-col>
+                  </el-row>
+                </el-col>
+                <el-col :span="18">
+                  <el-row :gutter="10">
+                    <el-col :span="8">
+                      <el-card>
+
+                      </el-card>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-card>
+
+                      </el-card>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-card>
+
+                      </el-card>
+                    </el-col>
+                  </el-row>
+                  <el-row :gutter="10">
+                    <el-col :span="8">
+
+                      <el-card>
+                        <div slot="header">
+                          <span>移动卡片状态</span>
                         </div>
-                      </div>
-                    </el-card>
-                  </el-col>
-                </el-row>
-              </el-col>
-              <el-col :span="18">
-                <el-row :gutter="10">
-                  <el-col :span="8">
-                    <el-card>
-
-                    </el-card>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-card>
-
-                    </el-card>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-card>
-
-                    </el-card>
-                  </el-col>
-                </el-row>
-                <el-row :gutter="10">
-                  <el-col :span="8">
-
-                    <el-card>
-                      <div slot="header">
-                        <span>移动卡片状态</span>
-                      </div>
-                      <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
-                    </el-card>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-card>
-                      <div slot="header">
-                        <span>联通卡片状态</span>
-                      </div>
-                      <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
-                    </el-card>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-card>
-                      <div slot="header">
-                        <span>电信卡片状态</span>
-                      </div>
-                      <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
-                    </el-card>
-                  </el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-            <el-row :gutter="10">
-              <el-col :span="24">
-                <el-card>
-                  <div slot="header">
-                    <span>卡片流量消耗</span>
-                    <el-button-group style="float:right;">
-                      <el-button type="primary" size="mini" @click="changeFlowChart('line')">折线</el-button>
-                      <el-button type="success" size="mini" @click="changeFlowChart('histogram')">柱形</el-button>
-                      <el-button type="warning" size="mini" @click="changeFlowChart('pie')">饼图</el-button>
-                    </el-button-group>
-                  </div>
-                  <ve-chart :data="flowLineChartData" :settings="flowChartSetting" :extend="extend"></ve-chart>
-                </el-card>
-              </el-col>
-            </el-row>
-          </div>
-          <router-view></router-view>
+                        <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
+                      </el-card>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-card>
+                        <div slot="header">
+                          <span>联通卡片状态</span>
+                        </div>
+                        <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
+                      </el-card>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-card>
+                        <div slot="header">
+                          <span>电信卡片状态</span>
+                        </div>
+                        <ve-pie :data="mobileCardData" :settings="chartSettings"></ve-pie>
+                      </el-card>
+                    </el-col>
+                  </el-row>
+                </el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="24">
+                  <el-card>
+                    <div slot="header">
+                      <span>卡片流量消耗</span>
+                      <el-button-group style="float:right;">
+                        <el-button type="primary" size="mini" @click="changeFlowChart('line')">折线</el-button>
+                        <el-button type="success" size="mini" @click="changeFlowChart('histogram')">柱形</el-button>
+                        <el-button type="warning" size="mini" @click="changeFlowChart('pie')">饼图</el-button>
+                      </el-button-group>
+                    </div>
+                    <ve-chart :data="flowLineChartData" :settings="flowChartSetting" :extend="extend"></ve-chart>
+                  </el-card>
+                </el-col>
+              </el-row>
+            </div>
+            <router-view></router-view>
         </el-main>
-        <el-footer>
-          <el-row :gutter="10">
-            物联网M2M号卡管理平台
-          </el-row>
-        </el-footer>
       </el-scrollbar>
     </el-container>
   </el-container>
 </template>
-
 <script>
     export default {
         name: "Index",
@@ -385,9 +379,9 @@
                     _this.accountInfo.createAt = data.enterprise.createAt;
                     _this.accountInfo.userFace = _this.baseUrl + data.userFace;
                 });
-                _this.getRequest("/api/v1/messages/unread-count").then(response=>{
+                _this.getRequest("/api/v1/messages/unread-count").then(response => {
                     _this.unreadMessageCount = response.data.data;
-                }).catch(error=>{
+                }).catch(error => {
                     console.log(error);
                 })
             },

@@ -317,7 +317,7 @@
             },
             listEnterprise() {
                 const _this = this;
-                let requestUrl = "/api/v1/enterprises";
+                let requestUrl = "/api/v1/enterprises/child";
                 _this.getRequest(requestUrl).then(function (response) {
                     _this.enterprises = response.data.data;
                     _this.enterprises.unshift({id:null,name:'全部'});

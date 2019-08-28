@@ -62,6 +62,20 @@
         </el-table-column>
       </el-table>
     </el-row>
+    <el-row style="margin-top: 20px">
+      <div style="text-align: center">
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[15, 50, 100, 500]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="totalElements">
+        </el-pagination>
+      </div>
+    </el-row>
 
     <el-dialog :title="enterpriseFormTitle" :visible.sync="enterpriseFormVisible" width="30%">
       <el-form :model="enterpriseForm" label-width="80px">
@@ -77,18 +91,18 @@
         <el-form-item label="联系电话" prop="phone">
           <el-input v-model="enterpriseForm.phone" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="上传图标">
-          <el-upload
-            class="avatar-uploader"
-            :action="uploadUrl"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :headers="uploadHeader"
-            :before-upload="beforeAvatarUpload">
-            <img v-if="accountInfo.userFace" :src="accountInfo.userFace" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
+        <!--        <el-form-item label="上传图标">-->
+        <!--          <el-upload-->
+        <!--            class="avatar-uploader"-->
+        <!--            :action="uploadUrl"-->
+        <!--            :show-file-list="false"-->
+        <!--            :on-success="handleAvatarSuccess"-->
+        <!--            :headers="uploadHeader"-->
+        <!--            :before-upload="beforeAvatarUpload">-->
+        <!--            <img v-if="accountInfo.userFace" :src="accountInfo.userFace" class="avatar">-->
+        <!--            <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+        <!--          </el-upload>-->
+        <!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="enterpriseFormVisible = false">取 消</el-button>
@@ -105,6 +119,10 @@
             return {
                 uploadUrl: '',
                 enterpriseTable: [],
+                currentPage: 1,
+                totalElements: 0,
+                pageSize: 15,
+                searchEnterpriseCondition: '',
                 enterpriseFormVisible: false,
                 enterpriseFormTitle: '添加企业',
                 enterpriseForm: {
@@ -138,9 +156,24 @@
             },
             searchEnterprise() {
                 const _this = this;
-                _this.getRequest("/api/v1/enterprises").then(function (response) {
-                    _this.enterpriseTable = response.data.data;
+                let requestUrl = "/api/v1/enterprises/search?page=" + _this.currentPage + "&size=" + _this.pageSize;
+                if (_this.searchEnterpriseCondition !== '') {
+                    requestUrl = requestUrl + "&condition=" + _this.searchEnterpriseCondition;
+                }
+                _this.getRequest(requestUrl).then(function (response) {
+                    const data = response.data.data;
+                    _this.enterpriseTable = data.content;
+                    _this.totalElements = data.totalElements;
+                    _this.pageSize = data.size;
+                    _this.currentPage = data.number + 1;
                 })
+            }, handleSizeChange(val) {
+                this.pageSize = val;
+                this.searchEnterprise();
+            },
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                this.searchEnterprise();
             },
             addEnterprise() {
                 const _this = this;
