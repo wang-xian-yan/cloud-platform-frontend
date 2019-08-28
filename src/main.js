@@ -10,6 +10,7 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {deleteRequest, getRequest, postRequest, putRequest} from './util/api'
+import {getAllEnterprise} from "./util/commonApi";
 // require styles
 
 const baseURL = "http://49.234.133.55:8081";
@@ -23,6 +24,8 @@ Vue.prototype.getRequest = getRequest;
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.putRequest = putRequest;
+Vue.prototype.getAllEnterprise = getAllEnterprise;
+
 
 Vue.config.productionTip = false;
 

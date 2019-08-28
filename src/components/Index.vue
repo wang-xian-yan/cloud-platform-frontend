@@ -3,7 +3,7 @@
     <el-aside width="auto">
       <el-scrollbar class="default-scrollbar" wrap-class="default-scrollbar__wrap" view-class="default-scrollbar__view">
         <div class="app-logo">
-          <a href="/">
+          <a href="/#">
             <span class="app-logo-icon"></span>
             <span
               class="app-logo-text" v-if="!isCollapse">{{accountInfo.enterprise.name}}

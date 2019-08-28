@@ -77,6 +77,18 @@
         <el-form-item label="联系电话" prop="phone">
           <el-input v-model="enterpriseForm.phone" size="small"></el-input>
         </el-form-item>
+        <el-form-item label="上传图标">
+          <el-upload
+            class="avatar-uploader"
+            :action="uploadUrl"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :headers="uploadHeader"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="accountInfo.userFace" :src="accountInfo.userFace" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="enterpriseFormVisible = false">取 消</el-button>
@@ -91,6 +103,7 @@
         name: "Enterprise",
         data() {
             return {
+                uploadUrl: '',
                 enterpriseTable: [],
                 enterpriseFormVisible: false,
                 enterpriseFormTitle: '添加企业',
@@ -98,12 +111,31 @@
                     id: null,
                     name: '',
                     address: '',
+                    iconId: null,
                     legalPerson: '',
                     phone: '',
                 }
             }
         },
         methods: {
+
+            handleAvatarSuccess(res, file) {
+                console.log("res" + JSON.stringify(res.data));
+                console.log("file" + file);
+                this.accountInfo.userFace = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
             searchEnterprise() {
                 const _this = this;
                 _this.getRequest("/api/v1/enterprises").then(function (response) {

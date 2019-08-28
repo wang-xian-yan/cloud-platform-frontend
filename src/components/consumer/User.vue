@@ -140,8 +140,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetUserPasswordVisible = false">取 消</el-button>
-        <el-button type="primary" @click="resetUserPassword">确 定</el-button>
+        <el-button @click="resetUserPasswordVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="resetUserPassword" size="small">确 定</el-button>
       </div>
     </el-dialog>
     <!--    新建或修改用户 -->
@@ -182,9 +182,9 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelUserForm">取 消</el-button>
-        <el-button type="primary" @click="addUser" v-if="userFormType==='create'">添 加</el-button>
-        <el-button type="primary" @click="editUser" v-if="userFormType==='update'">修 改</el-button>
+        <el-button @click="cancelUserForm" size="small">取 消</el-button>
+        <el-button type="primary" @click="addUser" v-if="userFormType==='create'" size="small">添 加</el-button>
+        <el-button type="primary" @click="editUser" v-if="userFormType==='update'" size="small">修 改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -320,6 +320,7 @@
                 let requestUrl = "/api/v1/enterprises";
                 _this.getRequest(requestUrl).then(function (response) {
                     _this.enterprises = response.data.data;
+                    _this.enterprises.unshift({id:null,name:'全部'});
                 })
 
             },
