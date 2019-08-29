@@ -2,18 +2,20 @@
   <div class="login" :style="background">
     <div class="loginForm">
       <div style="text-align: center;font-size: 22px;color: white ">
-        <span>平台登录</span>
+        <span>JIAN YI IOT CLOUD PLATFORM</span>
       </div>
       <div style="margin-top: 30px">
-        <el-form :model="loginForm" :rules="rules" ref="loginForm">
+        <el-form :model="loginForm" :rules="rules" ref="loginForm" size="medium">
           <el-form-item prop="username">
-            <el-input placeholder="邮箱" v-model="loginForm.username"></el-input>
+            <el-input prefix-icon="el-icon-user" clearable placeholder="Username/Email"
+                      v-model="loginForm.username"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input placeholder="密码" type="password" v-model="loginForm.password" show-password></el-input>
+            <el-input size="medium" prefix-icon="el-icon-lock" clearable placeholder="Password" type="password"
+                      v-model="loginForm.password" show-password></el-input>
           </el-form-item>
           <el-form-item prop="verifyCode">
-            <el-input placeholder="验证码" v-model="loginForm.verifyCode" style="width:70%"></el-input>
+            <el-input placeholder="验证码" v-model="loginForm.verifyCode" style="width:72%"></el-input>
             <el-image :src="verifyCodeImgUrl" @click="getVerifyCodeUrl" style="vertical-align:middle"></el-image>
           </el-form-item>
           <el-input v-model="loginForm.verifyCodeId" type="hidden"></el-input>
@@ -31,17 +33,17 @@
         data() {
             return {
                 background: {
-                    background: 'url("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2001314781,3400223146&fm=26&gp=0.jpg") no-repeat',
+                    background: '',
                     backgroundSize: 'cover',
                     width: '100%',
                     position: 'fixed',
                     height: '100%'
                 },
                 loginForm: {
-                    username: "admin@cloud-platform.com",
-                    password: "admin123",
-                    verifyCode: "",
-                    verifyCodeId: ""
+                    username: '',
+                    password: '',
+                    verifyCode: '',
+                    verifyCodeId: ''
                 },
                 rules: {
                     username: [
@@ -113,7 +115,6 @@
 <style scoped>
   .login {
     left: 0;
-    /*background: url("../assets/bg-5.jpg") no-repeat;*/
     background-size: cover;
     width: 100%;
     position: fixed;
@@ -123,7 +124,7 @@
   .loginForm {
     top: 50%;
     left: 50%;
-    width: 400px;
+    width: 420px;
     position: absolute;
     transform: translate(-50%, -50%);
   }
