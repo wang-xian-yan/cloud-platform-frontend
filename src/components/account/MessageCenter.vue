@@ -152,12 +152,7 @@
               width="200">
             </el-table-column>
             <el-table-column
-              prop="level"
-              label="消息级别"
-              width="100">
-            </el-table-column>
-            <el-table-column
-              prop="level"
+              prop="messageTypeId"
               label="消息类型"
               width="100">
             </el-table-column>
@@ -212,12 +207,12 @@
               <el-input type="textarea" v-model="messageContentForm.message"></el-input>
             </el-form-item>
             <el-form-item label="消息级别" prop="level">
-              <el-select v-model="messageContentForm.level" placeholder="请选择消息级别">
+              <el-select v-model="messageContentForm.level" placeholder="请选择消息类型">
                 <el-option
-                  v-for="level in messageLevels"
-                  :key="level"
-                  :label="level"
-                  :value="level">
+                  v-for="type in messageTypes"
+                  :key="type.id"
+                  :label="type.name"
+                  :value="type.id">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -250,11 +245,7 @@
         data() {
             return {
                 childUsers: [],
-                messageLevels: [
-                    'high',
-                    'middle',
-                    'low'
-                ],
+                messageTypes: [],
                 messageContentFormTitle: '发布消息',
                 messageContentFormVisible: false,
                 messageContentForm: {
@@ -288,7 +279,7 @@
                 searchMessageForm: {
                     title: '',
                     message: '',
-                    level: ''
+                    messageTypeId: ''
                 },
                 publishMessageTableData: [],
                 publishCurrentPage: 1,
@@ -360,6 +351,14 @@
                     console.log("search file error:" + error);
                 });
             },
+            listMessageTypes(){
+                const _this = this;
+                _this.getRequest('/api/v1/messages/types').then(response=>{
+                    _this.messageTypes = response.data.data;
+                }).catch(error=>{
+
+                })
+            },
             publishMessage() {
                 this.$refs.messageContentForm.validate(valid => {
                     if (valid) {
@@ -382,6 +381,11 @@
                             _this.messageContentFormVisible = false;
                         }).catch(error => {
                             console.log("error:" + error.response);
+                            _this.$notify({
+                                type: 'error',
+                                message: '发送失败',
+                                showClose: true
+                            });
                         })
                     } else {
                         return false;
@@ -416,9 +420,9 @@
                     requestUrl = requestUrl + '&message=' +
                         this.searchMessageForm.message;
                 }
-                if (this.searchMessageForm.level !== '') {
-                    requestUrl = requestUrl + '&level=' +
-                        this.searchMessageForm.level;
+                if (this.searchMessageForm.messageTypeId !== '') {
+                    requestUrl = requestUrl + '&messageTypeId=' +
+                        this.searchMessageForm.messageTypeId;
                 }
                 _this.getRequest(requestUrl)
                     .then(function (response) {
@@ -435,7 +439,9 @@
         },
         mounted() {
             this.searchReceiveMessage();
+            this.listMessageTypes();
             this.searchPublishMessage();
+
         }
     }
 </script>
