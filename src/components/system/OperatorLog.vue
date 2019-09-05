@@ -55,6 +55,9 @@
           prop="ipAddress"
           label="IP"
           width="130">
+          <template slot-scope="scope">
+            <el-tag type="danger" size="mini">{{scope.row.ipAddress}}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column
           prop="requestMethod"
@@ -74,17 +77,17 @@
           width="180">
         </el-table-column>
         <el-table-column
-          prop="requestPayload"
-          label="请求负载"
+          prop="operatorSystem"
+          label="操作系统"
           :show-overflow-tooltip=true
-          width="180">
+          width="150">
         </el-table-column>
         <el-table-column
           prop="useTime"
           label="耗时"
           width="85">
           <template slot-scope="scope">
-            <el-tag type="success" size="small">{{scope.row.useTime}}ms</el-tag>
+            <el-tag type="success" size="mini">{{scope.row.useTime}}ms</el-tag>
           </template>
         </el-table-column>
         <el-table-column
@@ -96,10 +99,58 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="queryInfo(scope.row)" type="primary">详情</el-button>
+            <el-button size="mini" @click="queryDetail(scope.row)" type="info" icon="el-icon-document">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
+      <el-dialog
+        title="操作详情"
+        :visible.sync="infoVisible"
+        width="40%">
+        <el-form ref="operatorLogForm" :model="operatorLogForm" label-width="100px" size="mini">
+          <el-form-item label="名称:">
+            {{operatorLogForm.title}}
+          </el-form-item>
+          <el-form-item label="操作人:">
+            {{operatorLogForm.username}}
+          </el-form-item>
+          <el-form-item label="请求方式:">
+            <el-tag size="mini"> {{operatorLogForm.requestMethod}}
+            </el-tag>
+          </el-form-item>
+          <el-form-item label="请求地址:">
+            {{operatorLogForm.requestUri}}
+          </el-form-item>
+          <el-form-item label="请求参数:">
+            {{operatorLogForm.queryString}}
+          </el-form-item>
+          <el-form-item label="请求负载:">
+            {{operatorLogForm.requestPayload}}
+          </el-form-item>
+          <el-form-item label="IP地址:">
+            <el-tag type="danger" size="mini"> {{operatorLogForm.ipAddress}}
+            </el-tag>
+          </el-form-item>
+          <el-form-item label="操作系统:">
+            {{operatorLogForm.operatorSystem}}
+          </el-form-item>
+          <el-form-item label="浏览器:">
+            {{operatorLogForm.browser}}
+          </el-form-item>
+          <el-form-item label="用户代理:">
+            {{operatorLogForm.userAgent}}
+          </el-form-item>
+          <el-form-item label="请求时间:">
+            {{operatorLogForm.createAt}}
+          </el-form-item>
+          <el-form-item label="请求耗时:">
+            <el-tag type="success" size="small">{{operatorLogForm.useTime}}ms</el-tag>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="infoVisible = false" size="small">关 闭</el-button>
+        </span>
+      </el-dialog>
     </el-row>
     <el-row style="margin-top: 20px">
       <div style="text-align: center">
@@ -134,6 +185,23 @@
                     startTime: '',
                     endTime: ''
                 },
+                operatorLogForm: {
+                    createAt: '',
+                    modifiedAt: '',
+                    id: '',
+                    username: '',
+                    idAddress: '',
+                    requestMethod: '',
+                    userAgent: '',
+                    operatorSystem: '',
+                    browser: '',
+                    requestUri: '',
+                    queryString: '',
+                    requestPayload: '',
+                    title: '',
+                    useTime: ''
+                },
+                infoVisible: false,
                 pickerOptions: {
                     shortcuts: [{
                         text: '今天',
@@ -156,10 +224,24 @@
                         }
                     }]
                 }
-
             }
         },
         methods: {
+            queryDetail(row) {
+                this.infoVisible = true;
+                this.operatorLogForm.title = row.title;
+                this.operatorLogForm.username = row.username;
+                this.operatorLogForm.requestMethod = row.requestMethod;
+                this.operatorLogForm.requestUri = row.requestUri;
+                this.operatorLogForm.queryString = row.queryString;
+                this.operatorLogForm.requestPayload = row.requestPayload;
+                this.operatorLogForm.operatorSystem = row.operatorSystem;
+                this.operatorLogForm.browser = row.browser;
+                this.operatorLogForm.userAgent = row.userAgent;
+                this.operatorLogForm.createAt = row.createAt;
+                this.operatorLogForm.useTime = row.useTime;
+                this.operatorLogForm.ipAddress = row.ipAddress;
+            },
             searchLog() {
                 const _this = this;
                 _this.loading = true;

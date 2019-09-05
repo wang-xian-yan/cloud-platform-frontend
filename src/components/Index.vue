@@ -38,8 +38,9 @@
                 <i :class="menu.icon"></i>
                 <span slot="title">{{menu.title}}</span>
               </template>
-              <el-menu-item v-for="child in menu.children" :index="child.path">
-                {{child.title}}
+              <el-menu-item v-for="childMenu in menu.children" :index="childMenu.path" :key="childMenu.path
+">
+                {{childMenu.title}}
               </el-menu-item>
             </el-submenu>
           </template>

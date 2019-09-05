@@ -11,8 +11,6 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {deleteRequest, getRequest, postRequest, putRequest} from './util/api'
 import {initMenu} from "./util/commonApi";
-import {getAllEnterprise} from "./util/commonApi";
-// require styles
 
 const baseURL = "http://49.234.133.55:8081";
 // const baseURL = "http://localhost:8083";

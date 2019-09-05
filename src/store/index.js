@@ -34,7 +34,7 @@ export default new Vuex.Store({
       state.user.username = '';
       state.user.id = '';
       state.user.token = '';
-      state.menus = null;
+      state.menus = [];
     }
   }
 });
