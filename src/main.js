@@ -10,6 +10,7 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {deleteRequest, getRequest, postRequest, putRequest} from './util/api'
+import {initMenu} from "./util/commonApi";
 import {getAllEnterprise} from "./util/commonApi";
 // require styles
 
@@ -24,7 +25,6 @@ Vue.prototype.getRequest = getRequest;
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.putRequest = putRequest;
-Vue.prototype.getAllEnterprise = getAllEnterprise;
 
 
 Vue.config.productionTip = false;
@@ -37,14 +37,13 @@ router.beforeEach((to, from, next) => {
         next('index');
         return;
       }
-      console.log('login:' + name);
       next();
       return;
     }
-
     if (name === '未登录' || name == null) {
       next({path: '/', query: {redirect: to.path}});
     } else {
+      initMenu(store);
       next();
     }
   }

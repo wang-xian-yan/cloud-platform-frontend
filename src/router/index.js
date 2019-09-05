@@ -19,6 +19,7 @@ import SystemPropertySetting from "../components/system/SystemPropertySetting";
 import EmailSend from "../components/system/EmailSend";
 import Menu from "../components/authority/Menu";
 import FileResource from "../components/system/FileResource";
+import OperatorLog from "../components/system/OperatorLog";
 
 Vue.use(Router);
 
@@ -109,6 +110,10 @@ export default new Router({
           path: '/systems/file-resources',
           name: 'FileResource',
           component: FileResource
+        }, {
+          path: '/systems/operator-logs',
+          name: 'OperatorLog',
+          component: OperatorLog
         }]
     }
   ]

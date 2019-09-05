@@ -14,6 +14,7 @@
         <el-row>
           <el-table
             :data="receiveMessageTableData"
+            v-loading="receiveMessageTableLoading"
             tooltip-effect="dark"
             size="small"
             border
@@ -39,12 +40,7 @@
               width="180">
             </el-table-column>
             <el-table-column
-              prop="messageContent.level"
-              label="消息级别"
-              width="100">
-            </el-table-column>
-            <el-table-column
-              prop="messageContent.level"
+              prop="messageContent.messageTypeId"
               label="消息类型"
               width="100">
             </el-table-column>
@@ -127,6 +123,7 @@
         <el-row>
           <el-table
             :data="publishMessageTableData"
+            v-loading="publishMessageTableLoading"
             tooltip-effect="dark"
             size="small"
             border
@@ -207,7 +204,7 @@
               <el-input type="textarea" v-model="messageContentForm.message"></el-input>
             </el-form-item>
             <el-form-item label="消息级别" prop="level">
-              <el-select v-model="messageContentForm.level" placeholder="请选择消息类型">
+              <el-select v-model="messageContentForm.messageTypeId" placeholder="请选择消息类型">
                 <el-option
                   v-for="type in messageTypes"
                   :key="type.id"
@@ -251,7 +248,7 @@
                 messageContentForm: {
                     title: '',
                     message: '',
-                    level: '',
+                    messageTypeId: '',
                     targetType: 'all',
                     targetUserId: null,
                     targetUserIdList: [],
@@ -264,8 +261,8 @@
                     message: [
                         {required: true, message: "请输入消息内容", trigger: "blur"}
                     ],
-                    level: [
-                        {required: true, message: "请选择消息级别", trigger: "blur"}
+                    messageTypeId: [
+                        {required: true, message: "请选择消息类型", trigger: "blur"}
                     ],
                     targetType: [
                         {required: true, message: "请选择收件人类型", trigger: "blur"}
@@ -273,6 +270,7 @@
                 },
                 activeTab: 'message',
                 receiveMessageTableData: [],
+                receiveMessageTableLoading:false,
                 receiveCurrentPage: 1,
                 receiveTotalElements: 0,
                 receivePageSize: 15,
@@ -282,6 +280,7 @@
                     messageTypeId: ''
                 },
                 publishMessageTableData: [],
+                publishMessageTableLoading: false,
                 publishCurrentPage: 1,
                 publishTotalElements: 0,
                 publishPageSize: 15,
@@ -290,7 +289,8 @@
                     startTime: '',
                     endTime: ''
 
-                }, pickerOptions: {
+                },
+                pickerOptions: {
                     shortcuts: [{
                         text: '今天',
                         onClick(picker) {
@@ -326,10 +326,11 @@
             },
             searchPublishMessage() {
                 const _this = this;
+                this.publishMessageTableLoading = true;
                 let requestUrl = "/api/v1/messages/publish/search?page=" + _this.receiveCurrentPage + "&size=" + _this.receivePageSize;
                 if (this.searchPublishMessageForm.condition !== '') {
                     requestUrl = requestUrl + '&condition=' +
-                        this.searchPublishMessageForm.title;
+                        this.searchPublishMessageForm.condition;
                 }
                 if (this.searchPublishMessageForm.startTime !== '') {
                     requestUrl = requestUrl + '&startTime=' +
@@ -346,16 +347,18 @@
                         _this.publishTotalElements = data.totalElements;
                         _this.publishPageSize = data.size;
                         _this.publishCurrentPage = data.number + 1;
+                        _this.publishMessageTableLoading = false;
 
                     }).catch(error => {
                     console.log("search file error:" + error);
+                    _this.publishMessageTableLoading = false;
                 });
             },
-            listMessageTypes(){
+            listMessageTypes() {
                 const _this = this;
-                _this.getRequest('/api/v1/messages/types').then(response=>{
+                _this.getRequest('/api/v1/messages/types').then(response => {
                     _this.messageTypes = response.data.data;
-                }).catch(error=>{
+                }).catch(error => {
 
                 })
             },
@@ -367,7 +370,7 @@
                         const params = {
                             title: _this.messageContentForm.title,
                             message: _this.messageContentForm.message,
-                            level: _this.messageContentForm.level,
+                            messageTypeId: _this.messageContentForm.messageTypeId,
                             targetType: targetType,
                             targetUserIdList: _this.messageContentForm.targetUserIdList
                         };
@@ -411,6 +414,7 @@
             },
             searchReceiveMessage() {
                 const _this = this;
+                this.receiveMessageTableLoading = true;
                 let requestUrl = "/api/v1/messages/search?page=" + _this.receiveCurrentPage + "&size=" + _this.receivePageSize;
                 if (this.searchMessageForm.title !== '') {
                     requestUrl = requestUrl + '&title=' +
@@ -431,9 +435,11 @@
                         _this.receiveTotalElements = data.totalElements;
                         _this.receivePageSize = data.size;
                         _this.receiveCurrentPage = data.number + 1;
+                        _this.receiveMessageTableLoading = false;
 
                     }).catch(error => {
                     console.log("search file error:" + error);
+                    _this.receiveMessageTableLoading = false;
                 });
             }
         },

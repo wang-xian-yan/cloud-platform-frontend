@@ -8,8 +8,9 @@ export default new Vuex.Store({
     user: {
       id: window.localStorage.getItem('UserId' || '[]') === '' ? '未登录' : window.localStorage.getItem('UserId' || '[]'),
       username: window.localStorage.getItem('Username' || '[]') === '' ? '未登录' : window.localStorage.getItem('Username' || '[]'),
-      token: window.localStorage.getItem('Authorization' || '[]') === '' ? '未登录' : window.localStorage.getItem('Authorization' || '[]')
-    }
+      token: window.localStorage.getItem('Authorization' || '[]') === '' ? '未登录' : window.localStorage.getItem('Authorization' || '[]'),
+    },
+    menus: []
   },
   mutations: {
     login(state, user) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
       state.user.token = user.data.token;
 
     },
+    initMenu(state, menus) {
+      state.menus = menus;
+    },
     logout(state) {
       console.log("logout state:" + state);
       window.localStorage.removeItem('Authorization');
@@ -30,6 +34,7 @@ export default new Vuex.Store({
       state.user.username = '';
       state.user.id = '';
       state.user.token = '';
+      state.menus = null;
     }
   }
 });

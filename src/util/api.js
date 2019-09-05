@@ -80,9 +80,10 @@ export const deleteRequest = (url) => {
   })
 };
 
-export const getRequest = (url) => {
+export const getRequest = (url, headers) => {
   return axios({
     method: 'get',
+    headers: headers,
     url: url
   })
 };

@@ -28,81 +28,97 @@
                  :collapse-transition=false
                  :unique-opened=false
                  router>
-          <el-menu-item index="/index">
-            <i class="el-icon-menu"></i>
-            <span slot="title">Dashboard</span>
-          </el-menu-item>
-          <el-submenu index="/cards">
-            <template slot="title">
-              <i class="el-icon-bank-card"></i>
-              <span slot="title">卡片管理</span>
-            </template>
-            <el-menu-item index="/cards/list">卡片列表</el-menu-item>
-            <el-menu-item index="/cards/transfer">划拨记录</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/packages">
-            <template slot="title">
-              <i class="el-icon-document"></i>
-              <span slot="title">套餐管理</span>
-            </template>
-            <el-menu-item index="/packages/system">系统套餐</el-menu-item>
-            <el-menu-item index="/packages/list">我的套餐</el-menu-item>
-            <el-menu-item index="/packages/distribution">套餐分配</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/operators">
-            <template slot="title">
-              <i class="el-icon-s-platform"></i>
-              <span slot="title">运营管理</span>
-            </template>
-            <el-menu-item index="/operators/a">营销活动</el-menu-item>
-            <el-menu-item index="/operators/b">黑名单</el-menu-item>
-            <el-menu-item index="/operators/c">分润</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/orders">
-            <template slot="title">
-              <i class="el-icon-s-order"></i>
-              <span slot="title">订单管理</span>
-            </template>
-            <el-menu-item index="/orders/card">卡片订单</el-menu-item>
-            <el-menu-item index="/orders/card-pool">卡池订单</el-menu-item>
-            <el-menu-item index="/orders/equipment">设备订单</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/consumers">
-            <template slot="title">
-              <i class="el-icon-user"></i>
-              <span slot="title">客户管理</span>
-            </template>
-            <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>
-            <el-menu-item index="/consumers/users">下级用户</el-menu-item>
-            <el-menu-item index="/consumers/on-line">在线用户</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/authorities">
-            <template slot="title">
-              <i class="el-icon-s-goods"></i>
-              <span slot="title">权限管理</span>
-            </template>
-            <el-menu-item index="/authorities/roles">角色管理</el-menu-item>
-            <el-menu-item index="/authorities/menus">菜单管理</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/reports">
-            <template slot="title">
-              <i class="el-icon-data-board"></i>
-              <span slot="title">数据报表</span>
-            </template>
-            <el-menu-item index="/reports/card">卡片报表</el-menu-item>
-            <el-menu-item index="/reports/user">用户报表</el-menu-item>
-            <el-menu-item index="/reports/recharge">充值报表</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/systems">
-            <template slot="title">
-              <i class="el-icon-setting"></i>
-              <span slot="title">系统管理</span>
-            </template>
-            <el-menu-item index="/systems/property-setting">属性设置</el-menu-item>
-            <el-menu-item index="/systems/email-send">邮件发送</el-menu-item>
-            <el-menu-item index="/systems/file-resources">文件资源</el-menu-item>
-            <el-menu-item index="/systems/login-history">登录历史</el-menu-item>
-          </el-submenu>
+          <template v-for="menu in menus">
+            <el-menu-item v-if="menu.children.length===0" :index="menu.path">
+              <i :class="menu.icon"></i>
+              <span slot="title">{{menu.title}}</span>
+            </el-menu-item>
+            <el-submenu v-else :index="menu.path">
+              <template slot="title">
+                <i :class="menu.icon"></i>
+                <span slot="title">{{menu.title}}</span>
+              </template>
+              <el-menu-item v-for="child in menu.children" :index="child.path">
+                {{child.title}}
+              </el-menu-item>
+            </el-submenu>
+          </template>
+          <!--          <el-menu-item index="/index">-->
+          <!--            <i class="el-icon-menu"></i>-->
+          <!--            <span slot="title">Dashboard</span>-->
+          <!--          </el-menu-item>-->
+          <!--          <el-submenu index="/cards">-->
+          <!--            <template slot="title">-->
+          <!--              <i class="el-icon-bank-card"></i>-->
+          <!--              <span slot="title">卡片管理</span>-->
+          <!--            </template>-->
+          <!--            <el-menu-item index="/cards/list">卡片列表</el-menu-item>-->
+          <!--            <el-menu-item index="/cards/transfer">划拨记录</el-menu-item>-->
+          <!--          </el-submenu>-->
+          <!--          <el-submenu index="/packages">-->
+          <!--            <template slot="title">-->
+          <!--              <i class="el-icon-document"></i>-->
+          <!--              <span slot="title">套餐管理</span>-->
+          <!--            </template>-->
+          <!--            <el-menu-item index="/packages/system">系统套餐</el-menu-item>-->
+          <!--            <el-menu-item index="/packages/list">我的套餐</el-menu-item>-->
+          <!--            <el-menu-item index="/packages/distribution">套餐分配</el-menu-item>-->
+          <!--          </el-submenu>-->
+          <!--          <el-submenu index="/operators">-->
+          <!--            <template slot="title">-->
+          <!--              <i class="el-icon-s-platform"></i>-->
+          <!--              <span slot="title">运营管理</span>-->
+          <!--            </template>-->
+          <!--            <el-menu-item index="/operators/a">营销活动</el-menu-item>-->
+          <!--            <el-menu-item index="/operators/b">黑名单</el-menu-item>-->
+          <!--            <el-menu-item index="/operators/c">分润</el-menu-item>-->
+          <!--          </el-submenu>-->
+          <!--          <el-submenu index="/orders">-->
+          <!--            <template slot="title">-->
+          <!--              <i class="el-icon-s-order"></i>-->
+          <!--              <span slot="title">订单管理</span>-->
+          <!--            </template>-->
+          <!--            <el-menu-item index="/orders/card">卡片订单</el-menu-item>-->
+          <!--            <el-menu-item index="/orders/card-pool">卡池订单</el-menu-item>-->
+          <!--            <el-menu-item index="/orders/equipment">设备订单</el-menu-item>-->
+          <!--          </el-submenu>-->
+          <!--          <el-submenu index="/consumers">-->
+          <!--            <template slot="title">-->
+          <!--              <i class="el-icon-user"></i>-->
+          <!--              <span slot="title">客户管理</span>-->
+          <!--            </template>-->
+          <!--            <el-menu-item index="/consumers/enterprises">企业客户</el-menu-item>-->
+          <!--            <el-menu-item index="/consumers/users">下级用户</el-menu-item>-->
+          <!--            <el-menu-item index="/consumers/on-line">在线用户</el-menu-item>-->
+          <!--          </el-submenu>-->
+          <!--          <el-submenu index="/authorities">-->
+          <!--            <template slot="title">-->
+          <!--              <i class="el-icon-s-goods"></i>-->
+          <!--              <span slot="title">权限管理</span>-->
+          <!--            </template>-->
+          <!--            <el-menu-item index="/authorities/roles">角色管理</el-menu-item>-->
+          <!--            <el-menu-item index="/authorities/menus">菜单管理</el-menu-item>-->
+          <!--          </el-submenu>-->
+          <!--          <el-submenu index="/reports">-->
+          <!--            <template slot="title">-->
+          <!--              <i class="el-icon-data-board"></i>-->
+          <!--              <span slot="title">数据报表</span>-->
+          <!--            </template>-->
+          <!--            <el-menu-item index="/reports/card">卡片报表</el-menu-item>-->
+          <!--            <el-menu-item index="/reports/user">用户报表</el-menu-item>-->
+          <!--            <el-menu-item index="/reports/recharge">充值报表</el-menu-item>-->
+          <!--          </el-submenu>-->
+          <!--          <el-submenu index="/systems">-->
+          <!--            <template slot="title">-->
+          <!--              <i class="el-icon-setting"></i>-->
+          <!--              <span slot="title">系统管理</span>-->
+          <!--            </template>-->
+          <!--            <el-menu-item index="/systems/property-setting">属性设置</el-menu-item>-->
+          <!--            <el-menu-item index="/systems/email-send">邮件发送</el-menu-item>-->
+          <!--            <el-menu-item index="/systems/file-resources">文件资源</el-menu-item>-->
+          <!--            <el-menu-item index="/systems/login-history">登录历史</el-menu-item>-->
+          <!--            <el-menu-item index="/systems/operator-logs">操作日志</el-menu-item>-->
+          <!--          </el-submenu>-->
         </el-menu>
       </el-scrollbar>
     </el-aside>
@@ -291,7 +307,7 @@
                 isCollapseIcon: 'el-icon-s-fold',
                 accountInfo: {
                     username: '',
-                    userFace: '../assets/face_image_1.jpeg',
+                    userFace: '',
                     email: '',
                     fullName: '',
                     phone: '',
@@ -304,7 +320,6 @@
                     }
                 },
                 unreadMessageCount: 0,
-                usersTableData: [],
                 mobileCardData: {
                     columns: ['status', 'count'],
                     rows: [
@@ -395,6 +410,11 @@
         },
         mounted() {
             this.initData();
+        },
+        computed: {
+            menus() {
+                return this.$store.state.menus;
+            }
         }
     }
 </script>

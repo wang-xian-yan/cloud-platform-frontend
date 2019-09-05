@@ -13,6 +13,9 @@
         <el-form-item label="名字" prop="name">
           <el-input v-model="menuForm.name" size="small"></el-input>
         </el-form-item>
+        <el-form-item label="路径" prop="path">
+          <el-input v-model="menuForm.name" size="small"></el-input>
+        </el-form-item>
         <el-form-item label="图标" prop="icon">
           <el-input v-model="menuForm.icon" size="small"></el-input>
         </el-form-item>
@@ -26,13 +29,11 @@
           <el-radio-group v-model="menuForm.type">
             <el-radio label="1">页面</el-radio>
             <el-radio label="2">按钮</el-radio>
-
           </el-radio-group>
         </el-form-item>
         <el-form-item label="父级菜单" prop="parentId">
           <el-select v-model="menuForm.parentId" placeholder="请选择父级菜单" size="small">
-            <el-option key="0" label="父级" value="0">
-
+            <el-option key="0" label="顶级菜单" value="0">
             </el-option>
             <!--            <el-option-->
             <!--              v-for="enterprise in enterprises"-->
@@ -88,6 +89,22 @@
                 this.menuFormVisible = false;
             },
             addMenu() {
+                const _this = this;
+                const params = {
+                    name: _this.menuForm.name,
+                    path: _this.menuForm.path,
+                    icon: _this.menuForm.icon,
+                    title: _this.menuForm.title,
+                    parentId: _this.menuForm.parentId,
+                    permissionCode: _this.menuForm.permissionCode,
+                    type: _this.menuForm.type,
+                    adminVisible: _this.menuForm.adminVisible
+                };
+                _this.postRequest('/api/v1/menus', params).then(response => {
+
+                }).catch(error => {
+
+                });
             },
             editMenu() {
             }

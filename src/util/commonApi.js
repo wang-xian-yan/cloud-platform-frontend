@@ -7,3 +7,12 @@ export const getAllEnterprise = () => {
     return response.data.data;
   })
 };
+export const initMenu = (store) => {
+  if (store.state.menus.length > 0) {
+    return;
+  }
+  getRequest("/api/v1/menus/generate").then(resp => {
+    const data = resp.data.data;
+    store.commit('initMenu', data);
+  })
+};
