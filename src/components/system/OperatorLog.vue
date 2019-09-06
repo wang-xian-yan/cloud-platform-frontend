@@ -99,7 +99,7 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="queryDetail(scope.row)" type="info" icon="el-icon-document">详情</el-button>
+            <el-button size="mini" @click="queryDetail(scope.row)" type="info" icon="el-icon-info">详情</el-button>
           </template>
         </el-table-column>
       </el-table>

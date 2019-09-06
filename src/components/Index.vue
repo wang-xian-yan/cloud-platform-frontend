@@ -129,7 +129,7 @@
           <el-button :icon="isCollapseIcon" @click="handlerIsCollapse" size="small"></el-button>
           <div class="right-menu">
             <router-link to="/"><i class="active el-icon-s-home"></i></router-link>
-            <router-link to="/messages">
+            <router-link to="/message-center">
               <i class="el-icon-message-solid"></i>
               <el-badge :value="unreadMessageCount" :max="99" style="margin-left: -10px;margin-top: -15px"
                         v-if="unreadMessageCount !==0">

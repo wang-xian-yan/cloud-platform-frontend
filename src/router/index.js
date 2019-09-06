@@ -43,7 +43,7 @@ export default new Router({
           name: 'AccountBasic',
           component: AccountBasic
         }, {
-          path: '/messages',
+          path: '/message-center',
           name: 'MessageCenter',
           component: MessageCenter
         },

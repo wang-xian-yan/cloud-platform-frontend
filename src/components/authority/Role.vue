@@ -41,7 +41,7 @@
           <el-input v-model="searchRoleForm.condition" placeholder="角色名字/描述模糊查询"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="searchRole">搜索</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -60,17 +60,47 @@
         <el-table-column
           prop="description"
           label="描述"
-          width="180">
+          :show-overflow-tooltip=true
+          width="250">
         </el-table-column>
         <el-table-column
           prop="createAt"
-          label="创建时间">
+          label="创建时间"
+          width="140">
         </el-table-column>
         <el-table-column
           prop="modifiedAt"
-          label="更新时间">
+          label="更新时间"
+          width="140">
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="queryDetail(scope.row)" type="info" icon="el-icon-info">详情</el-button>
+            <el-button size="mini" @click="queryDetail(scope.row)" type="success" icon="el-icon-edit">编辑</el-button>
+            <el-button size="mini" @click="showRoleAuthorities(scope.row)" type="primary" icon="el-icon-edit">修改权限
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
+      <el-dialog
+        :title="showRoleAuthoritiesTitle"
+        :visible.sync="showRoleAuthoritiesVisible"
+        width="35%">
+        <el-tree
+          :data="authorities"
+          show-checkbox
+          node-key="id"
+          :default-expanded-keys="[2, 3]"
+          :default-checked-keys="haveAuthority"
+          :props="defaultProps">
+        </el-tree>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="showRoleAuthoritiesVisible = false" size="small">取 消</el-button>
+          <el-button type="primary" @click="showRoleAuthoritiesVisible = false" size="small">确 定</el-button>
+        </span>
+      </el-dialog>
     </el-row>
   </div>
 </template>
@@ -80,6 +110,14 @@
         name: "RoleIndex",
         data() {
             return {
+                haveAuthority:[],
+                defaultProps: {
+                    children: 'children',
+                    label: 'label'
+                },
+                authorities: [],
+                showRoleAuthoritiesTitle: '',
+                showRoleAuthoritiesVisible: false,
                 roleFormVisible: false,
                 roleFormTitle: '新增角色',
                 roleForm: {
@@ -98,6 +136,18 @@
             }
         },
         methods: {
+            showRoleAuthorities(row) {
+                this.showRoleAuthoritiesTitle = row.name;
+                this.showRoleAuthoritiesVisible = true;
+                const _this = this;
+                _this.getRequest('/api/v1/menus/have?roleId='+row.id).then(response=>{
+                    _this.haveAuthority = response.data.data;
+                });
+                _this.getRequest('/api/v1/menus/show-menus').then(response => {
+                    _this.authorities = response.data.data;
+
+                });
+            },
             showAddRoleForm() {
                 this.roleFormVisible = true;
             },
@@ -129,11 +179,11 @@
             },
             searchRole() {
                 const _this = this;
+                _this.loading = true;
                 let requestUrl = "/api/v1/roles/search?page=" + _this.currentPage + "&size=" + _this.pageSize;
                 if (_this.searchRoleForm.condition !== '') {
                     requestUrl = requestUrl + "&condition=" + _this.searchRoleForm.condition;
                 }
-                _this.loading = true;
                 _this.getRequest(requestUrl).then(function (response) {
                     const data = response.data.data;
                     _this.roleTableData = data.content;

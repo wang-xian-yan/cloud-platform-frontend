@@ -94,16 +94,14 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="showEditUserForm(scope.row)">编辑</el-button>
+            <el-button size="mini" @click="showEditUserForm(scope.row)" icon="el-icon-edit">编辑</el-button>
             <el-button type="warning" size="mini" @click="showResetUserPassword(scope.row)">重置密码</el-button>
             <el-button type="danger" size="mini" @click="disableUser(scope.row)" v-if="scope.row.isEnabled">禁用
             </el-button>
             <el-button type="success" size="mini" @click="enabledUser(scope.row)" v-if="scope.row.isEnabled === false">
               启用
             </el-button>
-            <el-button size="mini" type="primary">
-              分配权限
-            </el-button>
+            <el-button size="mini" type="primary" @click="setRole(scope.row)">设置角色</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -187,6 +185,25 @@
         <el-button type="primary" @click="editUser" v-if="userFormType==='update'" size="small">修 改</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      :title="setRoleTitle"
+      :visible.sync="setRoleVisible"
+      width="30%">
+      <el-form ref="setRoleForm" :model="setRoleForm" label-width="100px" size="small">
+        <el-form-item label="当前角色:">
+          <el-tag type="success" size="small">{{setRoleForm.roleName}}</el-tag>
+        </el-form-item>
+        <el-form-item label="请选择角色:">
+          <el-select v-model="setRoleForm.roleId">
+            <el-option v-for="role in enterpriseRoles" :label="role.name" :value="role.id" :key="role.id"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRoleVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="setUserRole" size="small">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -194,6 +211,14 @@
         name: "UserDocument",
         data() {
             return {
+                enterpriseRoles: [],
+                setRoleForm: {
+                    userId: '',
+                    roleId: '',
+                    roleName: ''
+                },
+                setRoleVisible: false,
+                setRoleTitle: '',
                 usersTableData: [],
                 userFormVisible: false,
                 userFormType: 'create',
@@ -251,6 +276,41 @@
             }
         },
         methods: {
+            setUserRole() {
+                const params = {
+                    userId: this.setRoleForm.userId,
+                    roleId: this.setRoleForm.roleId
+                };
+                const _this = this;
+                this.postRequest('/api/v1/users/set-role',params).then(response=>{
+                    _this.$message({
+                        type:'success',
+                        message:'设置角色成功',
+                        showClose:true
+                    });
+                    _this.setRoleVisible = false;
+                });
+            },
+            setRole(row) {
+                this.setRoleTitle = row.fullName;
+                const _this = this;
+                _this.getRequest('/api/v1/roles').then(response => {
+                    _this.enterpriseRoles = response.data.data;
+                });
+                _this.setRoleForm.userId = row.id;
+                _this.getRequest('/api/v1/users/' + row.id).then(response => {
+                    const role = response.data.data.role;
+                    if (role !== null) {
+                        _this.setRoleForm.roleName = role.name;
+                        _this.setRoleForm.roleId = role.id;
+                    } else {
+                        _this.setRoleForm.roleName = '还没有设置角色';
+                    }
+                }).catch(error => {
+                    _this.setRoleForm.roleName = '还没有设置角色';
+                });
+                this.setRoleVisible = true;
+            },
             cancelUserForm() {
                 const _this = this;
                 _this.userForm.id = null;
@@ -320,7 +380,7 @@
                 let requestUrl = "/api/v1/enterprises/child";
                 _this.getRequest(requestUrl).then(function (response) {
                     _this.enterprises = response.data.data;
-                    _this.enterprises.unshift({id:null,name:'全部'});
+                    _this.enterprises.unshift({id: null, name: '全部'});
                 })
 
             },
