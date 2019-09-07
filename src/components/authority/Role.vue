@@ -90,15 +90,15 @@
         width="35%">
         <el-tree
           :data="authorities"
+          ref="authorities"
           show-checkbox
           node-key="id"
-          :default-expanded-keys="[2, 3]"
-          :default-checked-keys="haveAuthority"
+          default-expand-all
           :props="defaultProps">
         </el-tree>
         <span slot="footer" class="dialog-footer">
           <el-button @click="showRoleAuthoritiesVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="showRoleAuthoritiesVisible = false" size="small">确 定</el-button>
+          <el-button type="primary" @click="roleAuthorize" size="small">确 定</el-button>
         </span>
       </el-dialog>
     </el-row>
@@ -110,7 +110,10 @@
         name: "RoleIndex",
         data() {
             return {
-                haveAuthority:[],
+                roleAuthorizeForm: {
+                    roleId: null
+                },
+                haveAuthority: [],
                 defaultProps: {
                     children: 'children',
                     label: 'label'
@@ -136,17 +139,40 @@
             }
         },
         methods: {
-            showRoleAuthorities(row) {
-                this.showRoleAuthoritiesTitle = row.name;
-                this.showRoleAuthoritiesVisible = true;
+            //角色授权
+            roleAuthorize() {
+                const authorities = this.$refs.authorities.getCheckedKeys().concat(this.$refs.authorities.getHalfCheckedKeys());
+                const params = {
+                    roleId: this.roleAuthorizeForm.roleId,
+                    authorities: authorities
+                };
                 const _this = this;
-                _this.getRequest('/api/v1/menus/have?roleId='+row.id).then(response=>{
-                    _this.haveAuthority = response.data.data;
+                _this.postRequest('/api/v1/menus/role-authorize', params).then(response => {
+                    _this.$message({
+                        type: 'success',
+                        message: '角色授权成功',
+                        showClose: true
+                    });
+                    _this.showRoleAuthoritiesVisible = false;
+                });
+            },
+            //展示角色权限
+            showRoleAuthorities(row) {
+                this.roleAuthorizeForm.roleId = row.id;
+                this.authorities = [];
+                this.showRoleAuthoritiesTitle = row.name;
+                const _this = this;
+                _this.getRequest('/api/v1/menus/have?roleId=' + row.id).then(response => {
+                    let haveAuthority = response.data.data;
+                    if (haveAuthority === null) {
+                        haveAuthority = [];
+                    }
+                    _this.$refs.authorities.setCheckedKeys(haveAuthority);
                 });
                 _this.getRequest('/api/v1/menus/show-menus').then(response => {
                     _this.authorities = response.data.data;
-
                 });
+                this.showRoleAuthoritiesVisible = true;
             },
             showAddRoleForm() {
                 this.roleFormVisible = true;
@@ -168,13 +194,12 @@
                             message: '角色保存成功',
                             type: 'success'
                         });
+                        _this.roleStepActive++;
                     }).catch(error => {
                         console.log(error);
                     });
                 } else if (this.roleStepActive === 1) {
-
                 }
-                this.roleStepActive++;
 
             },
             searchRole() {
