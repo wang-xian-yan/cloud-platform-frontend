@@ -46,44 +46,47 @@
       </el-form>
     </el-row>
     <el-row>
-      <el-table
-        border
-        v-loading="loading"
-        size="small"
-        :data="roleTableData"
-        style="width: 100%">
-        <el-table-column
-          prop="name"
-          label="名称"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="description"
-          label="描述"
-          :show-overflow-tooltip=true
-          width="250">
-        </el-table-column>
-        <el-table-column
-          prop="createAt"
-          label="创建时间"
-          width="140">
-        </el-table-column>
-        <el-table-column
-          prop="modifiedAt"
-          label="更新时间"
-          width="140">
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="queryDetail(scope.row)" type="info" icon="el-icon-info">详情</el-button>
-            <el-button size="mini" @click="queryDetail(scope.row)" type="success" icon="el-icon-edit">编辑</el-button>
-            <el-button size="mini" @click="showRoleAuthorities(scope.row)" type="primary" icon="el-icon-edit">修改权限
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <div style="display: flex;justify-content: space-around;flex-wrap: wrap;text-align: left">
+        <el-card style="width: 300px;margin-bottom: 20px" v-for="role in roleTableData" :key="role.id">
+          <el-form :inline="true" size="mini">
+            <el-form-item label="角色名字:">
+              <el-tag>{{role.name}}</el-tag>
+            </el-form-item>
+            <el-form-item label="角色介绍:">
+              <label class="role-description">{{role.description}}</label>
+            </el-form-item>
+            <el-form-item label="创建时间:">
+              <label class="role-description">{{role.createAt}}</label>
+            </el-form-item>
+            <el-form-item label="更新时间:">
+              <label class="role-description">{{role.modifiedAt}}</label>
+            </el-form-item>
+          </el-form>
+          <el-button type="info" size="mini" @click="showEditRoleForm(role)" icon="el-icon-edit">编辑</el-button>
+          <el-button type="success" size="mini" @click="showRoleAuthorities(role)" icon="el-icon-s-goods">权限
+          </el-button>
+        </el-card>
+      </div>
+      <el-dialog
+        :title="editRoleFormTitle"
+        :visible.sync="editRoleFormVisible"
+        width="30%">
+        <el-form ref="editRoleForm" :model="editRoleForm" label-width="80px" size="small">
+          <el-form-item label="编号:">
+            <el-input v-model="editRoleForm.id" disabled=""></el-input>
+          </el-form-item>
+          <el-form-item label="名字:">
+            <el-input v-model="editRoleForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="描述:">
+            <el-input v-model="editRoleForm.description"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editRoleFormVisible = false" size="small">取 消</el-button>
+          <el-button type="primary" @click="editRole" size="small">确 定</el-button>
+        </span>
+      </el-dialog>
       <el-dialog
         :title="showRoleAuthoritiesTitle"
         :visible.sync="showRoleAuthoritiesVisible"
@@ -102,6 +105,20 @@
         </span>
       </el-dialog>
     </el-row>
+    <el-row style="margin-top: 20px">
+      <div style="text-align: center">
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[15, 50, 100, 500]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="totalElements">
+        </el-pagination>
+      </div>
+    </el-row>
   </div>
 </template>
 
@@ -110,6 +127,13 @@
         name: "RoleIndex",
         data() {
             return {
+                editRoleForm: {
+                    id: '',
+                    name: '',
+                    description: ''
+                },
+                editRoleFormVisible: false,
+                editRoleFormTitle: '',
                 roleAuthorizeForm: {
                     roleId: null
                 },
@@ -139,6 +163,31 @@
             }
         },
         methods: {
+            editRole() {
+                const _this = this;
+                const params = {
+                    id: _this.editRoleForm.id,
+                    name: _this.editRoleForm.name,
+                    description: _this.editRoleForm.description
+                };
+                _this.putRequest('/api/v1/roles', params).then(response => {
+                    _this.$message({
+                        type: 'success',
+                        showClose: true,
+                        message: response.data.message
+                    });
+                    _this.editRoleFormVisible = false;
+                    _this.searchRole();
+                });
+            },
+            //展示修改角色表单
+            showEditRoleForm(role) {
+                this.editRoleFormTitle = '修改' + role.name + '';
+                this.editRoleForm.id = role.id;
+                this.editRoleForm.name = role.name;
+                this.editRoleForm.description = role.description;
+                this.editRoleFormVisible = true;
+            },
             //角色授权
             roleAuthorize() {
                 const authorities = this.$refs.authorities.getCheckedKeys().concat(this.$refs.authorities.getHalfCheckedKeys());
@@ -237,5 +286,13 @@
 </script>
 
 <style scoped>
+  .role-description {
+    font-size: 13px;
+    color: #999;
+  }
 
+  .bottom {
+    margin-bottom: 15px;
+    line-height: 12px;
+  }
 </style>
