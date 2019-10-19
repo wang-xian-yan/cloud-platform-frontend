@@ -1,29 +1,34 @@
 <template>
   <div class="login" :style="background">
     <div class="loginForm">
-      <div style="text-align: center;font-size: 22px;color: white ">
-        <span>JIAN YI IOT CLOUD PLATFORM</span>
-      </div>
-      <div style="margin-top: 30px">
-        <el-form :model="loginForm" :rules="rules" ref="loginForm" size="medium">
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          请登录
+        </div>
+        <el-form :model="loginForm" :rules="rules" ref="loginForm" size="medium" @keyup.enter.native="login('loginForm')">
           <el-form-item prop="username">
-            <el-input prefix-icon="el-icon-user" clearable placeholder="Username/Email"
+            <el-input prefix-icon="el-icon-user" clearable placeholder="请输入用户名或邮箱"
                       v-model="loginForm.username"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input size="medium" prefix-icon="el-icon-lock" clearable placeholder="Password" type="password"
+            <el-input size="medium" prefix-icon="el-icon-lock" clearable placeholder="请输入密码" type="password"
                       v-model="loginForm.password" show-password></el-input>
           </el-form-item>
           <el-form-item prop="verifyCode">
-            <el-input placeholder="验证码" v-model="loginForm.verifyCode" style="width:72%"></el-input>
-            <el-image :src="verifyCodeImgUrl" @click="getVerifyCodeUrl" style="vertical-align:middle"></el-image>
+            <el-input placeholder="请输入验证码" v-model="loginForm.verifyCode" style="width:60%"></el-input>
+            <a href="#"><el-image :src="verifyCodeImgUrl" @click="getVerifyCodeUrl"
+                      style="vertical-align:middle;float: right"></el-image></a>
+            <input v-model="loginForm.verifyCodeId" type="hidden"></input>
           </el-form-item>
-          <el-input v-model="loginForm.verifyCodeId" type="hidden"></el-input>
+          <el-form-item>
+            <el-link type="success">注册账号</el-link>
+            <el-link type="info"style="float:right;">忘记密码?</el-link>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" class="btn-long" @click="login('loginForm')" :loading="loading">登录</el-button>
           </el-form-item>
         </el-form>
-      </div>
+      </el-card>
     </div>
   </div>
 </template>
@@ -114,19 +119,19 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .login {
-    left: 0;
     background-size: cover;
+    background-position: center;
+    position: relative;
     width: 100%;
-    position: fixed;
     height: 100%;
   }
 
   .loginForm {
-    top: 50%;
-    left: 50%;
-    width: 420px;
     position: absolute;
-    transform: translate(-50%, -50%);
+    right: 160px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 360px;
   }
 
   h1,
