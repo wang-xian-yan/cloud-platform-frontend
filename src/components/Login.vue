@@ -3,9 +3,10 @@
     <div class="loginForm">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          请登录
+          请登录系统
         </div>
-        <el-form :model="loginForm" :rules="rules" ref="loginForm" size="medium" @keyup.enter.native="login('loginForm')">
+        <el-form :model="loginForm" :rules="rules" ref="loginForm" size="medium"
+                 @keyup.enter.native="login('loginForm')">
           <el-form-item prop="username">
             <el-input prefix-icon="el-icon-user" clearable placeholder="请输入用户名或邮箱"
                       v-model="loginForm.username"></el-input>
@@ -16,13 +17,15 @@
           </el-form-item>
           <el-form-item prop="verifyCode">
             <el-input placeholder="请输入验证码" v-model="loginForm.verifyCode" style="width:60%"></el-input>
-            <a href="#"><el-image :src="verifyCodeImgUrl" @click="getVerifyCodeUrl"
-                      style="vertical-align:middle;float: right"></el-image></a>
+            <el-link type="success" style="float:right;">
+              <el-image :src="verifyCodeImgUrl" @click="getVerifyCodeUrl"
+                        style="vertical-align:middle;float: right"></el-image>
+            </el-link>
             <input v-model="loginForm.verifyCodeId" type="hidden"></input>
           </el-form-item>
           <el-form-item>
-            <el-link type="success">注册账号</el-link>
-            <el-link type="info"style="float:right;">忘记密码?</el-link>
+            <a href="#">创建账号</a>
+            <a href="#" style="float:right" target="_blank">忘记密码?</a>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" class="btn-long" @click="login('loginForm')" :loading="loading">登录</el-button>
@@ -150,6 +153,9 @@
   }
 
   a {
-    color: #42b983;
+    color: #909399;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
   }
 </style>
